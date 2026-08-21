@@ -72,10 +72,23 @@ class LivroSpanProcessor(SpanProcessor):
         return True  # sincrono: on_end já gravou
 
 
-def configurar_tracer(conn: psycopg.Connection[Any], service_name: str) -> trace.Tracer:
-    """TracerProvider com o processor do livro. service_name vira span.agent_ref."""
+def configurar_tracer(conn: psycopg.Connection[Any], service_name: str,
+                      otlp_endpoint: str | None = None) -> trace.Tracer:
+    """TracerProvider com o processor do livro. service_name vira span.agent_ref.
+
+    Fase 6: com `otlp_endpoint` (ex.: http://localhost:4318), os MESMOS spans saem
+    em paralelo por OTLP para o painel (Jaeger etc.) — o livro não muda em nada;
+    falha de export nunca derruba o run (BatchSpanProcessor engole e loga).
+    """
     provider = TracerProvider(resource=Resource.create({"service.name": service_name}))
     provider.add_span_processor(LivroSpanProcessor(conn))
+    if otlp_endpoint:
+        from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
+            OTLPSpanExporter,
+        )
+        from opentelemetry.sdk.trace.export import BatchSpanProcessor
+        provider.add_span_processor(BatchSpanProcessor(
+            OTLPSpanExporter(endpoint=f"{otlp_endpoint.rstrip('/')}/v1/traces")))
     trace.set_tracer_provider(provider)
     return trace.get_tracer("mesa")
 

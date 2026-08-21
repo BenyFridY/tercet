@@ -1,0 +1,11 @@
+{
+  "pinado_utc": "2026-08-21T00:00:00+00:00",
+  "fonte": "anthropic.com/pricing (checado 21/08/2026): claude-sonnet-5 com preço de lançamento US$2/MTok entrada e US$10/MTok saída até 2026-08-31; padrão US$3/US$15 depois",
+  "nota": "mesmo espírito do registro_ativos: pinado com data e fonte, nunca hardcoded solto. A reconciliação contra a fatura REAL é o que pega deriva de preço.",
+  "precos": {
+    "claude-sonnet-5": [
+      {"valido_ate": "2026-08-31", "input_por_mtok_usd": "2", "output_por_mtok_usd": "10"},
+      {"valido_ate": null, "input_por_mtok_usd": "3", "output_por_mtok_usd": "15"}
+    ]
+  }
+}

@@ -47,6 +47,8 @@ class RunDoAgente:
     compras: list[CompraDoAgente] = field(default_factory=list)
     chamadas_gratuitas: int = 0
     turnos: int = 0
+    # Fase 6: uso de tokens por turno — vira claim rail='invoice' no livro
+    usos: list[dict[str, Any]] = field(default_factory=list)
 
 
 async def rodar_agente(
@@ -111,6 +113,13 @@ async def rodar_agente(
     async for message in runner:
         run.turnos += 1
         ultimo = message
+        uso = getattr(message, "usage", None)
+        if uso is not None:  # Fase 6: cada turno tem custo — o driver grava no livro
+            run.usos.append({
+                "model": MODELO,
+                "input_tokens": int(getattr(uso, "input_tokens", 0)),
+                "output_tokens": int(getattr(uso, "output_tokens", 0)),
+            })
 
     if ultimo is not None:
         run.resposta_final = "".join(

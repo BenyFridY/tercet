@@ -17,7 +17,30 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 5 — engenharia ✅ COMPLETA (21/08); GATE 5(b) espera as SUAS submissões
+## ⏭️ AGORA: Fase 6 ✅ FECHADA (GATE 6 VERDE 21/08) — próxima: Fase 7 (o Laboratório)
+
+**O que ficou provado hoje, em palavras simples:**
+1. **O que o agente compra agora aparece no painel** (Jaeger local, o mesmo tipo de
+   painel onde se vê tokens/latência): compramos 1× na testnet e o span chegou lá com
+   `purchase.amount=0.010000` e o comprovante (tx hash) do lado — conferido pela API,
+   não a olho. Painel no navegador: http://localhost:16686 (serviço `mesa-fase6`).
+2. **O livro engoliu um gasto que NÃO é cripto:** uma chamada LLM real (custou
+   US$ 0,000858) entrou como trilho `invoice` e fechou contra o extrato com deriva
+   zero — SEM nenhuma migration. O agnosticismo de trilho virou fato. A chave de join
+   deste trilho é (dia, modelo); a do x402 é (authorizer, nonce) — cada trilho tem a sua.
+3. `pix` reservado no vocabulário (D-29, esperando a consulta do BCB).
+
+**Ação sua opcional (2 min, quando quiser):** exportar o CSV de uso do console da
+Anthropic (console.anthropic.com → Usage) e me mandar o caminho — eu reconcilio o
+livro contra o documento 100% real (hoje foi contra extrato sintético ROTULADO).
+
+**Percalço do dia (registrado):** meu extrator de tx pegava o primeiro hex de 64
+chars da resposta — que era o NONCE, não a transação. Corrigido: campos nomeados
+primeiro. Lição: parecido não é igual; regex genérico em dado financeiro é bug.
+
+---
+
+## Fase 5 — engenharia ✅ COMPLETA (21/08); GATE 5(b) espera as SUAS submissões
 
 **O que fechou hoje (GATE 5a ✅):** os 3 golpes contra agente — payTo trocado, token
 sósia, decimais mentidos — são recusados por funções PURAS e OFFLINE

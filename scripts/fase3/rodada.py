@@ -19,6 +19,7 @@ Uso: uv run python scripts/fase3/rodada.py          (ensaio, não gasta)
 import asyncio
 import base64
 import binascii
+import hashlib
 import json
 import sys
 from datetime import UTC, datetime
@@ -35,7 +36,7 @@ from x402.http.constants import PAYMENT_RESPONSE_HEADER
 from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
-from mesa import checagens, db
+from mesa import checagens, db, exportador
 from mesa.config import (
     CAIP2_BASE_MAINNET,
     CENSO_TETO_POR_COMPRA_MINOR,
@@ -187,6 +188,13 @@ async def main() -> None:
                     settings, orcamento, fonte, corpos.get(fonte["dominio"]))
                 if captured.payload is not None:  # assinou => o valor conta no teto
                     orcamento.debitar(int(captured.req.get_amount()))
+                    exportador.anotar_span_compra(  # Fase 6: o custo no painel
+                        amount_minor=int(captured.req.get_amount()), decimals=6,
+                        currency="USDC", rail="x402", network=CAIP2_BASE_MAINNET,
+                        settlement_ref=exportador.ref_da_alegacao(
+                            res.get("settle_claim_header")),
+                        resource_hash_hex=hashlib.sha256(
+                            fonte["url"].encode()).hexdigest())
             # aqui o span filho JÁ está no banco — pode gravar a compra
             classe = record_purchase(
                 conn, captured=captured, canonical=fonte["url"],

@@ -27,6 +27,11 @@ DEFAULT_FACILITATOR_URL = "https://x402.org/facilitator"
 CENSO_TETO_POR_COMPRA_MINOR = 1_000_000   # US$ 1,00 em USDC (6 casas)
 CENSO_TETO_RODADA_MINOR = 20_000_000      # US$ 20,00 na rodada 1
 
+# O vocabulário de `rail` (request.rail / authz.rail / settlement.rail).
+# Fase 6 fechou 'invoice' (fatura de API) e reservou 'pix' (D-29: consulta pública
+# do BCB esperada set–out/2026 — o nome entra ANTES da implementação, de propósito).
+RAILS = ("x402", "mpp", "ap2", "invoice", "card", "pix")
+
 # Preço do endpoint de brinquedo: 0,01 USDC -> 200 chamadas = 2 USDC
 TOY_PRICE_USDC_MINOR = 10_000  # inteiro em unidade mínima, nunca float (invariante do livro)
 
@@ -56,3 +61,5 @@ class Settings(BaseSettings):
     # Fase 3: carteira EXCLUSIVA do censo (mainnet) — nunca reusada, só o orçamento dentro
     census_pk: str = ""
     census_address: str = ""
+    # Fase 6: painel de observabilidade (Jaeger local); vazio = não exporta
+    otlp_endpoint: str = ""
