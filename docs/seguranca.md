@@ -87,6 +87,10 @@ E cinco atacantes realistas:
 
 ## Runbook de incidente (curto)
 
+- **Ao FINANCIAR qualquer carteira (Coinbase → censo etc.)**: o ataque mais comum
+  do mundo cripto não é contra o código, é contra o clipboard — malware troca o
+  endereço copiado pelo do atacante. Sempre conferir os 4 primeiros E os 4 últimos
+  caracteres NA TELA da exchange antes de confirmar (o nosso: `0x637f…B2DC`).
 - **Suspeita de chave vazada**: gerar carteira nova (`setup_wallets.py` / censo),
   mover o saldo na hora (a chave é barata, o processo é 5 min), trocar no
   `C:\dev\mesa.env`. Nunca "esperar pra ver".
