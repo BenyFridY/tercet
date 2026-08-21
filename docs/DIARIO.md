@@ -17,7 +17,26 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 6 ✅ FECHADA (GATE 6 VERDE 21/08) — próxima: Fase 7 (o Laboratório)
+## ⏭️ AGORA: Fase 7 ✅ FECHADA (GATE 7 VERDE 21/08) — próxima: Fase 8 (as telas)
+
+**O Laboratório existe e é honesto.** Pegamos as 15 decisões reais do censo e
+perguntamos "e se a política de gasto fosse outra?" — com a disciplina do seu mundo
+quant: a política só enxerga o que o comprador enxergava na hora (point-in-time POR
+TIPO: o objeto de decisão nem TEM o campo do desfecho), ordem real, IC no relatório.
+
+- **Achado positivo:** a política `micro` (só compras ≤ US$ 0,01) pega 9 das 13
+  entregas por US$ 0,012 — **16× mais barato por entrega** que o baseline.
+- **Negativo 1 (o gate exige):** `verified-only`, a política que PARECE mais segura,
+  compra ZERO hoje (ninguém publica vínculo) — segurança que custa 100% das entregas.
+- **Negativo 2:** `premium` ("caro = confiável") entrega 50% vs 87% do baseline — a
+  compra mais cara da rodada foi justamente uma das que falhou. n=2, IC [9%–91%]:
+  leitura honesta é "sem evidência".
+- Onde: `mesa/laboratorio.py` (motor puro), `scripts/fase7/laboratorio_run.py`
+  (relatório com rótulos D-12), 5 testes novos.
+
+---
+
+## Fase 6 ✅ FECHADA (GATE 6 VERDE 21/08)
 
 **O que ficou provado hoje, em palavras simples:**
 1. **O que o agente compra agora aparece no painel** (Jaeger local, o mesmo tipo de
