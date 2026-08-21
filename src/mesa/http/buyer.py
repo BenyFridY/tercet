@@ -75,6 +75,7 @@ def record_purchase(
     content: bytes | None,
     content_type: str | None,
     method: str = "GET",
+    aprovacao: Any = None,  # Fase 8 (D-14): AprovacaoVinculada, quando o humano decidiu
 ) -> str:
     """Grava request SEMPRE; quote+authz só se os hooks dispararam. Devolve a classe gravada."""
     delivered = status_http == 200 and bool(content)
@@ -108,5 +109,8 @@ def record_purchase(
             "settle_claim": captured.settle_claim,  # alegação; o coletor confirma (T4)
         },
         state="authorized",
+        scope_hash=bytes.fromhex(aprovacao.escopo_hex) if aprovacao else None,
+        principal_ref=aprovacao.aprovador if aprovacao else None,
+        principal_evidence=aprovacao.evidencia() if aprovacao else None,
     )
     return "tripla"

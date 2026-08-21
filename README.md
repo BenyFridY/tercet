@@ -58,15 +58,20 @@ uv run python scripts/fase1/chaos_run.py            # terminal 2: caos + reconci
 uv run python -m mesa.mcp.seller                    # terminal 1: vendedor MCP (porta 8403)
 uv run python scripts/fase2/mcp_once.py             # terminal 2: 1 tool call pago + livro
 
+# Fase 8 — as telas (GATE 8 ✅ 21/08): gerar do livro e abrir no navegador
+uv run python scripts/fase8/telas_build.py           # -> scripts/fase8/mesa-telas.html
+uv run python scripts/fase8/aprovacao_demo.py        # demo D-14 (interativa, testnet)
+
 # A qualquer momento: varrer a chain e reconciliar
-uv run python -m mesa.collector
+uv run python -m mesa.collector                      # testnet (vendedor)
+uv run python -m mesa.collector --pagador            # mainnet (censo)
 uv run python -m mesa.cli
 ```
 
 ## Qualidade (o "pronto" tem definição)
 
 ```powershell
-uv run ruff check .
-uv run mypy src scripts
-uv run pytest -q
+uv run python scripts/saude.py    # UM comando: ruff+mypy+pytest+verificador+portas+segredos
 ```
+
+Modelo de ameaças e o que fica de fora, com nome: [docs/seguranca.md](docs/seguranca.md).

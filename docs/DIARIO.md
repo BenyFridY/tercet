@@ -17,7 +17,29 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: revisão de segurança ✅ FECHADA (21/08) — próxima: Fase 8 (as telas)
+## ⏭️ AGORA: Fase 8 ✅ FECHADA (GATE 8 VERDE 21/08) — próxima: Fase 9 (relatório público do censo)
+
+**As telas saíram do papel — com dado 100% real.** Uma página HTML autocontida
+(`scripts/fase8/mesa-telas.html`, gerada do livro por `telas_build.py`; abrir no
+navegador) com o visual do design de produto:
+
+- **Blotter:** as 85 linhas do livro — por agente, por tarefa, com o recibo
+  on-chain LINKADO (13 compras do censo → basescan), estado DERIVADO (nunca
+  digitado), TESTNET sempre rotulado, filtros e a cadeia de eventos por compra.
+- **TCA com desperdício de verdade:** US$ 0,23 em 24 compras repetidas byte a
+  byte — o brinquedo do caos foi comprado 21× com UM conteúdo (regra: mesmo
+  recurso + mesmo hash do corpo; conteúdo dinâmico legítimo não conta).
+- **Orçamento por árvore (D-02):** a tarefa `censo.rodada1` com a soma dos filhos
+  batendo com o total — a invariante da Fase 2, agora visível.
+- **Aprovação vinculada (D-14):** acima do teto o humano decide, e o "sim" vale
+  SÓ para a cotação exata (hash) — testado; entra no livro em `authz.principal_*`.
+  Demo interativa: `scripts/fase8/aprovacao_demo.py` (testnet, 2 min).
+- O gate é conferido por ASSERTS no builder, e o visual foi conferido em
+  screenshot nas duas abas. Regenerar a tela = rodar o script de novo.
+
+---
+
+## Revisão de segurança ✅ FECHADA (21/08)
 
 **Pedido do Beny entre fases: "pensa em tudo possível de alguém tentar hackear, arruma."**
 Mapeei o sistema com olhos de atacante (5 atacantes: vendedor malicioso, vizinho de

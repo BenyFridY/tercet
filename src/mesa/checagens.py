@@ -126,12 +126,20 @@ def seletor_com_checagens(
     cabe_no_orcamento: Callable[[int], bool] | None = None,
     vinculos: dict[str, dict[str, Any]] | None = None,
     teto_unverified_minor: int | None = None,
+    teto_aprovacao_minor: int | None = None,
+    pedir_aprovacao: Callable[[dict[str, Any]], Any] | None = None,
 ) -> Callable[[int, list[Any]], Any]:
     """Seletor para o x402Client: as checagens rodam ANTES de qualquer assinatura.
 
     Nenhum aceite aprovado ⇒ exceção ⇒ a compra simplesmente não acontece
     (fail-closed). `vinculos` é payTo(lower) → vínculo verificado (mesa/vinculo.py).
+
+    Fase 8 (D-14): acima de `teto_aprovacao_minor`, o humano decide — o callback
+    `pedir_aprovacao(cotacao)` devolve uma AprovacaoVinculada, e ela só vale se o
+    hash bater com ESTA cotação. Sem callback ou aprovação = recusa (fail-closed).
     """
+    from mesa import aprovacao as _aprovacao
+
     reg = registro if registro is not None else carregar_registro()
 
     def seletor(_version: int, requirements: list[Any]) -> Any:
@@ -164,6 +172,17 @@ def seletor_com_checagens(
             if cabe_no_orcamento is not None and not cabe_no_orcamento(valor):
                 recusas.append("fora-do-orcamento")
                 continue
+            if teto_aprovacao_minor is not None and valor > teto_aprovacao_minor:
+                escopo = _aprovacao.escopo_da_cotacao(
+                    pay_to=str(req.pay_to), amount_minor=valor,
+                    asset=str(req.asset), network=rede)
+                decisao = pedir_aprovacao({
+                    "escopo_hex": escopo, "pay_to": str(req.pay_to),
+                    "amount_minor": valor, "asset": str(req.asset), "network": rede,
+                }) if pedir_aprovacao is not None else None
+                if decisao is None or not _aprovacao.vale_para(decisao, escopo):
+                    recusas.append("precisa-aprovacao")
+                    continue
             return req
         raise ValueError(f"nenhum aceite passou nas checagens: {recusas or 'rede errada'}")
 

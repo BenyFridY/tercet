@@ -175,21 +175,29 @@ def insert_authz(
     valid_until_utc: datetime | None,
     rail_evidence: dict[str, Any],
     state: str,
+    scope_hash: bytes | None = None,
+    principal_ref: str | None = None,
+    principal_evidence: dict[str, Any] | None = None,
 ) -> uuid.UUID:
+    """principal_* (Fase 8, D-14): a aprovação humana VINCULADA a esta cotação."""
     aid = uuid.uuid4()
     with conn.cursor() as cur:
         cur.execute(
             "INSERT INTO authz (id, quote_id, rail, payer_ref, authorized_max_minor,"
-            " valid_from_utc, valid_until_utc, rail_evidence, state)"
-            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            " valid_from_utc, valid_until_utc, rail_evidence, state,"
+            " scope_hash, principal_ref, principal_evidence)"
+            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
             (aid, quote_id, rail, payer_ref, authorized_max_minor, valid_from_utc,
-             valid_until_utc, json.dumps(rail_evidence), state),
+             valid_until_utc, json.dumps(rail_evidence), state, scope_hash,
+             principal_ref,
+             json.dumps(principal_evidence) if principal_evidence else None),
         )
     integridade.registrar_elo(conn, "authz", {  # state fora do canônico (mutável no v0)
         "id": aid, "quote_id": quote_id, "rail": rail, "payer_ref": payer_ref,
         "authorized_max_minor": authorized_max_minor, "valid_from_utc": valid_from_utc,
-        "valid_until_utc": valid_until_utc, "scope_hash": None, "principal_ref": None,
-        "principal_evidence": None, "rail_evidence": rail_evidence,
+        "valid_until_utc": valid_until_utc, "scope_hash": scope_hash,
+        "principal_ref": principal_ref, "principal_evidence": principal_evidence,
+        "rail_evidence": rail_evidence,
     })
     conn.commit()
     # Fase 4 (D-06 fechado): o estado inicial também é EVENTO
