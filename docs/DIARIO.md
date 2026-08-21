@@ -17,9 +17,21 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 4 ✅ FECHADA (GATE 4 VERDE 21/08) — próxima: Fase 5 (checagens no SDK + PRs)
+## ⏭️ AGORA: Fase 5 ABERTA — checagens anti-golpe + contribuições de padrão · doc PRONTO ([`fase5.md`](./fase5.md))
 
-Quatro fases em três dias. O livro agora **prova a si mesmo**: corrente de hash com 385
+**Em uma frase:** o golpe contra agente acontece ANTES de assinar — payTo trocado,
+token sósia, decimais mentidos — e a defesa vira função PURA e OFFLINE dentro do nosso
+SDK (registro pinado on-chain uma vez, decisão sem rede), integrada aos compradores.
+Mais o **vínculo reverso** (`/.well-known/x402-payto` assinado — o pedaço que nenhuma
+spec cobre, D-22) com sonda nos 15 domínios do censo, e os **3 textos de PR** prontos
+pra você postar: Security Consideration, extensão do vínculo reverso, e o conserto do
+SDK Python quebrado. Custo zero. GATE 5(a) = os 3 ataques recusados sem rede;
+(b) = as submissões (ação sua). Aguardando o "vai" do desenho.
+
+**Git:** ✅ commit inicial `057a30b` na `main` (76 arquivos, fases 1–4, zero segredos).
+Daqui em diante: um commit por tarefa.
+
+**Fase 4 (fechada hoje):** o livro agora prova a si mesmo — corrente de hash com 385
 elos íntegros, período fechado com carimbo duplo (freeTSA + OpenTimestamps 4/4), e um
 verificador offline independente que pegou 1 bit adulterado na linha exata. De quebra:
 **primeira implementação pública** da extensão oficial `offer-and-receipt`, e o schema
