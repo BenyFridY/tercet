@@ -36,7 +36,7 @@ from x402.http.constants import PAYMENT_RESPONSE_HEADER
 from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
-from mesa import checagens, db, exportador
+from mesa import checagens, db, exportador, rede_segura
 from mesa.config import (
     CAIP2_BASE_MAINNET,
     CENSO_TETO_POR_COMPRA_MINOR,
@@ -81,7 +81,7 @@ def make_cliente_censo(settings: Settings, captured: Captured,
         cabe_no_orcamento=orcamento.cabe,
         teto_unverified_minor=CENSO_TETO_POR_COMPRA_MINOR,
     )
-    signer = EthAccountSigner(Account.from_key(settings.census_pk))
+    signer = EthAccountSigner(Account.from_key(settings.census_pk.get_secret_value()))
     xc = x402Client(payment_requirements_selector=seletor)
     xc.register(CAIP2_BASE_MAINNET, ExactEvmClientScheme(signer))
 
@@ -111,7 +111,7 @@ def _saldo_usdc(settings: Settings) -> int:
 
 def _settle_claim_do_header(r: Any) -> dict[str, Any] | None:
     header = r.headers.get(PAYMENT_RESPONSE_HEADER)
-    if not header:
+    if not rede_segura.decodificavel(header):  # seguranca.md furo 7
         return None
     try:
         decodificado = json.loads(base64.b64decode(header))
@@ -126,18 +126,25 @@ async def _comprar(settings: Settings, orcamento: Orcamento,
     """UMA compra. Devolve (captured, resultado-parcial). Nunca levanta."""
     captured = Captured()
     metodo = str(fonte.get("metodo") or "GET")
+    ok_url, motivo_url = rede_segura.url_segura(fonte["url"])  # seguranca.md furo 6
+    if not ok_url:
+        return captured, {"status": None, "conteudo": None, "content_type": None,
+                          "settle_claim_header": None,
+                          "erro": f"url-recusada: {motivo_url}"}
     try:
         xc = make_cliente_censo(settings, captured, orcamento)
-        async with x402HttpxClient(xc, timeout=90.0) as http:
-            if metodo == "GET":
-                r = await http.get(fonte["url"])
-            else:
-                r = await http.request(metodo, fonte["url"], json=corpo_exemplo or {})
-            conteudo = await r.aread()
+        # stream + teto (seguranca.md furo 5): resposta gigante não mata o processo;
+        # o 402 do meio do caminho é tratado pelo transport do SDK do mesmo jeito
+        async with x402HttpxClient(xc, timeout=90.0) as http, \
+                http.stream(metodo, fonte["url"],
+                            json=(corpo_exemplo or {}) if metodo != "GET" else None,
+                            ) as r:
+            conteudo, truncado = await rede_segura.ler_corpo_limitado_async(r)
         return captured, {
             "status": r.status_code, "conteudo": conteudo,
             "content_type": r.headers.get("content-type"),
-            "settle_claim_header": _settle_claim_do_header(r), "erro": None,
+            "settle_claim_header": _settle_claim_do_header(r),
+            "erro": "resposta-acima-do-teto (prefixo retido)" if truncado else None,
         }
     except Exception as e:  # noqa: BLE001 — fonte externa: QUALQUER falha vira resultado
         return captured, {"status": None, "conteudo": None, "content_type": None,

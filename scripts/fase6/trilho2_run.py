@@ -40,7 +40,7 @@ CENSO = Path(__file__).resolve().parents[1] / "fase3" / "censo_fechamento.json"
 async def chamada_llm_real(settings: Settings) -> tuple[str, int, int]:
     """Uma chamada real e ÚTIL: o resumo de 1 linha do censo. Devolve (texto, in, out)."""
     numeros = json.loads(CENSO.read_text(encoding="utf-8"))["numeros"]
-    client = AsyncAnthropic(api_key=settings.anthropic_api_key)
+    client = AsyncAnthropic(api_key=settings.anthropic_api_key.get_secret_value())
     msg = await client.messages.create(
         model=MODELO, max_tokens=120,
         messages=[{

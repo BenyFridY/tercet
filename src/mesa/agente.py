@@ -102,7 +102,7 @@ async def rodar_agente(
             sp.set_status(StatusCode.ERROR if result.is_error else StatusCode.OK)
             return texto if texto else "a fonte paga não devolveu conteúdo"
 
-    client = AsyncAnthropic(api_key=settings.anthropic_api_key)
+    client = AsyncAnthropic(api_key=settings.anthropic_api_key.get_secret_value())
     runner = client.beta.messages.tool_runner(
         model=MODELO,
         max_tokens=2048,

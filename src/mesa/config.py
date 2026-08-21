@@ -6,6 +6,7 @@ Fontes dos endereços: DECISOES.md D-18 / PLANO.md (tabela de ambiente); USDC ma
 é o contrato canônico da Circle na Base (conferido on-chain no smoke da Fase 3).
 """
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # USDC de teste na Base Sepolia (faucet.circle.com, 20 USDC/2h por endereço)
@@ -26,6 +27,12 @@ DEFAULT_FACILITATOR_URL = "https://x402.org/facilitator"
 # Tetos do censo (regra 4 da fase3.md) — o script PARA sozinho nestes valores
 CENSO_TETO_POR_COMPRA_MINOR = 1_000_000   # US$ 1,00 em USDC (6 casas)
 CENSO_TETO_RODADA_MINOR = 20_000_000      # US$ 20,00 na rodada 1
+
+# Limites de segurança (docs/seguranca.md) — valem para QUALQUER comprador nosso
+CHECAGEM_VALIDADE_MAX_S = 3600      # furo 3: o SDK assina validBefore = now + maxTimeoutSeconds
+CHECAGEM_VALOR_MAX_MINOR = 2**62    # furo 4: acima disso é lixo/ataque (e estoura o BIGINT)
+REDE_CORPO_MAX_BYTES = 5_000_000    # furo 5: teto de leitura de resposta de vendedor
+REDE_HEADER_MAX_BYTES = 64_000      # furo 7: teto do header base64 antes do decode
 
 # O vocabulário de `rail` (request.rail / authz.rail / settlement.rail).
 # Fase 6 fechou 'invoice' (fatura de API) e reservou 'pix' (D-29: consulta pública
@@ -50,16 +57,18 @@ class Settings(BaseSettings):
     facilitator_url: str = DEFAULT_FACILITATOR_URL
     database_url: str = "postgresql://mesa:mesa@localhost:5433/mesa"
 
-    buyer_pk: str = ""
+    # SecretStr (docs/seguranca.md, furo 2): print/log/traceback mostram '**********';
+    # o valor real só sai por .get_secret_value(), sempre explícito no ponto de uso.
+    buyer_pk: SecretStr = SecretStr("")
     buyer_address: str = ""
-    seller_pk: str = ""
+    seller_pk: SecretStr = SecretStr("")
     seller_payto: str = ""
     # T4: a carteira do SERVIDOR MCP — com ela o servidor compra upstream (compra delegada)
-    mcp_server_pk: str = ""
+    mcp_server_pk: SecretStr = SecretStr("")
     mcp_server_address: str = ""
-    anthropic_api_key: str = ""  # T6: o agente (nunca impresso, nunca commitado)
+    anthropic_api_key: SecretStr = SecretStr("")  # T6: o agente (nunca impresso, nunca commitado)
     # Fase 3: carteira EXCLUSIVA do censo (mainnet) — nunca reusada, só o orçamento dentro
-    census_pk: str = ""
+    census_pk: SecretStr = SecretStr("")
     census_address: str = ""
     # Fase 6: painel de observabilidade (Jaeger local); vazio = não exporta
     otlp_endpoint: str = ""

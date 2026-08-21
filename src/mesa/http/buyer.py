@@ -14,7 +14,7 @@ from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 from x402.schemas.hooks import PaymentCreatedContext, PaymentResponseContext
 
-from mesa import db
+from mesa import checagens, db
 from mesa.config import CAIP2_BASE_SEPOLIA, USDC_DECIMALS, Settings
 
 
@@ -36,11 +36,13 @@ def make_client(settings: Settings, captured: Captured, *, pk: str | None = None
                 seletor: Any = None) -> x402Client:
     """pk=None -> carteira do comprador; o servidor MCP passa a PRÓPRIA (compra delegada, T4).
 
-    `seletor` (Fase 5): checagens pré-assinatura no ponto de enforcement —
-    use mesa.checagens.seletor_com_checagens (None = seletor default do SDK).
+    `seletor` (Fase 5): checagens pré-assinatura no ponto de enforcement.
+    None = seletor SEGURO padrão (seguranca.md furo 8: nenhum cliente sem checagens).
     """
-    signer = EthAccountSigner(Account.from_key(pk or settings.buyer_pk))
-    xc = x402Client(payment_requirements_selector=seletor)
+    signer = EthAccountSigner(Account.from_key(
+        pk if pk is not None else settings.buyer_pk.get_secret_value()))
+    xc = x402Client(payment_requirements_selector=(
+        seletor if seletor is not None else checagens.seletor_padrao_testnet()))
     xc.register(CAIP2_BASE_SEPOLIA, ExactEvmClientScheme(signer))
 
     def after_creation(ctx: PaymentCreatedContext) -> None:

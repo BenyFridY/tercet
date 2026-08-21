@@ -33,10 +33,15 @@ ou fluxo de dinheiro — observa e produz evidência (Res. BCB 520, art. 9º).
 ```powershell
 uv sync
 docker run -d --name mesa-pg -e POSTGRES_USER=mesa -e POSTGRES_PASSWORD=mesa `
-  -e POSTGRES_DB=mesa -p 5433:5432 -v mesa-pgdata:/var/lib/postgresql/data postgres:17
+  -e POSTGRES_DB=mesa -p 127.0.0.1:5433:5432 `
+  -v mesa-pgdata:/var/lib/postgresql/data postgres:17
+# 127.0.0.1 obrigatório: sem ele o livro fica aberto pra qualquer máquina no mesmo
+# Wi-Fi (docs/seguranca.md, furo 1). scripts/saude.py confere isso sempre.
 uv run python scripts/setup_wallets.py   # gera as EOAs -> .env (NUNCA commitado)
 uv run python scripts/check_db.py        # Postgres de pé + migrations
 uv run python scripts/check_balance.py   # saldo USDC lido on-chain
+uv run python scripts/saude.py           # UM comando: ruff+mypy+pytest+verificador+portas+segredos
+uv run python scripts/backup_db.py       # dump do livro -> backups/ (rotina, ~5s)
 ```
 
 Faucet: https://faucet.circle.com → USDC → Base Sepolia (20 USDC / 2h por endereço).

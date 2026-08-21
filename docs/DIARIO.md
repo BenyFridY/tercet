@@ -17,7 +17,36 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 7 ✅ FECHADA (GATE 7 VERDE 21/08) — próxima: Fase 8 (as telas)
+## ⏭️ AGORA: revisão de segurança ✅ FECHADA (21/08) — próxima: Fase 8 (as telas)
+
+**Pedido do Beny entre fases: "pensa em tudo possível de alguém tentar hackear, arruma."**
+Mapeei o sistema com olhos de atacante (5 atacantes: vendedor malicioso, vizinho de
+Wi-Fi, RPC mentiroso, índice envenenado, acesso ao disco), escrevi o modelo de
+ameaças (`docs/seguranca.md` — doc antes do código, como sempre) e arrumei **10 furos**:
+
+1. **Postgres e Jaeger estavam abertos pro Wi-Fi** (`0.0.0.0`) → recriados em
+   `127.0.0.1`, livro intacto (contagens conferidas antes/depois: 428|85|52|48).
+2. **Chaves podiam vazar num print** → `SecretStr`: qualquer log mostra `**********`.
+3. **Vendedor mandava na validade da nossa assinatura** (`maxTimeoutSeconds` → nota
+   promissória de 30 anos) → checagem `validade-excessiva` (teto 1h).
+4. **Valor sem piso** (negativo passava nos tetos) → checagem `valor-invalido`.
+5. **Resposta paga sem limite de tamanho** (10 GB = processo morto) → leitura em
+   stream com teto de 5 MB (smoke com compra testnet REAL sob stream: OK).
+6. **URL do índice seguida às cegas** (SSRF: `http://`, IP interno) → guarda de URL.
+7. **Header base64 sem teto** → 64 KB antes do decode.
+8. **Clientes de teste sem checagens** → seletor SEGURO é o padrão em TODO cliente.
+9. **Sem backup do livro** → `scripts/backup_db.py` (dump p/ `backups/`, OneDrive).
+10. **Saúde espalhada** → `scripts/saude.py`: UM comando, VERDE/VERMELHO.
+
+Riscos que FICAM, com nome (seguranca.md): 402 gigante dentro do SDK (virou
+observação no texto do PR), RPC mentiroso (2º RPC fica p/ Fase 9+), adulteração
+same-day (janela ≤24h até o fechamento diário), rebinding de DNS, injeção de prompt
+via conteúdo comprado (regra escrita para a Fase 8+). 63 testes (9 novos), histórico
+do git varrido (limpo), `saude.py` VERDE de ponta a ponta.
+
+---
+
+## Fase 7 ✅ FECHADA (GATE 7 VERDE 21/08)
 
 **O Laboratório existe e é honesto.** Pegamos as 15 decisões reais do censo e
 perguntamos "e se a política de gasto fosse outra?" — com a disciplina do seu mundo

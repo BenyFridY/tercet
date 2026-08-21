@@ -111,7 +111,8 @@ def create_server(settings: Settings) -> MCPServer:
         recibos_upstream: list[dict[str, Any]] = []
         if settings.mcp_server_pk:
             captured_up = Captured()
-            xc_up = make_client(settings, captured_up, pk=settings.mcp_server_pk)
+            xc_up = make_client(settings, captured_up,
+                                pk=settings.mcp_server_pk.get_secret_value())
             try:
                 async with x402HttpxClient(xc_up, base_url=UPSTREAM_BASE, timeout=120.0) as http:
                     r_up = await http.get("/brinquedo")
@@ -152,7 +153,7 @@ def create_server(settings: Settings) -> MCPServer:
                 "body_sha256_hex": hashlib.sha256(corpo_up).hexdigest(),
                 "ts_utc": datetime.now(UTC).isoformat(),
             }
-            sig = recibo.assinar(rec, settings.mcp_server_pk)
+            sig = recibo.assinar(rec, settings.mcp_server_pk.get_secret_value())
             recibos_upstream.append({"recibo": rec, "assinatura_hex": "0x" + sig.hex()})
 
         resultado = {

@@ -85,4 +85,5 @@ async def free_ride() -> dict[str, str | bool]:
 @app.get("/.well-known/x402-payto")
 async def wellknown_payto() -> dict[str, object]:
     from mesa.vinculo import emitir_wellknown
-    return emitir_wellknown(settings.seller_pk, "127.0.0.1:8402", [CAIP2_BASE_SEPOLIA])
+    return emitir_wellknown(settings.seller_pk.get_secret_value(),
+                            "127.0.0.1:8402", [CAIP2_BASE_SEPOLIA])

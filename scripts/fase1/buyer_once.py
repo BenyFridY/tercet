@@ -21,6 +21,7 @@ from x402.http.constants import PAYMENT_RESPONSE_HEADER
 from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
+from mesa import checagens
 from mesa.config import CAIP2_BASE_SEPOLIA, USDC_BASE_SEPOLIA, Settings
 
 console = Console()
@@ -39,8 +40,9 @@ async def main() -> None:
     if not s.buyer_pk:
         raise SystemExit("BUYER_PK vazio — rode scripts/setup_wallets.py primeiro.")
 
-    signer = EthAccountSigner(Account.from_key(s.buyer_pk))
-    xc = x402Client()
+    signer = EthAccountSigner(Account.from_key(s.buyer_pk.get_secret_value()))
+    # seguranca.md furo 8: nenhum cliente sem checagens — nem neste one-shot da Fase 1
+    xc = x402Client(payment_requirements_selector=checagens.seletor_padrao_testnet())
     xc.register(CAIP2_BASE_SEPOLIA, ExactEvmClientScheme(signer))
 
     console.print(f"[bold]1/3[/] chamando {SELLER_URL}/brinquedo (o 402 e o retry são do SDK)…")

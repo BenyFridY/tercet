@@ -14,6 +14,7 @@ A SONDA (buscar o well-known) é online; a VERIFICAÇÃO da assinatura é offlin
 O texto de proposta de extensão está em notes/ (submissão = ação do Beny).
 """
 
+import json
 from typing import Any
 
 import httpx
@@ -78,16 +79,22 @@ def verificar_wellknown(doc: dict[str, Any], dominio: str,
 
 def sondar(dominio: str, *, timeout: float = 10.0) -> tuple[int | None, Any]:
     """ONLINE (só coleta): busca o well-known. Devolve (status, doc-json-ou-None)."""
+    from mesa import rede_segura  # tardio: sondar é o único pedaço online deste módulo
+
+    url = f"https://{dominio}{WELL_KNOWN_PATH}"
+    if not rede_segura.url_segura(url)[0]:  # seguranca.md furo 6
+        return None, None
     try:
-        r = httpx.get(f"https://{dominio}{WELL_KNOWN_PATH}", timeout=timeout,
-                      follow_redirects=False,
-                      headers={"User-Agent": "mesa-censo/0.1 (payto-binding probe)"})
+        with httpx.Client(timeout=timeout, follow_redirects=False,
+                          headers={"User-Agent": "mesa-censo/0.1 (payto-binding probe)"},
+                          ) as cli, cli.stream("GET", url) as r:
+            corpo, truncado = rede_segura.ler_corpo_limitado(r)  # furo 5
     except httpx.HTTPError:
         return None, None
-    if r.status_code != 200:
+    if r.status_code != 200 or truncado:
         return r.status_code, None
     try:
-        doc = r.json()
+        doc = json.loads(corpo)
         return r.status_code, doc if isinstance(doc, dict) else None
     except ValueError:
         return r.status_code, None

@@ -95,3 +95,14 @@ results).
 Found while building a buyer-side ledger for agent purchases; the failures were hit
 live and the fixes above have been running since 2026-08-20 against `mcp==2.0.0`
 (streamable HTTP transport, real settlements on Base Sepolia).
+
+## Side observation (happy to split into its own issue if preferred)
+
+While hardening our buyer we noticed `x402AsyncTransport.handle_async_request`
+(`python/x402/http/clients/httpx.py`) does `await response.aread()` +
+`response.json()` on the **402 response body with no size bound** before the
+selector runs. A hostile seller can answer the unauthenticated 402 with a
+multi-GB body and exhaust the buyer's memory before any payment decision is made
+(v2 carries the quote in the `payment-required` header, so the body isn't even
+needed on the happy path). A `Content-Length`/streamed-read cap (even a generous
+fixed one) on that pre-payment read would close it.

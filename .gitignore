@@ -1,5 +1,9 @@
 # chaves e segredos — NUNCA commitar
 .env
+*.env
+
+# dumps do livro (scripts/backup_db.py) — dado local, não vai pro git
+backups/
 
 # python
 .venv/

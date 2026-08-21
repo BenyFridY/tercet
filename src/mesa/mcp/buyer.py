@@ -27,7 +27,7 @@ from x402.mcp.types import (
 from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
-from mesa import db, recibo
+from mesa import checagens, db, recibo
 from mesa.config import CAIP2_BASE_SEPOLIA, USDC_DECIMALS, Settings
 
 
@@ -69,8 +69,10 @@ class CapturedMcp:
 def make_mcp_client(
     settings: Settings, session: ClientSession, captured: CapturedMcp
 ) -> x402MCPClient:
-    signer = EthAccountSigner(Account.from_key(settings.buyer_pk))
-    payment_client = x402Client()
+    signer = EthAccountSigner(Account.from_key(settings.buyer_pk.get_secret_value()))
+    # seguranca.md furo 8: nenhum cliente sem checagens — nem no transporte MCP
+    payment_client = x402Client(
+        payment_requirements_selector=checagens.seletor_padrao_testnet())
     payment_client.register(CAIP2_BASE_SEPOLIA, ExactEvmClientScheme(signer))
 
     xmcp = x402MCPClient(SessionAdapter(session), payment_client, auto_payment=True)

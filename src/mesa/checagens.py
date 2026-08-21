@@ -17,6 +17,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from mesa.config import (
+    CAIP2_BASE_SEPOLIA,
+    CHECAGEM_VALIDADE_MAX_S,
+    CHECAGEM_VALOR_MAX_MINOR,
+)
+
 REGISTRO_PATH = Path(__file__).parent / "registro_ativos.json"
 
 
@@ -137,6 +143,16 @@ def seletor_com_checagens(
                 recusas.append("esquema-nao-exact")
                 continue
             valor = int(req.get_amount())
+            # docs/seguranca.md furo 4: -5 passa em "≤ teto"; lixo gigante estoura o livro
+            if valor <= 0 or valor > CHECAGEM_VALOR_MAX_MINOR:
+                recusas.append("valor-invalido")
+                continue
+            # docs/seguranca.md furo 3: o SDK assina validBefore = now + maxTimeoutSeconds
+            # DO VENDEDOR — sem este teto, uma cotação vira nota promissória de 30 anos
+            validade = getattr(req, "max_timeout_seconds", None)
+            if validade is not None and int(validade) > CHECAGEM_VALIDADE_MAX_S:
+                recusas.append("validade-excessiva")
+                continue
             v = checar_cotacao(
                 rede=rede, asset=str(req.asset), pay_to=str(req.pay_to),
                 amount_minor=valor, registro=reg,
@@ -152,3 +168,13 @@ def seletor_com_checagens(
         raise ValueError(f"nenhum aceite passou nas checagens: {recusas or 'rede errada'}")
 
     return seletor
+
+
+def seletor_padrao_testnet() -> Callable[[int, list[Any]], Any]:
+    """O seletor SEGURO que todo cliente de teste ganha por padrão (seguranca.md furo 8).
+
+    Regra da casa: NENHUM cliente x402 sem checagens — nem em testnet. Base Sepolia,
+    registro pinado, contraparte não verificada até US$ 1 (dinheiro de mentira, mas o
+    hábito é o de verdade).
+    """
+    return seletor_com_checagens(CAIP2_BASE_SEPOLIA, teto_unverified_minor=1_000_000)

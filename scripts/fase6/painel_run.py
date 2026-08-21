@@ -54,7 +54,8 @@ def garantir_jaeger() -> None:
                 ["docker", "run", "-d", "--name", "mesa-jaeger",
                  "--restart", "unless-stopped",
                  "-e", "COLLECTOR_OTLP_ENABLED=true",
-                 "-p", "16686:16686", "-p", "4318:4318",
+                 # 127.0.0.1: painel local NUNCA exposto ao Wi-Fi (seguranca.md furo 1)
+                 "-p", "127.0.0.1:16686:16686", "-p", "127.0.0.1:4318:4318",
                  "jaegertracing/all-in-one:1.62.0"],
                 capture_output=True, text=True, check=False)
         for _ in range(20):

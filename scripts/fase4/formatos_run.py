@@ -63,7 +63,7 @@ def emitir_oficial(conn: Any, s: Settings) -> None:
     qid, network, pay_to, payer, tx, _rhash = venda
 
     artefato = recibo_x402.emitir_recibo(
-        s.seller_pk, network=str(network), resource_url=URL_BRINQUEDO,
+        s.seller_pk.get_secret_value(), network=str(network), resource_url=URL_BRINQUEDO,
         payer=str(payer), issued_at=int(db.now_utc().timestamp()), transaction=str(tx))
     signer = recibo_x402.signatario(artefato)
     assert signer.lower() == str(pay_to).lower(), "signer != payTo (autorização §4.5.1)"

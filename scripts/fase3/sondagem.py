@@ -33,7 +33,7 @@ import httpx
 from rich.console import Console
 from rich.table import Table
 
-from mesa import db
+from mesa import db, rede_segura
 from mesa.config import CENSO_TETO_POR_COMPRA_MINOR, USDC_BASE_MAINNET
 from mesa.otel import configurar_tracer, ids_do_span_atual
 
@@ -80,18 +80,17 @@ def _cotacao_valida(corpo: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
     return None, motivo
 
 
-def _cotacao_do_402(r: httpx.Response) -> dict[str, Any] | None:
+def _cotacao_do_402(header: str | None, corpo: bytes) -> dict[str, Any] | None:
     """V2: header `payment-required` em base64. V1: corpo JSON. Nesta ordem."""
-    header = r.headers.get("payment-required")
-    if header:
+    if rede_segura.decodificavel(header):  # seguranca.md furo 7: teto antes do decode
         try:
-            decodificado = json.loads(base64.b64decode(header))
+            decodificado = json.loads(base64.b64decode(header or ""))
             if isinstance(decodificado, dict) and "accepts" in decodificado:
                 return decodificado
         except (ValueError, binascii.Error):
             pass
     try:
-        parsed = r.json()
+        parsed = json.loads(corpo)
         if isinstance(parsed, dict):
             return parsed
     except (ValueError, UnicodeDecodeError):
@@ -102,19 +101,24 @@ def _cotacao_do_402(r: httpx.Response) -> dict[str, Any] | None:
 def _sondar(cli: httpx.Client, c: dict[str, Any]) -> dict[str, Any]:
     """Uma sondagem SEM pagamento, com o método do índice. Nunca levanta."""
     metodo = c.get("metodo") or "GET"
+    ok_url, motivo_url = rede_segura.url_segura(c["url"])  # seguranca.md furo 6
+    if not ok_url:
+        return {"responde": False, "erro": f"url-recusada: {motivo_url}", "status": None,
+                "corpo": None, "content_type": None, "metodo": metodo, "mpp": False}
     try:
-        if metodo == "GET":
-            r = cli.get(c["url"])
-        else:  # POST/PUT/PATCH: corpo de exemplo do índice (o 402 vem ANTES de executar)
-            r = cli.request(metodo, c["url"], json=c.get("corpo_exemplo") or {})
+        # stream + teto (seguranca.md furo 5): resposta gigante não derruba a sonda
+        with cli.stream(metodo, c["url"],
+                        json=(c.get("corpo_exemplo") or {}) if metodo != "GET" else None,
+                        ) as r:
+            corpo, _truncado = rede_segura.ler_corpo_limitado(r)
     except httpx.HTTPError as e:
         return {"responde": False, "erro": type(e).__name__, "status": None,
                 "corpo": None, "content_type": None, "metodo": metodo, "mpp": False}
     corpo_json: dict[str, Any] | None = None
     if r.status_code == 402:
-        corpo_json = _cotacao_do_402(r)
+        corpo_json = _cotacao_do_402(r.headers.get("payment-required"), corpo)
     return {"responde": True, "erro": None, "status": r.status_code,
-            "corpo": r.content, "content_type": r.headers.get("content-type"),
+            "corpo": corpo, "content_type": r.headers.get("content-type"),
             "json": corpo_json, "metodo": metodo,
             # sinal da watchlist (D-27): o mesmo endpoint também fala MPP?
             "mpp": r.headers.get("www-authenticate", "").startswith("Payment ")}
