@@ -35,7 +35,7 @@ from x402.http.constants import PAYMENT_RESPONSE_HEADER
 from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
-from mesa import db
+from mesa import checagens, db
 from mesa.config import (
     CAIP2_BASE_MAINNET,
     CENSO_TETO_POR_COMPRA_MINOR,
@@ -69,21 +69,17 @@ class Orcamento:
 
 def make_cliente_censo(settings: Settings, captured: Captured,
                        orcamento: Orcamento) -> x402Client:
-    """Cliente x402 do censo: mainnet + seletor com os tetos DENTRO (fail-closed)."""
+    """Cliente x402 do censo: mainnet + tetos + as checagens da Fase 5, tudo NO
+    SELETOR — roda antes de qualquer assinatura (fail-closed).
 
-    def seletor(_version: int, requirements: list[Any]) -> Any:
-        for req in requirements:
-            if str(req.network) != CAIP2_BASE_MAINNET:
-                continue
-            if str(req.scheme).lower() != "exact":
-                continue
-            if str(req.asset).lower() != USDC_BASE_MAINNET.lower():
-                continue
-            if not orcamento.cabe(int(req.get_amount())):
-                continue
-            return req
-        raise ValueError("nenhum aceite dentro dos tetos do censo — compra abortada")
-
+    Política do censo: contraparte unverified (nível 4 — ninguém publica vínculo
+    ainda) é aceita ATÉ o teto por compra; ativo sósia e decimais mentidos nunca.
+    """
+    seletor = checagens.seletor_com_checagens(
+        CAIP2_BASE_MAINNET,
+        cabe_no_orcamento=orcamento.cabe,
+        teto_unverified_minor=CENSO_TETO_POR_COMPRA_MINOR,
+    )
     signer = EthAccountSigner(Account.from_key(settings.census_pk))
     xc = x402Client(payment_requirements_selector=seletor)
     xc.register(CAIP2_BASE_MAINNET, ExactEvmClientScheme(signer))

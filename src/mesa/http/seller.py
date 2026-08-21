@@ -77,3 +77,12 @@ async def brinquedo(request: Request) -> dict[str, str | bool]:
 @app.get("/free-ride")
 async def free_ride() -> dict[str, str | bool]:
     return {"produto": "de graça, por engano", "entregue": True}
+
+
+# Fase 5 — o vínculo reverso (nível 2 da escada): o vendedor publica, sob TLS,
+# o payTo assinado pela chave do PRÓPRIO payTo atestando este domínio. Dogfood da
+# extensão proposta em notes/x402-extension-payto-binding.md. Rota grátis.
+@app.get("/.well-known/x402-payto")
+async def wellknown_payto() -> dict[str, object]:
+    from mesa.vinculo import emitir_wellknown
+    return emitir_wellknown(settings.seller_pk, "127.0.0.1:8402", [CAIP2_BASE_SEPOLIA])

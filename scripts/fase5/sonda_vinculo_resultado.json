@@ -1,0 +1,112 @@
+{
+  "gerado_utc": "2026-08-21T17:23:02.126981+00:00",
+  "verificados": 0,
+  "sondados": 15,
+  "resultados": [
+    {
+      "dominio": "api.onesource.io",
+      "payto": "0x52E29e0d2Aa49bfBfC548C0A9F2196F4aa51f3ea",
+      "http_status": 401,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "x402.ottoai.services",
+      "payto": "0x0E84dDEdAaE6A779c462C22a59F301EC31B6b808",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "randomfactsx402.vercel.app",
+      "payto": "0xB5F08f2db7baA682f308BAa02cf0Edb35AcA336a",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "coinflip402.vercel.app",
+      "payto": "0xb8c578e039Aa2c44dd3dEc48E6875ba5763CD67f",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "memegeneratorx402.vercel.app",
+      "payto": "0x7971a809c18c918CaD50cF004C190cBb6E1bf668",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "x402lifeadvice.vercel.app",
+      "payto": "0x1350A77BEfEBBCc05f8e3a13CC6D4AD781c59D34",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "riddlex402.vercel.app",
+      "payto": "0x255CdB4e42afeFc7120B0388eB78f96d996d387b",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "jokes-endpoint.vercel.app",
+      "payto": "0xD70d01C73b0C5F3246F2b55CCe5FF1b41842ab5E",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "stableenrich.dev",
+      "payto": "0x325bdF6F7efAB24a2210c48c1b64cAb2eAe1d430",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "api.printmoneylab.com",
+      "payto": "0xcF9223eCe895258dEa8D288AEBcf846Ab8E342fB",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "conc-exe.xyz",
+      "payto": "0xb85c83cc448edca8eb724f5d79b523faff9375a7",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "screenshots.underscoredone.com",
+      "payto": "0xE9740820225B3918b4ddd1292C7cA4Ca0e2C2F08",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "fresh-feeds.foomworks.workers.dev",
+      "payto": "0x63347CD326a50696F76cfE4B8Ce079D3c8ED3039",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "dripstack.xyz",
+      "payto": "0xBF22b6DdB5A08c823856A779f1004eEa60C5aB92",
+      "http_status": 404,
+      "resultado": "unknown",
+      "nivel": 4
+    },
+    {
+      "dominio": "api.arkm.com",
+      "payto": "0x942bD3E3073543c674Efc0C378D5bcE20f9120C1",
+      "http_status": 405,
+      "resultado": "unknown",
+      "nivel": 4
+    }
+  ]
+}

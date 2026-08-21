@@ -32,10 +32,15 @@ class Captured:
         self.settle_claim = None
 
 
-def make_client(settings: Settings, captured: Captured, *, pk: str | None = None) -> x402Client:
-    """pk=None -> carteira do comprador; o servidor MCP passa a PRÓPRIA (compra delegada, T4)."""
+def make_client(settings: Settings, captured: Captured, *, pk: str | None = None,
+                seletor: Any = None) -> x402Client:
+    """pk=None -> carteira do comprador; o servidor MCP passa a PRÓPRIA (compra delegada, T4).
+
+    `seletor` (Fase 5): checagens pré-assinatura no ponto de enforcement —
+    use mesa.checagens.seletor_com_checagens (None = seletor default do SDK).
+    """
     signer = EthAccountSigner(Account.from_key(pk or settings.buyer_pk))
-    xc = x402Client()
+    xc = x402Client(payment_requirements_selector=seletor)
     xc.register(CAIP2_BASE_SEPOLIA, ExactEvmClientScheme(signer))
 
     def after_creation(ctx: PaymentCreatedContext) -> None:

@@ -17,19 +17,24 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 5 ABERTA — checagens anti-golpe + contribuições de padrão · doc PRONTO ([`fase5.md`](./fase5.md))
+## ⏭️ AGORA: Fase 5 — engenharia ✅ COMPLETA (21/08); GATE 5(b) espera as SUAS submissões
 
-**Em uma frase:** o golpe contra agente acontece ANTES de assinar — payTo trocado,
-token sósia, decimais mentidos — e a defesa vira função PURA e OFFLINE dentro do nosso
-SDK (registro pinado on-chain uma vez, decisão sem rede), integrada aos compradores.
-Mais o **vínculo reverso** (`/.well-known/x402-payto` assinado — o pedaço que nenhuma
-spec cobre, D-22) com sonda nos 15 domínios do censo, e os **3 textos de PR** prontos
-pra você postar: Security Consideration, extensão do vínculo reverso, e o conserto do
-SDK Python quebrado. Custo zero. GATE 5(a) = os 3 ataques recusados sem rede;
-(b) = as submissões (ação sua). Aguardando o "vai" do desenho.
+**O que fechou hoje (GATE 5a ✅):** os 3 golpes contra agente — payTo trocado, token
+sósia, decimais mentidos — são recusados por funções PURAS e OFFLINE
+(`mesa/checagens.py`, registro pinado lido dos contratos 1×), com motivo nomeado e
+teste reproduzível sem rede. Integradas no seletor do censo e no `make_client`.
+O **vínculo reverso** N2 (`/.well-known/x402-payto` assinado pela chave do payTo) está
+implementado (nosso vendedor publica; verificador offline) e a sonda no censo deu o
+dado da proposta: **0/15 vendedores publicam vínculo** — evidência no livro.
 
-**Git:** ✅ commit inicial `057a30b` na `main` (76 arquivos, fases 1–4, zero segredos).
-Daqui em diante: um commit por tarefa.
+**🔑 GATE 5(b) — as 5 submissões SUAS (textos todos prontos em `notes/`):**
+1. Issue do relatório de conformance no coinbase/x402 (`x402-mcp-conformance-report.md`) — POSTAR PRIMEIRO;
+2. PR do conserto do SDK Python (`sdk-python-fix-pr.md` — NC-1 confirmado vivo no main `dd927a2`; linka a issue 1);
+3. Proposta da extensão payTo-binding (`x402-extension-payto-binding.md`);
+4. Security Consideration no draft de DNS discovery (`x402-dns-discovery-security-consideration.md`);
+5. Comentário no OTel #443 (`otel-443-comment-draft.md` — D-28, já estava na fila).
+
+**Git:** commits `057a30b` (fases 1–4) e `e7a3311` (abertura da 5) na `main`.
 
 **Fase 4 (fechada hoje):** o livro agora prova a si mesmo — corrente de hash com 385
 elos íntegros, período fechado com carimbo duplo (freeTSA + OpenTimestamps 4/4), e um

@@ -1,5 +1,15 @@
 # Fase 5 — checagens no SDK + as duas contribuições de padrão (doc de design)
 
+> **Status 21/08:** engenharia COMPLETA no mesmo dia — **GATE 5(a) ✅** (os 3 ataques
+> recusados sem rede, com motivo nomeado: `tests/test_checagens.py`, 45 testes verdes);
+> checagens integradas no seletor do censo e no `make_client`; vínculo reverso N2
+> implementado (emissor no vendedor + verificador offline) e sondado no censo —
+> **achado: 0/15 vendedores publicam vínculo** (verification rows no livro);
+> os **3 textos de PR prontos** em `notes/` (Security Consideration, extensão
+> payTo-binding, conserto do SDK Python — NC-1 confirmado AINDA vivo no main
+> `dd927a2`; NC-2 meio-consertado, resta o `content[0]` como dict).
+> **GATE 5(b) ⏳:** fecha quando o Beny postar as submissões (com as 2 já pendentes).
+
 *Escrito em 21/08/2026, antes de qualquer código, pelo método do programa (D-31).
 Fontes: PLANO.md (seção Fase 5), DECISOES.md (D-07, D-22, D-23, D-34), a escada N1–N4
 do `arquivo/06`, e os dados REAIS do censo (Fase 3). Custo da fase: **zero**.*
