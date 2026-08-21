@@ -1,0 +1,282 @@
+{
+  "gerado_utc": "2026-08-21T15:12:47.900565+00:00",
+  "filtros": {
+    "rede": [
+      "base",
+      "eip155:8453"
+    ],
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "esquema": "exact",
+    "teto_por_compra_minor": 1000000,
+    "estratos_preco_quota": [
+      [
+        1,
+        2000,
+        6
+      ],
+      [
+        2000,
+        20000,
+        4
+      ],
+      [
+        20000,
+        200000,
+        3
+      ],
+      [
+        200000,
+        1000001,
+        2
+      ]
+    ]
+  },
+  "descartes_por_motivo": {
+    "acima-do-teto-usd1": 39,
+    "sem-aceite-base-mainnet": 74,
+    "esquema-nao-exact": 6
+  },
+  "duplicatas_de_dominio": 2277,
+  "cortados_pelo_cap_15": 589,
+  "candidatos": [
+    {
+      "url": "https://api.onesource.io/api/chain/block-number",
+      "dominio": "api.onesource.io",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0x52E29e0d2Aa49bfBfC548C0A9F2196F4aa51f3ea",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": {
+        "network": "ethereum"
+      },
+      "descricao": "Latest Ethereum block height - current chain tip via eth_blockNumber",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T13:49:35.686Z",
+      "chamadas_30d": 1108,
+      "pagadores_30d": 877
+    },
+    {
+      "url": "https://x402.ottoai.services/crypto-news",
+      "dominio": "x402.ottoai.services",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0x0E84dDEdAaE6A779c462C22a59F301EC31B6b808",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Real-time crypto market news with sentiment analysis and top headlines ranked by importance.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T14:55:06.602Z",
+      "chamadas_30d": 787,
+      "pagadores_30d": 130
+    },
+    {
+      "url": "https://randomfactsx402.vercel.app/api/random-fact",
+      "dominio": "randomfactsx402.vercel.app",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0xB5F08f2db7baA682f308BAa02cf0Edb35AcA336a",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Returns a single random fact as JSON in exchange for a micropayment.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T15:00:58.478Z",
+      "chamadas_30d": 293,
+      "pagadores_30d": 79
+    },
+    {
+      "url": "https://coinflip402.vercel.app/api/coinflip",
+      "dominio": "coinflip402.vercel.app",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0xb8c578e039Aa2c44dd3dEc48E6875ba5763CD67f",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Flip a coin for a small USDC payment on Base mainnet. Returns heads or tails.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-20T22:45:57.372Z",
+      "chamadas_30d": 353,
+      "pagadores_30d": 76
+    },
+    {
+      "url": "https://memegeneratorx402.vercel.app/api/generate-meme",
+      "dominio": "memegeneratorx402.vercel.app",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0x7971a809c18c918CaD50cF004C190cBb6E1bf668",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Generate a captioned meme image. Pay per request in USDC on Base mainnet.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-20T17:45:44.494Z",
+      "chamadas_30d": 312,
+      "pagadores_30d": 77
+    },
+    {
+      "url": "https://x402lifeadvice.vercel.app/api/life-advice",
+      "dominio": "x402lifeadvice.vercel.app",
+      "preco_anunciado_minor": 1000,
+      "pay_to": "0x1350A77BEfEBBCc05f8e3a13CC6D4AD781c59D34",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Get one piece of thoughtful life advice, paid per request over x402.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-20T15:49:44.118Z",
+      "chamadas_30d": 300,
+      "pagadores_30d": 75
+    },
+    {
+      "url": "https://riddlex402.vercel.app/api/riddle",
+      "dominio": "riddlex402.vercel.app",
+      "preco_anunciado_minor": 2000,
+      "pay_to": "0x255CdB4e42afeFc7120B0388eB78f96d996d387b",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Pay a micro-fee in USDC on Base mainnet to receive a riddle and its answer.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T05:52:16.541Z",
+      "chamadas_30d": 318,
+      "pagadores_30d": 74
+    },
+    {
+      "url": "https://jokes-endpoint.vercel.app/api/jokes",
+      "dominio": "jokes-endpoint.vercel.app",
+      "preco_anunciado_minor": 2000,
+      "pay_to": "0xD70d01C73b0C5F3246F2b55CCe5FF1b41842ab5E",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Get a random interesting joke. Secured with x402 payment protocol on Base mainnet.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-20T20:05:42.915Z",
+      "chamadas_30d": 185,
+      "pagadores_30d": 73
+    },
+    {
+      "url": "https://stableenrich.dev/api/exa/contents",
+      "dominio": "stableenrich.dev",
+      "preco_anunciado_minor": 2000,
+      "pay_to": "0x325bdF6F7efAB24a2210c48c1b64cAb2eAe1d430",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "POST",
+      "corpo_exemplo": {},
+      "descricao": "Exa Contents - Retrieve content from URLs",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T12:38:06.068Z",
+      "chamadas_30d": 2962,
+      "pagadores_30d": 88
+    },
+    {
+      "url": "https://api.printmoneylab.com/api/v1/kr-prices",
+      "dominio": "api.printmoneylab.com",
+      "preco_anunciado_minor": 2000,
+      "pay_to": "0xcF9223eCe895258dEa8D288AEBcf846Ab8E342fB",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Korean exchange prices (Upbit, Bithumb) for a single token in KRW",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T14:02:10.886Z",
+      "chamadas_30d": 147,
+      "pagadores_30d": 49
+    },
+    {
+      "url": "https://conc-exe.xyz/api/concierge-intel-macro",
+      "dominio": "conc-exe.xyz",
+      "preco_anunciado_minor": 20000,
+      "pay_to": "0xb85c83cc448edca8eb724f5d79b523faff9375a7",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "POST",
+      "corpo_exemplo": {},
+      "descricao": "Macro snapshot — SPX, VIX, DXY, gold, BTC/ETH marks, Fear & Greed, Treasury yields, central-bank calendar",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-18T22:05:42.035Z",
+      "chamadas_30d": 28,
+      "pagadores_30d": 6
+    },
+    {
+      "url": "https://screenshots.underscoredone.com/capture",
+      "dominio": "screenshots.underscoredone.com",
+      "preco_anunciado_minor": 20000,
+      "pay_to": "0xE9740820225B3918b4ddd1292C7cA4Ca0e2C2F08",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "POST",
+      "corpo_exemplo": {
+        "allow_popups": false,
+        "full_page": false,
+        "load_lazy": true,
+        "url": "https://example.com",
+        "viewport": {
+          "height": 1080,
+          "width": 1920
+        },
+        "wait_until": "networkidle0"
+      },
+      "descricao": "Renders a webpage exactly as a real browser would, including all its scripts and dynamic content, then takes a picture of it. You can capture just the visible area or the whole scrollable page, choose",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-15T02:17:11.535Z",
+      "chamadas_30d": 8,
+      "pagadores_30d": 5
+    },
+    {
+      "url": "https://fresh-feeds.foomworks.workers.dev/feeds/mcp-registry/changes",
+      "dominio": "fresh-feeds.foomworks.workers.dev",
+      "preco_anunciado_minor": 20000,
+      "pay_to": "0x63347CD326a50696F76cfE4B8Ce079D3c8ED3039",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Delta of the MCP registry since a daily baseline: added, removed, and changed (score/status) servers — the cheap habit endpoint for repeat callers.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-18T12:59:15.692Z",
+      "chamadas_30d": 5,
+      "pagadores_30d": 5
+    },
+    {
+      "url": "https://dripstack.xyz/api/v1/stock-picks",
+      "dominio": "dripstack.xyz",
+      "preco_anunciado_minor": 200000,
+      "pay_to": "0xBF22b6DdB5A08c823856A779f1004eEa60C5aB92",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "GET",
+      "corpo_exemplo": null,
+      "descricao": "Paid JSON for stock-picker calls from financial newsletters and investing articles. Query params: optional `date=YYYY-MM-DD` for one UTC effective day, optional `limit`. Default (omit `date`) returns ",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-20T13:30:17.604Z",
+      "chamadas_30d": 28,
+      "pagadores_30d": 10
+    },
+    {
+      "url": "https://api.arkm.com/x402/intelligence/address",
+      "dominio": "api.arkm.com",
+      "preco_anunciado_minor": 200000,
+      "pay_to": "0x942bD3E3073543c674Efc0C378D5bcE20f9120C1",
+      "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "rede": "eip155:8453",
+      "metodo": "POST",
+      "corpo_exemplo": {
+        "address": "0x28C6c06298d514Db089934071355E5743bf21d60"
+      },
+      "descricao": "Get Arkham intelligence for an address. $0.20 per call.",
+      "indice": "bazaar-cdp",
+      "last_updated": "2026-08-21T06:56:26.874Z",
+      "chamadas_30d": 245,
+      "pagadores_30d": 13
+    }
+  ]
+}

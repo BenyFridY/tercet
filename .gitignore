@@ -1,0 +1,13 @@
+# chaves e segredos — NUNCA commitar
+.env
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
