@@ -12,7 +12,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from mesa import telas
-from mesa.app import dados
+from mesa.app import dados, jobs
 
 app = FastAPI(title="mesa — o livro da compra feita por agente")
 templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
@@ -91,6 +91,28 @@ def livros(request: Request) -> HTMLResponse:
     with dados.conectar_leitura() as conn:
         ctx = dados.contexto_livros(conn)
     return _render(request, "livros", ctx)
+
+
+@app.get("/operacoes", response_class=HTMLResponse)
+def operacoes(request: Request) -> HTMLResponse:
+    return _render(request, "operacoes",
+                   {"operacoes": list(jobs.OPERACOES.values()), "job": jobs.status()})
+
+
+@app.post("/api/operacao/{nome}")
+def operacao_iniciar(nome: str) -> JSONResponse:
+    """Dispara UMA operação da lista fechada (D-36). 404 fora da lista; 409 ocupado."""
+    if nome not in jobs.OPERACOES:
+        raise HTTPException(404, f"operação desconhecida: {nome!r}")
+    ok, motivo = jobs.iniciar(nome)
+    if not ok:
+        raise HTTPException(409, motivo)
+    return JSONResponse({"ok": True, "motivo": motivo})
+
+
+@app.get("/api/operacao")
+def operacao_status() -> JSONResponse:
+    return JSONResponse({"job": jobs.status()})
 
 
 @app.get("/api/compra/{rid}")

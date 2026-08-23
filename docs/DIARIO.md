@@ -27,6 +27,22 @@ Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro
 
 ---
 
+## Fase 12C ✅ SITE ≠ APP (correção do Beny, 23/08 — GATE 12c VERDE)
+
+**"São 2 coisas distintas"** — e agora são: (1) o **APP operável de ponta a ponta**:
+aba 06 operações dispara os motores como jobs com log na tela (demo testnet completa,
+coletores, passaportes, DeCripto), lista FECHADA (nome inventado = 404), compra pela
+tela é SEMPRE testnet (D-36); filtros no blotter. Prova do gate: a demo disparada por
+POST na interface comprou 3×, o coletor casou e o blotter mostrou — e as 2 compras de
+uma tentativa com bug viraram órfãos que o próprio livro acusou. (2) o **SITE do
+produto** (`site/index.html`, EN, autocontido, pronto p/ GitHub Pages): hero com a
+fita do livro digitando as linhas REAIS do censo, números medidos (15/15 · 13/15 ·
+US$0,272 · 0/15), as 6 telas reais rotuladas, "estruturalmente incapaz" como seção de
+confiança, fiscal BR em português, quickstart. Preview privado publicado para revisão.
+111 testes; tudo verde.
+
+---
+
 ## Fase 12 ✅ CÓDIGO FECHADO (GATE 12a VERDE + 12b pronto-local, 23/08)
 
 **O produto inteiro existe e se USA: `uv run mesa-app`.** As cinco telas do design

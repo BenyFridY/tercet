@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="grid" style="grid-template-columns: 1fr;">
+  <div class="card" style="border-color: rgba(184,129,47,0.30); background: rgba(184,129,47,0.06);">
+    <div class="k" style="color:var(--aviso)">A regra desta aba (D-36)</div>
+    <div style="font-size:12px;color:var(--sec);margin-top:6px;line-height:1.7">
+      A interface NÃO escreve no livro — ela aciona motores auditados, que escrevem com a conexão
+      deles, pelas regras deles (append-only + elo da corrente). Compra disparada daqui é
+      <b style="color:var(--ink)">SEMPRE testnet</b>; dinheiro real exige "vai" explícito fora do app.
+      Um job por vez, de uma lista fechada — nada de comando vindo da tela.
+    </div>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); padding-top: 0;">
+  {% for op in operacoes %}
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <span class="k" style="color:var(--ink);font-size:10px">{{ op.titulo }}</span>
+      <button class="pill ok" style="cursor:pointer;border-radius:6px;padding:6px 14px;font-size:10px"
+              data-op="{{ op.nome }}" onclick="dispararOp(this)">RODAR</button>
+    </div>
+    <div style="font-size:12px;color:var(--sec);margin-top:8px;line-height:1.6">{{ op.descricao }}</div>
+    <div class="sub" style="margin-top:8px">CUSTO: {{ op.dinheiro|upper }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Job</span>
+      <span id="job-titulo" class="mono" style="font-size:11px;color:var(--sec)">nenhum job nesta sessão</span>
+      <span id="job-estado" class="pill mudo">—</span>
+    </div>
+    <pre id="job-log" class="mono" style="margin:0;padding:14px 16px;font-size:11px;line-height:1.7;color:var(--sec);max-height:420px;overflow:auto;white-space:pre-wrap"></pre>
+  </div>
+</div>
+
+<script>
+let vigiando = null;
+async function atualizarJob() {
+  const r = await fetch('/api/operacao');
+  const { job } = await r.json();
+  const t = document.getElementById('job-titulo'), e = document.getElementById('job-estado'),
+        log = document.getElementById('job-log');
+  if (!job) return;
+  t.textContent = job.titulo + ' · iniciado ' + job.iniciado_utc;
+  log.textContent = job.log.join('\n');
+  log.scrollTop = log.scrollHeight;
+  if (job.rodando) {
+    e.textContent = 'RODANDO'; e.className = 'pill aviso';
+    document.querySelectorAll('button[data-op]').forEach(b => b.disabled = true);
+  } else {
+    e.textContent = job.rc === 0 ? 'TERMINOU · OK' : 'TERMINOU · ERRO rc=' + job.rc;
+    e.className = job.rc === 0 ? 'pill ok' : 'pill ruim';
+    document.querySelectorAll('button[data-op]').forEach(b => b.disabled = false);
+    if (vigiando) { clearInterval(vigiando); vigiando = null; }
+  }
+}
+async function dispararOp(btn) {
+  const r = await fetch('/api/operacao/' + btn.dataset.op, { method: 'POST' });
+  if (!r.ok) { const d = await r.json(); alert(d.detail || 'não deu'); return; }
+  if (!vigiando) vigiando = setInterval(atualizarJob, 2000);
+  atualizarJob();
+}
+atualizarJob();
+if (!vigiando) vigiando = setInterval(atualizarJob, 2000);
+</script>
+{% endblock %}

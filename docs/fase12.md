@@ -112,3 +112,56 @@ README, o empacotamento local.
   ficam com n baixo. A tela DIZ o n em vez de esconder (auditoria, não ranking — D-21).
 - **Fase 7 no request**: o backtest roda em milissegundos no livro atual; se crescer,
   vira cache — não antes (não construir preventivamente).
+
+---
+
+# Correção de rumo (23/08, pedido do Beny): SITE ≠ APP — são DUAS entregas
+
+*"site é diferente do app, são 2 coisas distintas. quero site falando do produto
+estilo AI... e quero o app funcional de ponta a ponta."* O que muda (D-36):
+
+## Entrega A — o APP, funcional de ponta a ponta
+
+O app deixa de ser só lentes de leitura e ganha **operações**: uma aba **06
+operações** que roda os MOTORES que já existem, como jobs (um por vez, log na tela):
+
+| Operação | O que roda | Dinheiro |
+|---|---|---|
+| Demo ponta a ponta | vendedor de brinquedo sobe → 3 compras x402 → coletor casa → aparece no blotter | testnet (zero real) |
+| Coletor testnet / mainnet | `mesa.collector` (só LÊ a chain e observa no livro) | zero |
+| Re-emitir passaportes | emissão da Fase 10 (3 carteiras) | zero |
+| Gerar DeCripto | `decripto_build` da competência | zero |
+
+**O que NÃO muda (adendo ao D-35):** as TELAS continuam lendo por sessão read-only;
+as operações rodam os motores em SUBPROCESSO com a conexão normal DELES — o
+princípio é o mesmo (a interface não tem caminho próprio de escrita, só aciona
+motores auditados). **Nenhuma operação gasta dinheiro real**: compra pela tela é
+SEMPRE testnet; mainnet segue exigindo "vai" explícito fora do app. Nenhuma chave
+aparece na interface, nunca. E o blotter ganha filtros (agente/trilho/estado/rede)
+— funcional inclui achar as coisas.
+
+## Entrega B — o SITE do produto (estilo AI)
+
+Página de PRODUTO (marketing/landing), separada do app: `site/index.html`,
+autocontida, pronta para GitHub Pages no dia em que o repo for público (publicar =
+Beny, decisão de 23/08). Conteúdo: o problema (agentes compram, ninguém escritura),
+o produto (as cinco telas com screenshots REAIS — rotulados testnet), como funciona
+(recibo → livro → reconciliação → prova), a seção de confiança (os invariantes:
+estruturalmente incapaz de tocar no dinheiro), quickstart, e o gancho fiscal BR.
+**Idioma: inglês** — a mesma decisão do relatório do censo (o público é o
+ecossistema x402); PT-BR entra como seção do fiscal. Preview privado via artifact
+para o Beny revisar ANTES de qualquer publicação.
+
+> **GATE 12c:** (a) pela PRÓPRIA interface, sem terminal: disparar a demo, ver a
+> compra nova casada no blotter; (b) o site abre local, autocontido, com
+> screenshots reais e sem afirmação não-verificada.
+
+> ✅ **GATE 12c VERDE em 23/08/2026.** (a) A demo foi disparada por POST na
+> interface, comprou 3× na testnet, o coletor casou por (authorizer, nonce) e o
+> blotter mostrou as 3 linhas novas — sem terminal. Bônus honesto: as 2 compras de
+> uma tentativa com bug (pagaram e não registraram) viraram órfãos chain→livro que
+> o próprio livro acusou. Aba 06 operações (lista FECHADA: nome inventado = 404) +
+> filtros no blotter; 111 testes verdes. (b) `site/index.html` autocontido: fita do
+> hero com as linhas REAIS do censo, números medidos (15/15 · 13/15 · $0,272 ·
+> 0/15), 6 telas reais rotuladas, invariantes, fiscal BR em PT, quickstart —
+> preview privado publicado para revisão do Beny.

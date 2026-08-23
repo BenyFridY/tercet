@@ -102,6 +102,14 @@ def test_o_app_nao_consegue_escrever(cliente: Any) -> None:
         conn.rollback()
 
 
+def test_operacoes_lista_fechada(cliente: Any) -> None:
+    """D-36: a tela só aciona a lista FECHADA — nome inventado é 404, nunca executa."""
+    r = cliente.get("/operacoes")
+    assert r.status_code == 200 and "SEMPRE testnet" in r.text
+    assert cliente.post("/api/operacao/rm-rf-tudo").status_code == 404
+    assert cliente.get("/api/operacao").status_code == 200
+
+
 def test_testnet_sempre_rotulada(cliente: Any) -> None:
     """D-12 na interface: se o livro tem compra testnet, a tela DIZ testnet."""
     with dados.conectar_leitura() as conn, conn.cursor() as cur:
