@@ -16,22 +16,26 @@ fallback in payment-required detection`
 The `x402.mcp` module targets the `mcp` 1.x SDK surface. Against `mcp>=2.0.0`
 (current stable), two failures — one hard, one silent:
 
-**1. Server wrapper is unusable (hard failure).** `python/x402/mcp/server.py:8`
+**1. Server wrapper is unusable (hard failure).** `python/x402/mcp/server.py:87`
 
 ```python
-from mcp.server.fastmcp import FastMCP
+# Lazy import mcp types so the module can be imported without mcp installed
+from mcp.server.fastmcp import Context
 ```
 
 `mcp.server.fastmcp` was removed in mcp 2.0 (`MCPServer` replaced it) →
-`ModuleNotFoundError` on import. Additionally, meta extraction
-(`server.py:312-319`) reads `request_context.meta.model_extra` — the 1.x pydantic
-shape. In mcp 2.0, `Context.request_context.meta` is a plain open mapping; there is
-no `.model_extra`, so even with the import fixed, `_meta["x402/payment"]` is never
-found and every paid call is treated as unpaid (server returns payment-required
-forever).
+`ModuleNotFoundError` the moment `create_payment_wrapper(...)` is called. (The
+module-level docstring example also instructs users to `from mcp.server.fastmcp
+import FastMCP`, which no longer exists.) Additionally, meta extraction
+(`server.py:317-319`) reads `request_context.meta.model_extra` — the 1.x pydantic
+shape. In mcp 2.0, `Context.request_context.meta` is a plain open mapping; there
+is no `.model_extra`, the resulting `AttributeError` is swallowed by the
+`except (ValueError, AttributeError)` right below, so even with the import fixed,
+`_meta["x402/payment"]` is never found and every paid call is treated as unpaid
+(server returns payment-required forever).
 
 **2. Client silently treats paid tools as free when the seller uses the
-`content[0].text` channel (silent failure).** `python/x402/mcp/utils.py:138-141`
+`content[0].text` channel (silent failure).** `python/x402/mcp/utils.py:139-141`
 
 ```python
 first_item = result.content[0]

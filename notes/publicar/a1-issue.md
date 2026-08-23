@@ -1,8 +1,3 @@
-# x402-over-MCP conformance findings — Python SDK 2.20.0 vs TypeScript SDK 2.23.0
-
-*Draft issue for github.com/coinbase/x402 — produced by an independent conformance
-harness (pytest, offline, no facilitator required). 2026-08-20.*
-
 ## Context: which text is normative?
 
 Two texts describe payments over MCP, with **different wire shapes**:

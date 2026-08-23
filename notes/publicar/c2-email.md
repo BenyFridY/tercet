@@ -1,11 +1,14 @@
-# Security Consideration: posse do endpoint ≠ posse do payTo
+Para: markjr@easydns.com (autor listado no datatracker)
+Assunto: draft-jeftovic-x402-dns-discovery — proposed Security Considerations section
 
-*Texto pronto para o Beny mandar ao autor do `draft-jeftovic-x402-dns-discovery`.
-CORREÇÃO (verificado 21/08/2026 à noite): o draft EXPIROU no datatracker em
-2026-05-10 (rev -00 de 2025-11-06) — não está "vivo" como escrito antes. O envio
-vira e-mail ao autor (markjr@easydns.com, listado no datatracker) oferecendo a
-seção para uma eventual revisão -01. Prioridade BAIXA (draft dormente); o mesmo
-argumento já vive na proposta payTo-binding e no relatório do censo.*
+Hi Mark,
+
+I read draft-jeftovic-x402-dns-discovery with interest — I build buyer-side tooling
+for x402 and DNS discovery is the right shape for the problem. I noticed the -00
+expired in May; in case you plan a revision, here is a Security Considerations
+section I'd suggest, drawn from field data (we probed 15 live x402 sellers on Base
+mainnet on 2026-08-21: 0/15 publish any verifiable binding between their domain and
+their payTo). Happy for you to use or adapt any of it, and glad to help with a -01.
 
 ---
 
@@ -43,7 +46,5 @@ Recommended text for implementers:
 > address-binding documents they publish, so that a mismatch is detectable rather
 > than silent.
 
-Field observation supporting the concern: probing 15 live x402 sellers indexed on
-Base mainnet (2026-08-21), 0/15 publish any verifiable binding between their domain
-and their `payTo`; buyers today have no way to distinguish a legitimate quote from
-a swapped-address quote served by the same URL.
+Best,
+Beny Frid

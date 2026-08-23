@@ -1,4 +1,14 @@
-# Passo a passo — o que falta é publicação, e é todo seu (≈ 1h no total)
+# Passo a passo — o que falta é publicação (≈ 1h manual, ou "posta" + 5 min)
+
+> **ATUALIZAÇÃO 21/08 à noite:** o Beny pediu que o Claude poste da conta dele.
+> O `gh` está logado como **BenyFridY** (pessoal). Os corpos FINAIS, byte a byte,
+> estão em `notes/publicar/` — o que for aprovado é o que sai. Cada afirmação
+> técnica foi re-verificada contra o mundo de hoje (upstream @ dd927a2, recibo
+> conferido na chain, OTel #443 aberto). O branch do PR já está commitado em
+> `C:\dev\x402-fork` (fix/mcp-2.0-compat, 3 arquivos, +2 testes de regressão
+> passando). O X continua sendo só seu (sem acesso). Correção achada na
+> verificação: o draft de DNS **expirou** (2026-05-10) — o C2 virou e-mail ao
+> autor oferecendo a seção para uma -01 (prioridade baixa).
 
 *Escrito em 21/08/2026. Tudo que era código/dado/texto está PRONTO nos commits.
 O que resta são ações externas (posts, PR, e-mail) — que por regra do projeto são
@@ -66,13 +76,11 @@ Ao final de cada bloco, me mande os LINKS — eu atualizo os gates e o relatóri
       link de referência está no seu histórico do D-28)
 - [ ] Colar o texto de `mesa\notes\otel-443-comment-draft.md` (só a parte após o `---`)
 
-### C2. Security Consideration no draft de DNS discovery (7 min)
-- [ ] Abrir https://datatracker.ietf.org/doc/draft-jeftovic-x402-dns-discovery/
-- [ ] Na página do draft tem o e-mail do autor; se houver repo GitHub do draft,
-      issue serve também
-- [ ] Enviar a seção proposta de
-      `mesa\notes\x402-dns-discovery-security-consideration.md` (após o `---`),
-      com 1 linha sua de contexto ("measured 15 live sellers, happy to PR")
+### C2. E-mail ao autor do draft de DNS discovery (5 min · prioridade BAIXA)
+- [ ] O draft EXPIROU no datatracker (2026-05-10) — verificado 21/08 à noite
+- [ ] E-mail pronto (destinatário, assunto e corpo) em `notes\publicar\c2-email.md`
+      — oferece a seção para uma eventual revisão -01
+- [ ] O Claude pode deixar como RASCUNHO no seu Gmail; enviar é seu
 
 ## Bloco D — opcionais locais (quando quiser, 5 min cada)
 
