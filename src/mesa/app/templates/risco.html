@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="grid" style="grid-template-columns: 1.3fr 1fr;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Orçamento por árvore (D-02)</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">A soma bate por construção: total da tarefa = soma dos filhos, em qualquer altura.</div>
+    </div>
+    {% for arv in arvores if arv.existe %}
+    <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,0.05)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span class="mono" style="font-size:12px;font-weight:600">{{ arv.raiz }}</span>
+        <span class="mono num" style="font-size:12px">$ {{ arv.total_minor|usd }}</span>
+      </div>
+      {% set maior = arv.filhos|map(attribute='gasto_minor')|max if arv.filhos else 1 %}
+      {% for f in arv.filhos %}
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+        <span class="mono" style="font-size:10px;color:var(--sec);width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">└ {{ f.rotulo }}</span>
+        <div style="flex-grow:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06)">
+          <div style="width:{{ (100 * f.gasto_minor / maior)|round(1) if maior else 0 }}%;height:6px;border-radius:3px;background:#28A87F"></div>
+        </div>
+        <span class="mono num" style="font-size:10px;width:74px;text-align:right">$ {{ f.gasto_minor|usd }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}<div class="sub" style="padding:14px 16px">sem tarefas com gasto no livro</div>{% endfor %}
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+        <span class="k" style="color:var(--ink)">Aprovações vinculadas (D-14)</span>
+        <div style="font-size:11px;color:var(--mudo);margin-top:3px">O "sim" do humano vale para UMA cotação exata (hash do escopo) — nunca em branco.</div>
+      </div>
+      <table>
+        <tr><th>Quem</th><th>Escopo</th><th>pay_to</th><th class="r">Valor</th></tr>
+        {% for a in aprovacoes %}
+        <tr>
+          <td>{{ a.quem }}</td>
+          <td class="mono" style="color:var(--sec)">{{ a.escopo|curto(12) }}</td>
+          <td class="mono" style="color:var(--sec)">{{ a.pay_to|curto(12) }}</td>
+          <td class="r num">{{ a.amount_minor|usd }}</td>
+        </tr>
+        {% else %}<tr><td colspan="4" class="sub">nenhuma aprovação humana registrada</td></tr>{% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Passaporte do pagador (D-08 · Fase 10 — seção posterior ao design, desvio documentado)</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">
+        Artefatos REAIS emitidos do livro, re-verificados offline AGORA (assinatura ⇔ sujeito) e avaliados pela política padrão do vendedor.
+        O passaporte é honesto a ponto de reprovar a carteira do próprio dono.
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>Carteira</th><th>Sujeito</th><th>Rede</th><th class="r">Aut.</th><th class="r">Liq.</th><th class="r">Nonce reusado</th><th class="r">Sem pagar</th><th class="r">Órfãos</th><th class="r">Íntegro</th><th class="r">Política</th></tr>
+      {% for p in passaportes %}
+      <tr>
+        <td class="mono" style="font-weight:600">{{ p.nome }}</td>
+        <td class="mono" style="color:var(--sec)">{{ p.sujeito|curto(12) }}</td>
+        <td class="mono" style="color:var(--sec)">{{ 'MAINNET' if p.rede == 'eip155:8453' else 'TESTNET' }}</td>
+        <td class="r num">{{ p.metricas.autorizacoes }}</td>
+        <td class="r num">{{ p.metricas.liquidadas }}</td>
+        <td class="r num" style="color:{{ 'var(--ruim)' if p.metricas.nonces_reusados else 'var(--sec)' }}">{{ p.metricas.nonces_reusados }}</td>
+        <td class="r num">{{ p.metricas.entregas_sem_pagar }}</td>
+        <td class="r num" style="color:{{ 'var(--ruim)' if p.metricas.orfaos_chain_inexplicados else 'var(--sec)' }}">{{ p.metricas.orfaos_chain_inexplicados }}</td>
+        <td class="r"><span class="pill {{ 'ok' if p.integro else 'ruim' }}">{{ 'SIM' if p.integro else 'NÃO' }}</span></td>
+        <td class="r">
+          {% if p.aceito %}<span class="pill ok">ACEITO</span>
+          {% else %}<span class="pill ruim" title="{{ p.motivos|join(', ') }}">RECUSADO · {{ p.motivos|join(' · ') }}</span>{% endif %}
+        </td>
+      </tr>
+      {% else %}<tr><td colspan="10" class="sub">nenhum passaporte emitido — rodar scripts/fase10/gate10_demo.py</td></tr>{% endfor %}
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

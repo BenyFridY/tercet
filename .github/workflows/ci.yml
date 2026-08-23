@@ -1,0 +1,39 @@
+# CI do mesa — os MESMOS comandos do scripts/saude.py, num Postgres de serviço zerado.
+# Rodar num banco vazio também prova que as telas aguentam livro vazio (GATE 12a).
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: mesa
+          POSTGRES_PASSWORD: mesa
+          POSTGRES_DB: mesa
+        ports:
+          - "5433:5432"
+        options: >-
+          --health-cmd "pg_isready -U mesa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://mesa:mesa@127.0.0.1:5433/mesa
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: dependências (lockfile exato)
+        run: uv sync --frozen
+      - name: lint
+        run: uv run ruff check .
+      - name: tipos (strict)
+        run: uv run mypy src scripts tests
+      - name: testes (os gates são testes)
+        run: uv run pytest -q
+      - name: o pacote constrói
+        run: uv build

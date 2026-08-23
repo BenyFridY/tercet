@@ -2013,6 +2013,7 @@ source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
     { name = "eth-account" },
+    { name = "jinja2" },
     { name = "mcp" },
     { name = "nfelib" },
     { name = "openinference-instrumentation-mcp" },
@@ -2040,6 +2041,7 @@ dev = [
 requires-dist = [
     { name = "anthropic", specifier = ">=1.0.0" },
     { name = "eth-account", specifier = ">=0.13" },
+    { name = "jinja2", specifier = ">=3.1.6" },
     { name = "mcp", specifier = ">=2.0.0" },
     { name = "nfelib", specifier = ">=2.5.2" },
     { name = "openinference-instrumentation-mcp", specifier = ">=2.0.6" },

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="grid" style="grid-template-columns: 1fr;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Backtest de política de gasto — point-in-time (Fase 7)</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">
+        As {{ n_pontos }} decisões REAIS da rodada 1 do censo, na ordem em que aconteceram, sob políticas alternativas:
+        "e se o teto fosse outro?", "e se só comprasse de verificado?". IC de Wilson 95%; proxies ROTULADOS (D-12).
+      </div>
+    </div>
+    {% if resultados %}
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>Política</th><th class="r">Compras</th><th class="r">Teria custado</th><th class="r">Liquidado</th><th class="r">Entregas</th><th class="r">Taxa [IC 95%]</th><th class="r">$/entrega</th><th class="r">Entregas perdidas</th></tr>
+      {% for r in resultados %}
+      <tr>
+        <td><span class="mono" style="font-weight:600">{{ r.politica }}</span></td>
+        <td class="r num">{{ r.n_compras }}</td>
+        <td class="r num">{{ r.gasto_autorizado_minor|usd }}</td>
+        <td class="r num">{{ r.gasto_liquidado_minor|usd }}</td>
+        <td class="r num">{{ r.entregas }}</td>
+        <td class="r num">
+          {% if r.taxa_entrega is not none %}{{ '%.0f'|format(100 * r.taxa_entrega) }}% <span style="color:var(--mudo)">[{{ '%.0f'|format(100 * r.ic_wilson_95[0]) }}–{{ '%.0f'|format(100 * r.ic_wilson_95[1]) }}]</span>
+          {% else %}<span style="color:var(--mudo)">— (comprou nada)</span>{% endif %}
+        </td>
+        <td class="r num">{{ r.custo_por_entrega_minor|usd if r.custo_por_entrega_minor is not none else '—' }}</td>
+        <td class="r num" style="color:{{ 'var(--ruim)' if r.entregas_perdidas else 'var(--sec)' }}">{{ r.entregas_perdidas }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+    {% else %}
+    <div class="sub" style="padding:14px 16px">sem decisões do censo no livro (CENSUS_ADDRESS vazio ou livro sem compras mainnet)</div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
+  <div class="card">
+    <div class="k">Rótulos e premissas (D-12) — fazem parte do resultado, não de rodapé</div>
+    <ul style="margin:10px 0 2px;padding-left:18px;color:var(--sec);font-size:12px;line-height:1.8">
+      {% for r in rotulos %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

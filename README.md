@@ -4,6 +4,53 @@ O livro da compra feita por agente: registra o que os agentes compraram (requisi
 autorização), casa com a liquidação on-chain e **explica toda diferença**. Nunca toca chave, saldo
 ou fluxo de dinheiro — observa e produz evidência (Res. BCB 520, art. 9º).
 
+## O app — as cinco telas, ao vivo do livro (Fase 12, D-35)
+
+```powershell
+uv run mesa-app        # -> http://127.0.0.1:8400
+```
+
+**01 blotter** (o que compraram, com estado derivado e a cadeia de eventos de cada compra) ·
+**02 tca** (desperdício, dedup entre agentes, custo por entrega) · **03 risco** (orçamento por
+árvore D-02, aprovações D-14, passaporte do pagador D-08) · **04 laboratório** (backtest de
+política de gasto, point-in-time, IC honesto) · **05 livros** (reconciliação de três pontas,
+períodos carimbados, fatura por contraparte, fiscal BR).
+
+O app é **somente leitura por construção**: a sessão Postgres abre com
+`default_transaction_read_only=on` — ele não consegue escrever no livro nem que queira, e
+`tests/test_app.py` prova isso. Dado real sempre; testnet e sintético rotulados NA tela.
+
+## Exemplo do zero (terceiro, só com este README) — GATE 12
+
+Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker, Python 3.11+.
+
+```powershell
+# 1. dependências + banco (Postgres 17 em 127.0.0.1:5433 — só a sua máquina)
+uv sync
+docker run -d --name mesa-pg -e POSTGRES_USER=mesa -e POSTGRES_PASSWORD=mesa `
+  -e POSTGRES_DB=mesa -p 127.0.0.1:5433:5432 `
+  -v mesa-pgdata:/var/lib/postgresql/data postgres:17
+uv run python scripts/check_db.py            # aplica as migrations num banco zerado
+
+# 2. carteiras de TESTE (grava .env local; nunca commitado) + USDC de mentira
+uv run python scripts/setup_wallets.py
+#    -> cole o endereço do comprador em https://faucet.circle.com (USDC / Base Sepolia)
+uv run python scripts/check_balance.py       # confere o saldo lido on-chain
+
+# 3. um vendedor de brinquedo + 10 pagamentos x402 REAIS na testnet
+uv run uvicorn mesa.http.seller:app --port 8402     # terminal 1
+uv run python scripts/fase1/buyer.py 10             # terminal 2 (grava o livro)
+
+# 4. a chain é a fonte de verdade: coletar e reconciliar
+uv run python -m mesa.collector              # casa (authorizer, nonce) com o livro
+uv run python -m mesa.cli                    # a tabela de vereditos, órfãos em vermelho
+
+# 5. o produto
+uv run mesa-app                              # -> http://127.0.0.1:8400
+```
+
+Custa **zero dinheiro real**: USDC de faucet, e no scheme `exact` o facilitator paga o gas.
+
 - **Docs do projeto** (tese, decisões D-01–D-33, programa de 12 fases): um nível acima,
   na raiz `x402\` (README → PLANO → DECISOES). Este repo vive DENTRO da raiz desde 20/08.
 - **O que já aconteceu, o que provou e o que vem agora:** [docs/DIARIO.md](docs/DIARIO.md) ←

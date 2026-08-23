@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mesa · {{ tela }}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #0B0D0F; --ink: #E8EBEE; --sec: #98A0AB; --mudo: #626A76;
+    --verde: #28A87F; --verde2: #3AA374; --ruim: #D9574A; --aviso: #B8812F;
+    --roxo: #8168DE; --info: #2A93B5;
+    --card: rgba(255,255,255,0.032); --borda: rgba(255,255,255,0.075);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 13px;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.019) 0 1px, transparent 1px 26px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.019) 0 1px, transparent 1px 26px);
+  }
+  a { color: var(--verde); text-decoration: none; } a:hover { color: #3FC498; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .num { font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1420px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; gap: 18px; padding: 0 24px; height: 52px;
+            border-bottom: 1px solid rgba(255,255,255,0.07); flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace;
+          font-weight: 600; font-size: 12px; letter-spacing: .20em; text-transform: uppercase; color: var(--ink); }
+  .abas { display: flex; gap: 3px; padding: 3px; border-radius: 9px; background: rgba(255,255,255,0.04);
+          border: 1px solid var(--borda); font-family: 'JetBrains Mono', monospace; font-size: 10px;
+          letter-spacing: .07em; text-transform: uppercase; }
+  .abas a { padding: 6px 12px; border-radius: 6px; color: var(--mudo); }
+  .abas a.ativa { background: rgba(40,168,127,0.14); color: var(--verde);
+                  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+  .pill-status { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px;
+                 background: rgba(58,163,116,0.10); border: 1px solid rgba(58,163,116,0.26);
+                 font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--verde2); }
+  .pill-status .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--verde2); }
+  .k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .13em;
+       text-transform: uppercase; color: var(--mudo); }
+  .card { padding: 15px 18px; border-radius: 13px; background: var(--card);
+          border: 1px solid var(--borda); box-shadow: inset 0 1px 0 rgba(255,255,255,0.055); }
+  .card.ruim { background: rgba(217,87,74,0.075); border-color: rgba(217,87,74,0.22); }
+  .card.ok { background: rgba(40,168,127,0.08); border-color: rgba(40,168,127,0.24); }
+  .hero { font-weight: 700; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em; }
+  .grid { display: grid; gap: 14px; padding: 16px 24px; }
+  .sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--mudo); margin-top: 5px; line-height: 1.7; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .10em;
+       text-transform: uppercase; color: var(--mudo); text-align: left; font-weight: 500;
+       padding: 8px 10px; background: rgba(255,255,255,0.018); }
+  td { padding: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+  td.mono, th.r, td.r { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  th.r, td.r { text-align: right; }
+  tr.clicavel { cursor: pointer; } tr.clicavel:hover { background: rgba(255,255,255,0.03); }
+  .pill { padding: 2px 7px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;
+          font-size: 9px; white-space: nowrap; background: rgba(255,255,255,0.06); color: var(--sec); }
+  .pill.ok { background: rgba(40,168,127,0.13); border: 1px solid rgba(40,168,127,0.28); color: var(--verde); }
+  .pill.ruim { background: rgba(217,87,74,0.13); border: 1px solid rgba(217,87,74,0.28); color: var(--ruim); }
+  .pill.aviso { background: rgba(184,129,47,0.13); border: 1px solid rgba(184,129,47,0.30); color: var(--aviso); }
+  .pill.roxo { background: rgba(129,104,222,0.13); border: 1px solid rgba(129,104,222,0.28); color: var(--roxo); }
+  .pill.info { background: rgba(42,147,181,0.13); border: 1px solid rgba(42,147,181,0.28); color: var(--info); }
+  .pill.mudo { color: var(--mudo); }
+  .rodape { padding: 14px 24px 26px; font-family: 'JetBrains Mono', monospace; font-size: 9px;
+            color: var(--mudo); line-height: 1.9; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 8px; }
+  .gaveta { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; max-width: 92vw;
+            background: #101317; border-left: 1px solid var(--borda); padding: 18px;
+            overflow-y: auto; transform: translateX(105%); transition: transform .18s ease; z-index: 50; }
+  .gaveta.aberta { transform: none; }
+  .evento { border-left: 2px solid var(--verde2); padding-left: 11px; margin-top: 12px; }
+  .fechar { float: right; cursor: pointer; color: var(--mudo); font-size: 16px; background: none; border: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="logo">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M1 17V1h16" stroke="#626A76" stroke-width="1.4"/><path d="M4 13l3.4-5.2 2.6 3.1 3.6-6.4" stroke="#28A87F" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mesa
+    </span>
+    <nav class="abas">
+      <a href="/blotter" class="{{ 'ativa' if tela == 'blotter' }}">01 blotter</a>
+      <a href="/tca" class="{{ 'ativa' if tela == 'tca' }}">02 tca</a>
+      <a href="/risco" class="{{ 'ativa' if tela == 'risco' }}">03 risco</a>
+      <a href="/laboratorio" class="{{ 'ativa' if tela == 'laboratorio' }}">04 laboratório</a>
+      <a href="/livros" class="{{ 'ativa' if tela == 'livros' }}">05 livros</a>
+    </nav>
+    <div style="flex-grow:1"></div>
+    {% for c in status.cursores %}
+      <span class="pill-status"><span class="dot"></span>{{ 'MAINNET' if 'mainnet' in c.nome else 'TESTNET' }} · BLOCO {{ '{:,}'.format(c.bloco).replace(',', '.') }}</span>
+    {% endfor %}
+    <span class="mono" style="font-size:10px;color:var(--mudo)">COMPRADOR</span>
+  </div>
+
+  {% block conteudo %}{% endblock %}
+
+  <div class="rodape">
+    LIVRO APPEND-ONLY · CORRENTE DE HASH: {{ status.corrente_elos }} ELOS (SEQ {{ status.corrente_seq }}) ·
+    ATUALIZADO ATÉ O CURSOR DO COLETOR — NÃO É TEMPO REAL · ESTE APP É SOMENTE LEITURA POR SESSÃO
+    (default_transaction_read_only) · TESTNET E SINTÉTICO SEMPRE ROTULADOS · INFERÊNCIA MARCADA COMO INFERÊNCIA
+  </div>
+</div>
+
+<div class="gaveta" id="gaveta">
+  <button class="fechar" onclick="document.getElementById('gaveta').classList.remove('aberta')">×</button>
+  <div class="k">Cadeia de eventos · somente leitura</div>
+  <div id="gaveta-corpo" class="mono" style="font-size:11px;margin-top:10px">—</div>
+</div>
+<script>
+async function abrirCompra(rid) {
+  const g = document.getElementById('gaveta'), corpo = document.getElementById('gaveta-corpo');
+  corpo.textContent = 'carregando…'; g.classList.add('aberta');
+  const r = await fetch('/api/compra/' + rid);
+  if (!r.ok) { corpo.textContent = 'não encontrada'; return; }
+  const d = await r.json();
+  const li = (k, v) => v ? `<div style="margin-top:6px"><span style="color:#626A76">${k}</span><br>${v}</div>` : '';
+  corpo.innerHTML =
+    li('request', d.rid) + li('quando', d.ts) + li('estado', d.estado) +
+    li('recurso', d.dominio || (d.recurso_hash || '').slice(0, 16) + '…') +
+    li('agente · tarefa', [d.agente, d.tarefa].filter(Boolean).join(' · ')) +
+    li('trilho · rede', [d.rail, d.network].filter(Boolean).join(' · ')) +
+    li('cotado', d.amount_minor != null ? (d.amount_minor / 1e6).toFixed(4) : null) +
+    li('liquidado', d.settled_minor ? (d.settled_minor / 1e6).toFixed(4) : null) +
+    li('pay_to', d.pay_to) + li('tx', d.tx) +
+    li('corpo (sha256 · bytes — corpo NÃO armazenado)', d.body_sha256 ? d.body_sha256.slice(0, 20) + '… · ' + d.body_bytes : null) +
+    li('aprovado por (D-14)', d.principal_ref) +
+    (d.repetido ? '<div style="margin-top:6px;color:#B8812F">byte repetido — pagou de novo pelo mesmo conteúdo</div>' : '') +
+    '<div style="margin-top:12px" class="k">eventos</div>' +
+    (d.eventos.length ? d.eventos.map(e => `<div class="evento"><b>${e.kind}</b> <span style="color:#626A76">· ${e.de} · ${e.ts}</span></div>`).join('') : '<div style="color:#626A76;margin-top:6px">sem eventos registrados</div>');
+}
+</script>
+</body>
+</html>

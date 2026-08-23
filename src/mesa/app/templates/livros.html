@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="grid" style="grid-template-columns: 1.2fr 1fr;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Reconciliação de três pontas</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">
+        {{ n_compras }} compras × {{ n_liquidacoes }} liquidações on-chain, casadas por (authorizer, nonce) do EIP-3009.
+        Cada linha cai em EXATAMENTE um veredito — órfão é estado de primeira classe, não erro.
+      </div>
+    </div>
+    <table>
+      <tr><th>Veredito</th><th class="r">n</th><th>O que significa</th></tr>
+      {% for v in vereditos %}
+      <tr>
+        <td><span class="pill {{ 'ok' if v.veredito == 'ok' else ('ruim' if v.veredito in ('pago-sem-entrega', 'orfao-chain', 'replay-extra') else ('aviso' if v.veredito in ('uncollected', 'autorizada-sem-liquidacao') else 'mudo')) }}">{{ v.veredito|upper }}</span></td>
+        <td class="r num">{{ v.n }}</td>
+        <td style="color:var(--sec);font-size:11px">{{ v.explica }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Janela de fechamento + carimbos de tempo</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">Período fechado NUNCA reabre; a raiz de Merkle recebe dois relógios de terceiros (RFC3161 + OpenTimestamps).</div>
+    </div>
+    <table>
+      <tr><th>Período</th><th class="r">Elos (seq)</th><th>Raiz de Merkle</th></tr>
+      {% for p in periodos %}
+      <tr>
+        <td class="mono">{{ p.data }}</td>
+        <td class="r num">{{ p.de }}–{{ p.ate }}</td>
+        <td class="mono" style="color:var(--sec)">{{ p.raiz|curto(18) }}</td>
+      </tr>
+      {% else %}<tr><td colspan="3" class="sub">nenhum período fechado ainda</td></tr>{% endfor %}
+    </table>
+    <div style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05)">
+      {% for c in carimbos %}
+      <span class="pill {{ 'info' if c.tipo == 'rfc3161' else 'roxo' }}" style="margin-right:6px">{{ c.tipo|upper }} · {{ c.periodo }} · {{ c.bytes }}B</span>
+      {% else %}<span class="sub">sem carimbos</span>{% endfor %}
+      <div class="sub" style="margin-top:8px">VERIFICAR SEM CONFIAR NA GENTE: verificador/verificar.py (NÃO IMPORTA O MESA)</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1.2fr 1fr; padding-top: 0;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Fatura consolidada por contraparte</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">Contas a pagar não processa mil linhas de $0,001 — processa ISTO.</div>
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>pay_to</th><th>Rede</th><th class="r">Compras</th><th class="r">Total liquidado</th></tr>
+      {% for f in fatura %}
+      <tr>
+        <td class="mono" style="color:var(--sec)">{{ f.pay_to|curto(16) }}</td>
+        <td class="mono" style="color:var(--sec)">{{ 'TESTNET' if f.network == 'eip155:84532' else ('MAINNET' if f.network == 'eip155:8453' else f.network or '—') }}</td>
+        <td class="r num">{{ f.compras }}</td>
+        <td class="r num">$ {{ f.total_minor|usd }}</td>
+      </tr>
+      {% else %}<tr><td colspan="4" class="sub">nenhuma liquidação casada</td></tr>{% endfor %}
+    </table>
+    </div>
+    <div class="sub" style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05)">
+      TRILHO FATURA (LLM, MICRO-USD): {{ invoice.n }} LANÇAMENTO(S) · $ {{ invoice.micro_usd|usd }} — MESMO SCHEMA, SEM MIGRATION (FASE 6)
+    </div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--ink)">Fiscal · Brasil (Fase 11 — SIMULAÇÃO ROTULADA)</span>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">Recibo → PTAX da data de SP → DeCripto (leiaute oficial v1.01). Recomputado AGORA do livro, só com PTAX já persistido.</div>
+    </div>
+    <div style="padding:14px 16px">
+      <div class="k">Competência {{ fiscal.competencia }} · Base MAINNET (testnet excluída na query)</div>
+      {% if fiscal.pendente %}
+        <div class="sub" style="color:var(--aviso)">{{ fiscal.pendente }}</div>
+      {% elif fiscal.n_ops %}
+        <div class="hero num" style="font-size:26px;margin-top:8px">R$ {{ fiscal.total_reais|replace('.', ',') }}</div>
+        <div class="sub">{{ fiscal.n_ops }} OPERAÇÃO(ÕES) · REGISTRO 0450 (AQUISIÇÃO DE BENS/SERVIÇOS) + ALTERNATIVA 0980 POR HASH</div>
+        <div style="margin-top:8px"><span class="pill {{ 'ruim' if fiscal.devida else 'ok' }}">{{ 'ENTREGA DEVIDA' if fiscal.devida else 'ABAIXO DO LIMIAR DE R$ 35 MIL — NÃO DEVIDA' }}</span></div>
+      {% else %}
+        <div class="sub">sem operação mainnet na competência corrente</div>
+      {% endif %}
+      <div class="sub" style="margin-top:10px">
+        ARQUIVOS GERADOS: {% for c in competencias_geradas %}fiscal/decripto/{{ c }} · {% else %}nenhum ainda — {% endfor %}REGENERAR: scripts/fase11/decripto_build.py
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

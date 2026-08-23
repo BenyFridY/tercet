@@ -55,7 +55,10 @@ class Settings(BaseSettings):
     rpc_url: str = DEFAULT_RPC_URL
     rpc_url_mainnet: str = DEFAULT_RPC_URL_MAINNET
     facilitator_url: str = DEFAULT_FACILITATOR_URL
-    database_url: str = "postgresql://mesa:mesa@localhost:5433/mesa"
+    # 127.0.0.1 explícito, NUNCA "localhost": no Windows o localhost tenta ::1 (IPv6)
+    # primeiro e queima o connect_timeout inteiro — o mesa-pg escuta só em 127.0.0.1
+    # desde o passe de segurança (docs/seguranca.md). Achado da Fase 12 (app lento).
+    database_url: str = "postgresql://mesa:mesa@127.0.0.1:5433/mesa"
 
     # SecretStr (docs/seguranca.md, furo 2): print/log/traceback mostram '**********';
     # o valor real só sai por .get_secret_value(), sempre explícito no ponto de uso.

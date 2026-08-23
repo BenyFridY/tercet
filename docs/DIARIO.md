@@ -17,12 +17,44 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: próxima fase é a 12 (lançamento OSS — a última) — publicações adiadas p/ o fim
+## ⏭️ AGORA: as 12 fases de CÓDIGO estão completas — o que resta é seu
 
-**Decisão do Beny (23/08, reafirmada): foco no produto; publicar tudo JUNTO no fim.**
-O pacote certificado segue congelado em `notes/publicar/` + branch em `C:\dev\x402-fork`
-(re-verificação no dia: `docs/passo-a-passo-publicacao.md`). A Fase 12 é onde as
-publicações naturalmente se encontram com o lançamento.
+**O programa fechou o código em 23/08/2026.** O que falta é, por decisão sua, tudo junto
+no fim: (1) o NOME do produto ("mesa" está tomado no PyPI); (2) repo público no GitHub;
+(3) v0.1 no PyPI; (4) as publicações congeladas (`notes/publicar/` + branch em
+`C:\dev\x402-fork`; re-certificar no dia: `docs/passo-a-passo-publicacao.md`).
+Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro, no navegador.
+
+---
+
+## Fase 12 ✅ CÓDIGO FECHADO (GATE 12a VERDE + 12b pronto-local, 23/08)
+
+**O produto inteiro existe e se USA: `uv run mesa-app`.** As cinco telas do design
+(`design/produto/`) servidas ao vivo do banco — nenhuma tela tem lógica própria; cada
+uma é uma lente sobre os motores que os gates das fases 1–11 já provaram (doc:
+`docs/fase12.md`; código: `src/mesa/app/`; decisão de forma: D-35).
+
+- **01 blotter**: gasto real vs teste (rotulado), por trilho, série diária, a tabela
+  de compras com estado DERIVADO e a gaveta com a cadeia de eventos de cada compra.
+- **02 tca**: desperdício real (US$ 0,33 — mesmo recurso, mesmo byte), dedup entre
+  agentes, custo por entrega por fonte com faixa de preço e n dito.
+- **03 risco**: orçamento por árvore (D-02, soma que bate por construção), aprovações
+  D-14, e o **passaporte da Fase 10 re-verificado offline a cada request** (caos
+  RECUSADO, censo ACEITO, mcp RECUSADO — com os motivos na tela).
+- **04 laboratório**: o backtest da Fase 7 point-in-time (15 decisões reais do censo,
+  mainnet apenas), IC de Wilson e os rótulos D-12 como parte do resultado.
+- **05 livros**: reconciliação de três pontas (vereditos nomeados), período fechado
+  com carimbos RFC3161+OTS, fatura consolidada por contraparte, trilho invoice, e o
+  fiscal da Fase 11 recomputado ao vivo (R$ 1,42, abaixo do limiar — rotulado).
+- **Read-only ESTRUTURAL (D-35)**: a sessão Postgres do app é
+  `default_transaction_read_only=on` — INSERT/UPDATE/DELETE FALHAM, e o teste prova.
+  O observador que não pode afetar, agora também na interface.
+- **Achado de engenharia**: `localhost` no Windows tentava IPv6 (::1) e queimava o
+  connect_timeout inteiro — 10,3s por tela. Com `127.0.0.1` explícito: 60–180ms.
+- **OSS pronto-local (12b)**: CI GitHub Actions (ruff+mypy+pytest+build com Postgres
+  de serviço zerado — o que também prova livro VAZIO nas telas), README com o
+  exemplo-do-zero para terceiro (GATE 12), wheel com templates + entry point.
+- 8 testes novos (110 no total), screenshots das 5 telas conferidos, saude.py VERDE.
 
 ---
 

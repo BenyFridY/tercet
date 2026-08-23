@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="grid" style="grid-template-columns: 300px 1fr 1fr 1fr;">
+  <div class="card">
+    <div class="k">Gasto liquidado · dinheiro REAL (mainnet)</div>
+    <div class="hero num" style="margin-top:8px">$ {{ ag.gasto_real_minor|usd }}</div>
+    <div class="sub">
+      TESTE (TESTNET, ROTULADO): $ {{ ag.gasto_teste_minor|usd }}<br>
+      FATURA LLM (MICRO-USD): $ {{ ag.invoice_micro_usd|usd }}<br>
+      {{ ag.compras }} COMPRAS · {{ ag.entregas }} ENTREGAS
+    </div>
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)">
+      {% for rail, minor in ag.por_rail.items() %}
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <span style="width:8px;height:8px;border-radius:2px;background:{{ {'x402':'#28A87F','invoice':'#8168DE','mpp':'#2A93B5','ap2':'#B8812F'}.get(rail, 'rgba(255,255,255,0.2)') }}"></span>
+        <span style="flex-grow:1;color:var(--sec);font-size:12px">{{ rail }}</span>
+        <span class="mono num" style="font-size:11px">$ {{ minor|usd }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card {{ 'ruim' if problemas_n else '' }}">
+    <div class="k" {% if problemas_n %}style="color:var(--ruim)"{% endif %}>Entregue-sem-cobrar / pago-sem-entrega</div>
+    <div class="hero num" style="font-size:26px;margin-top:8px">{{ problemas_n }}</div>
+    <div class="sub">$ {{ problemas_minor|usd }} ENVOLVIDO · RECEBÍVEL/DISPUTA, NÃO RECEITA<br>DERIVADO DO LIVRO, NUNCA DIGITADO</div>
+  </div>
+
+  <div class="card">
+    <div class="k">Verificação de contraparte (pay_to)</div>
+    <div class="hero num" style="font-size:26px;margin-top:8px">{{ verificacao.verified }}<span style="font-size:14px;color:var(--mudo)"> / {{ verificacao.total }}</span></div>
+    <div class="sub">EVIDÊNCIA COMPLETA NA TABELA verification<br>VERIFICAÇÃO DECAI — NÃO É BOOLEANO</div>
+  </div>
+
+  <div class="card">
+    <div class="k">Desperdício (mesmo recurso, mesmo byte)</div>
+    <div class="hero num" style="font-size:26px;margin-top:8px">$ {{ desperdicio.gasto_repetido_total_minor|usd }}</div>
+    <div class="sub">{{ desperdicio.recursos_repetidos|length }} RECURSO(S) COM REPETIÇÃO · DETALHE NA ABA 02 TCA</div>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <span class="k">Gasto liquidado por dia (todas as redes, unidade mínima)</span>
+      <span class="mono" style="font-size:10px;color:var(--sec)">{{ serie_diaria|length }} DIA(S) COM MOVIMENTO</span>
+    </div>
+    {% if svg_diaria %}
+    <svg width="100%" height="86" viewBox="0 0 1000 80" preserveAspectRatio="none" style="display:block;margin-top:8px">
+      <line x1="0" y1="74" x2="1000" y2="74" stroke="rgba(255,255,255,0.09)"/>
+      <path d="{{ svg_diaria }}" fill="none" stroke="#28A87F" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <div style="display:flex;justify-content:space-between" class="sub">
+      <span>{{ serie_diaria[0][0] }}</span><span>{{ serie_diaria[-1][0] }}</span>
+    </div>
+    {% else %}<div class="sub">SEM MOVIMENTO NO LIVRO AINDA</div>{% endif %}
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="display:flex;align-items:center;gap:9px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <span class="k" style="color:var(--sec)">Registro de compras</span>
+      <span class="pill">{{ linhas|length }} · APPEND-ONLY</span>
+      <span class="sub" style="margin:0">CLIQUE NUMA LINHA → CADEIA DE EVENTOS</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>Quando (UTC)</th><th>Recurso</th><th>Agente</th><th>Tarefa</th><th>Trilho · rede</th><th class="r">Cotado</th><th class="r">Liquidado</th><th class="r">Estado</th></tr>
+      {% for ln in linhas %}
+      <tr class="clicavel" onclick="abrirCompra('{{ ln.rid }}')">
+        <td class="mono" style="color:var(--sec)">{{ ln.ts_utc.strftime('%d/%m %H:%M') }}</td>
+        <td class="mono">{{ ln.dominio or ln.recurso_hash[:12] ~ '…' }}{% if ln.repetido %} <span class="pill aviso">BYTE REPETIDO</span>{% endif %}</td>
+        <td style="color:var(--sec)">{{ ln.agente or '—' }}</td>
+        <td style="color:var(--sec)">{{ ln.tarefa or '—' }}</td>
+        <td class="mono" style="color:var(--sec)">{{ ln.rail }}{% if ln.network == 'eip155:84532' %} <span class="pill mudo">TESTNET</span>{% elif ln.network == 'eip155:8453' %} <span class="pill ok">MAINNET</span>{% endif %}</td>
+        <td class="r num">{{ ln.amount_minor|usd if ln.amount_minor is not none else '—' }}</td>
+        <td class="r num">{{ ln.settled_minor|usd if ln.settled_minor else '—' }}</td>
+        <td class="r"><span class="pill {{ estado_classe.get(ln.estado, 'mudo') }}">{{ ln.estado|upper }}</span></td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
