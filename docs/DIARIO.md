@@ -27,6 +27,22 @@ Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro
 
 ---
 
+## Fase 12D · NOME + LOGO propostos: **Razão** (aguarda martelo do Beny)
+
+Feedback do Beny no site: os números do censo no topo não prendem — viraram a faixa de
+prova "we eat with our own fork" na seção de confiança; o topo agora é VALOR (see it /
+catch it / prove it / close it). E ele pediu nome + logo. Proposta aplicada no preview:
+**Razão** — *livro-razão* é literalmente o general ledger em PT, e *razão* = evidência
+sobre promessa; o rodapé do site conta o duplo sentido. Vetados por colisão real:
+Lastro (proptech BR, Series A $15M), Apura (cybersec BR), Lavra (lavra.dev, AI dev).
+`razao` LIVRE no PyPI; sem colisão tech achada. Alternativas vivas se ele não gostar:
+rubrica, escriba, batimento, apuro. **Logo**: as três pontas (request/autorização/
+liquidação) convergindo no ponto verde único — a reconciliação como marca
+(`site/assets/logo.svg`). O CÓDIGO continua `mesa` até o martelo; o rodapé do site diz
+isso com todas as letras.
+
+---
+
 ## Fase 12C ✅ SITE ≠ APP (correção do Beny, 23/08 — GATE 12c VERDE)
 
 **"São 2 coisas distintas"** — e agora são: (1) o **APP operável de ponta a ponta**:

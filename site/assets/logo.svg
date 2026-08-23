@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- razão: as três pontas (request, autorização, liquidação) convergindo na verdade única -->
+  <g stroke="#626A76" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <path d="M9 13 L24 32"/>
+    <path d="M24 9 L24 32"/>
+    <path d="M39 13 L24 32"/>
+  </g>
+  <circle cx="9"  cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+  <circle cx="24" cy="6.5"  r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+  <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+  <circle cx="24" cy="37"   r="5.4" fill="#28A87F"/>
+</svg>

@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mesa</title>
-<meta name="description" content="The ledger and audit desk for machine payments — every agent purchase becomes a verifiable receipt in an append-only book that proves itself.">
+<title>Razão</title>
+<meta name="description" content="Razão is the book of record for machine payments — every agent purchase becomes a verifiable receipt in an append-only ledger that proves itself.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
   /* mundo único e deliberado: o terminal escuro do produto — sem tema claro */
@@ -33,8 +34,9 @@
   .top { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px);
          background: rgba(11,13,15,0.82); border-bottom: 1px solid var(--borda); }
   .top .wrap { display: flex; align-items: center; gap: 20px; height: 58px; }
-  .logo { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace;
-          font-weight: 600; font-size: 14px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink); }
+  .logo { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 20px;
+          letter-spacing: -0.02em; color: var(--ink); }
+  .logo .til { color: var(--verde); }
   .tag { padding: 3px 9px; border-radius: 999px; border: 1px solid var(--borda);
          font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mudo);
          letter-spacing: .08em; text-transform: uppercase; }
@@ -138,10 +140,18 @@
 
 <div class="top"><div class="wrap">
   <span class="logo">
-    <svg width="19" height="19" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M1 17V1h16" stroke="#626A76" stroke-width="1.4"/><path d="M4 13l3.4-5.2 2.6 3.1 3.6-6.4" stroke="#28A87F" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Mesa
+    <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true">
+      <g stroke="#626A76" stroke-width="2.6" fill="none" stroke-linecap="round">
+        <path d="M9 13 L24 32"/><path d="M24 9 L24 32"/><path d="M39 13 L24 32"/>
+      </g>
+      <circle cx="9" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+      <circle cx="24" cy="6.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+      <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
+      <circle cx="24" cy="37" r="5.4" fill="#28A87F"/>
+    </svg>
+    <span>raz<span class="til">ã</span>o</span>
   </span>
-  <span class="tag">working name · pre-release</span>
+  <span class="tag">pre-release</span>
   <nav>
     <a href="#recibo">Receipts</a>
     <a href="#telas">Screens</a>
@@ -152,10 +162,10 @@
 </div></div>
 
 <header class="hero"><div class="hero-glow"></div><div class="wrap">
-  <span class="k verde">the ledger for machine payments · x402-first, rail-agnostic</span>
+  <span class="k verde">razão · the book of record for machine payments · x402-first, rail-agnostic</span>
   <h1>Agents are already buying things. <span class="g">Nobody keeps the books.</span></h1>
   <p class="sub">
-    Mesa sits on the buyer's side and turns every machine purchase — x402 today; card,
+    Razão sits on the buyer's side and turns every machine purchase — x402 today; card,
     invoice and more through the same schema — into a verifiable receipt inside an
     append-only ledger that can prove its own integrity to a third party. What you asked
     for, what you signed, what the chain actually settled: three legs, reconciled, with
@@ -174,11 +184,19 @@
     <div class="fita-corpo" id="fita"></div>
   </div>
 
-  <div class="numeros">
-    <div class="num"><b>15 / 15</b><span>live x402 sellers answered and took payment when we bought from every one of them</span></div>
-    <div class="num"><b>13 / 15</b><span>actually delivered — the two failures never collected: the signed authorization expired unused</span></div>
-    <div class="num"><b>$ 0.272</b><span>total settled for census round 1 — every receipt linked on-chain, methodology published</span></div>
-    <div class="num"><b>0 / 15</b><span>publish any proof that their payout address belongs to their domain — the gap our payTo-binding proposal closes</span></div>
+  <div class="cards3" style="margin-top:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+    <div class="c"><span class="k verde">see it</span>
+      <h3>Know what your agents bought</h3>
+      <p>By agent, by team, by task — with the receipt attached. Not token spend: actual purchases from third parties, across rails and wallets.</p></div>
+    <div class="c"><span class="k verde">catch it</span>
+      <h3>Every difference has a name</h3>
+      <p>Paid but never delivered. Delivered but never charged. A replayed authorization. A settlement nobody logged. Named verdicts — never silent gaps.</p></div>
+    <div class="c"><span class="k verde">prove it</span>
+      <h3>Hand your books to a skeptic</h3>
+      <p>Sealed periods, hash-chained rows, two independent timestamps. A ~100-line script verifies everything without trusting you — or us.</p></div>
+    <div class="c"><span class="k verde">close it</span>
+      <h3>Month-end that actually ends</h3>
+      <p>One consolidated invoice per counterparty, budgets that sum exactly at every height of the org — and in Brazil, the tax file generated straight from the book.</p></div>
   </div>
 </div></header>
 
@@ -187,7 +205,7 @@
   <h2>A purchase is only real when three records agree.</h2>
   <p class="lede">
     Every payment leaves three traces: the request your agent made, the authorization it
-    signed (EIP-3009), and the settlement the chain executed. Mesa joins them with the
+    signed (EIP-3009), and the settlement the chain executed. Razão joins them with the
     strongest key available — the <span class="mono">(authorizer, nonce)</span> pair that is
     indexed both in the signed message and in the on-chain event — and every mismatch
     becomes a named verdict, never a silent gap.
@@ -242,17 +260,17 @@
   <span class="k">why an auditor you can trust</span>
   <h2>Structurally incapable — not merely well-behaved.</h2>
   <p class="lede">
-    An auditor that holds your money is not an auditor. Mesa's guarantees are architectural:
+    An auditor that holds your money is not an auditor. Razão's guarantees are architectural:
     things it <i>cannot</i> do, not things it promises not to.
   </p>
   <div class="cards3">
     <div class="c"><span class="k verde">no hands on funds</span>
       <h3>It can't touch your money</h3>
-      <p>No custody, no keys required by the ledger, no balance, no token. Enforcement lives in the buyer's SDK and on-chain caps; mesa observes and produces evidence.</p>
+      <p>No custody, no keys required by the ledger, no balance, no token. Enforcement lives in the buyer's SDK and on-chain caps; razão observes and produces evidence.</p>
       <span class="mono mini">READ-ONLY DB SESSION IN THE APP — AN INSERT LITERALLY FAILS</span></div>
     <div class="c"><span class="k verde">never in the path</span>
       <h3>It can't block a payment</h3>
-      <p>Mesa is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline: recipient binding, canonical asset, decimals read from the contract.</p>
+      <p>Razão is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline: recipient binding, canonical asset, decimals read from the contract.</p>
       <span class="mono mini">SERVER-SIDE VETO = CUSTODY-LIKE POWER. WE REFUSE THE POWER.</span></div>
     <div class="c"><span class="k verde">tamper-evident</span>
       <h3>It can't rewrite the past</h3>
@@ -271,6 +289,21 @@
       <h3>Built in 12 gated phases</h3>
       <p>Every phase ended with a falsifiable gate as a test: the book closing over deliberately dirty data, a third party verifying a sealed period, a toy seller changing terms for a passport holder. 111 tests keep the gates green.</p></div>
   </div>
+
+  <div class="c" style="margin-top:14px">
+    <span class="k">we eat with our own fork</span>
+    <p style="margin-top:10px">
+      Before writing this page we <b style="color:var(--ink)">bought from every live x402
+      seller we could find</b> and put the purchases through the book — receipts on-chain,
+      methodology published. That census is where the numbers on this page come from,
+      including the uncomfortable one: <b style="color:var(--ink)">not one seller today
+      proves that its payout address belongs to its domain.</b> Our payTo-binding proposal
+      exists because we paid to find that out.
+    </p>
+    <span class="mono" style="display:block;margin-top:10px;font-size:11px;color:var(--mudo)">
+      CENSUS ROUND 1 · 15 SELLERS · 13 DELIVERED · EVERY RECEIPT LINKED · THE 2 FAILURES NEVER CHARGED — THE SIGNED AUTHORIZATION EXPIRED UNUSED
+    </span>
+  </div>
 </div></section>
 
 <section id="fiscal"><div class="wrap">
@@ -279,7 +312,7 @@
   <div class="fiscal">
     <p style="margin:0;color:var(--sec);max-width:70ch">
       A DeCripto (IN RFB 2.291/2025) estreou em 2026 — e quem compra com cripto em
-      autocustódia responde por ela. O mesa gera o arquivo da competência direto do livro:
+      autocustódia responde por ela. O razão gera o arquivo da competência direto do livro:
       PTAX da data certa (regra de São Paulo, point-in-time), registro 0450 por operação e a
       alternativa do art. 9º — só o hash da transação, que o livro já guarda com recibo — no
       registro 0980. Validado contra o leiaute oficial, com um validador que reprova um único
@@ -315,9 +348,9 @@ uv run python scripts/fase1/buyer.py 10           # terminal 2</span>
 </div></section>
 
 <footer><div class="wrap">
-  <span>MESA — WORKING NAME · PRE-RELEASE · BUILT IN 12 GATED PHASES · 2026</span>
+  <span>RAZÃO · PRE-RELEASE · 2026 — <i>razão</i> IS PORTUGUESE FOR BOTH THE GENERAL LEDGER (<i>livro-razão</i>) AND "REASON". WE MEAN BOTH.</span>
   <span>NEVER CUSTODY · NEVER IN THE PAYMENT PATH · APPEND-ONLY BY CONSTRUCTION</span>
-  <span>ALL NUMBERS ON THIS PAGE WERE MEASURED, WITH RECEIPTS</span>
+  <span>ALL NUMBERS ON THIS PAGE WERE MEASURED, WITH RECEIPTS · CODE STILL SHIPS AS <span style="color:var(--sec)">mesa</span> UNTIL THE RENAME LANDS</span>
 </div></footer>
 
 <script>
