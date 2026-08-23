@@ -17,7 +17,30 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 8 ✅ FECHADA (GATE 8 VERDE 21/08) — próxima: Fase 9 (relatório público do censo)
+## ⏭️ AGORA: Fase 9(a) ✅ PACOTE PRONTO (21/08) — o que falta é SEU: publicar
+
+**O relatório público do censo existe e está pronto para postar** — em inglês
+(o público é o ecossistema x402), gerado 100% das fontes (nenhum número digitado):
+
+- `relatorio/x402-buyer-census-round1.md` — os 4 números com IC, a tabela por
+  fonte com o recibo Basescan de CADA compra, 6 achados (o mais forte: as 2
+  falhas nunca cobraram — a expiração do EIP-3009 protegeu o dinheiro; e 0/15
+  provam o vínculo payTo, o gancho da nossa proposta de extensão), metodologia
+  aberta e os limites ditos (n=15, auditoria-não-ranking).
+- `relatorio/post.md` — a versão de 8 linhas para o X (falta só o link).
+- `relatorio/dados/` — os 3 JSONs brutos para replicação.
+
+**Passos seus (GATE 9b):** 1) postar a issue de conformance (notes/) PRIMEIRO;
+2) subir o relatório como gist/repo público; 3) o post curto no X com o link;
+4) esperar a menção orgânica (o gate dá 2 semanas). Regenerar depois de qualquer
+mudança: `uv run python scripts/fase9/relatorio_build.py`.
+
+**Próxima fase de código: Fase 10 (o passaporte do pagador single-buyer, D-08)** —
+atestação assinada sobre o nosso próprio livro, conferível contra a chain.
+
+---
+
+## Fase 8 ✅ FECHADA (GATE 8 VERDE 21/08)
 
 **As telas saíram do papel — com dado 100% real.** Uma página HTML autocontida
 (`scripts/fase8/mesa-telas.html`, gerada do livro por `telas_build.py`; abrir no

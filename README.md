@@ -62,6 +62,9 @@ uv run python scripts/fase2/mcp_once.py             # terminal 2: 1 tool call pa
 uv run python scripts/fase8/telas_build.py           # -> scripts/fase8/mesa-telas.html
 uv run python scripts/fase8/aprovacao_demo.py        # demo D-14 (interativa, testnet)
 
+# Fase 9 — relatório público do censo (pacote ✅ 21/08; publicar = Beny)
+uv run python scripts/fase9/relatorio_build.py       # -> relatorio/*.md + dados/
+
 # A qualquer momento: varrer a chain e reconciliar
 uv run python -m mesa.collector                      # testnet (vendedor)
 uv run python -m mesa.collector --pagador            # mainnet (censo)

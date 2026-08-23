@@ -1,0 +1,553 @@
+{
+  "gerado_utc": "2026-08-21T18:45:58.246254+00:00",
+  "n_pontos": 15,
+  "rotulos_e_premissas": [
+    "valor = entrega estruturalmente válida (HTTP 200 + corpo); conteúdo NÃO avaliado — proxy rotulado (D-12: LLM não tem replay determinístico)",
+    "premissa de independência: o desfecho observado de cada fonte vale para o contrafactual (o vendedor não sabia qual política usávamos)",
+    "vínculo payTo⇔domínio medido em 21/08 PÓS-rodada; premissa: estável no dia",
+    "walk-forward ENTRE rodadas exige rodada 2 — aqui o eixo temporal é a ordem real das decisões DENTRO da rodada 1",
+    "IC: Wilson (aproximado, método nomeado); com n pequeno o intervalo é largo e a leitura honesta é 'sem evidência'"
+  ],
+  "ic_metodo": "Wilson 95%",
+  "resultados_negativos": [
+    "verified-only: a política que PARECE a mais segura compra ZERO hoje (0/15 vendedores publicam vínculo) — segurança que custa 100% das 13 entregas disponíveis. Ela só fica viável quando a extensão payTo-binding tiver adoção (a proposta está em notes/).",
+    "premium ('caro = confiável'): taxa de entrega 50% contra 87% do baseline — a compra mais cara da rodada (US$ 0,50) foi exatamente uma das que falhou. Com n=2 o IC é [9%–91%]: a leitura honesta é 'sem evidência a favor, anedota contra'."
+  ],
+  "politicas": [
+    {
+      "politica": "real-rodada1",
+      "n_compras": 15,
+      "gasto_autorizado_minor": 774000,
+      "gasto_liquidado_minor": 272000,
+      "entregas": 13,
+      "compras_que_falharam": 2,
+      "taxa_entrega": 0.8666666666666667,
+      "ic_wilson_95": [
+        0.6211750079348376,
+        0.9626395301086407
+      ],
+      "custo_por_entrega_minor": 20923,
+      "entregas_perdidas": 0,
+      "detalhe": [
+        {
+          "ordem": 0,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 1,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 2,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 3,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 4,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 5,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 6,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 7,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 8,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": false
+        },
+        {
+          "ordem": 9,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 10,
+          "comprou": true,
+          "amount_minor": 20000,
+          "entregue": true
+        },
+        {
+          "ordem": 11,
+          "comprou": true,
+          "amount_minor": 20000,
+          "entregue": true
+        },
+        {
+          "ordem": 12,
+          "comprou": true,
+          "amount_minor": 20000,
+          "entregue": true
+        },
+        {
+          "ordem": 13,
+          "comprou": true,
+          "amount_minor": 500000,
+          "entregue": false
+        },
+        {
+          "ordem": 14,
+          "comprou": true,
+          "amount_minor": 200000,
+          "entregue": true
+        }
+      ]
+    },
+    {
+      "politica": "micro",
+      "n_compras": 10,
+      "gasto_autorizado_minor": 14000,
+      "gasto_liquidado_minor": 12000,
+      "entregas": 9,
+      "compras_que_falharam": 1,
+      "taxa_entrega": 0.9,
+      "ic_wilson_95": [
+        0.5958436145024278,
+        0.9821242504842788
+      ],
+      "custo_por_entrega_minor": 1333,
+      "entregas_perdidas": 4,
+      "detalhe": [
+        {
+          "ordem": 0,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 1,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 2,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 3,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 4,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 5,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 6,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 7,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 8,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": false
+        },
+        {
+          "ordem": 9,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 10,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 11,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 12,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 13,
+          "comprou": false,
+          "amount_minor": 500000,
+          "entregue": null
+        },
+        {
+          "ordem": 14,
+          "comprou": false,
+          "amount_minor": 200000,
+          "entregue": null
+        }
+      ]
+    },
+    {
+      "politica": "verified-only",
+      "n_compras": 0,
+      "gasto_autorizado_minor": 0,
+      "gasto_liquidado_minor": 0,
+      "entregas": 0,
+      "compras_que_falharam": 0,
+      "taxa_entrega": null,
+      "ic_wilson_95": [
+        0.0,
+        1.0
+      ],
+      "custo_por_entrega_minor": null,
+      "entregas_perdidas": 13,
+      "detalhe": [
+        {
+          "ordem": 0,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 1,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 2,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 3,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 4,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 5,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 6,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 7,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 8,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 9,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 10,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 11,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 12,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 13,
+          "comprou": false,
+          "amount_minor": 500000,
+          "entregue": null
+        },
+        {
+          "ordem": 14,
+          "comprou": false,
+          "amount_minor": 200000,
+          "entregue": null
+        }
+      ]
+    },
+    {
+      "politica": "premium",
+      "n_compras": 2,
+      "gasto_autorizado_minor": 700000,
+      "gasto_liquidado_minor": 200000,
+      "entregas": 1,
+      "compras_que_falharam": 1,
+      "taxa_entrega": 0.5,
+      "ic_wilson_95": [
+        0.09452865480086614,
+        0.9054713451991339
+      ],
+      "custo_por_entrega_minor": 200000,
+      "entregas_perdidas": 12,
+      "detalhe": [
+        {
+          "ordem": 0,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 1,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 2,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 3,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 4,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 5,
+          "comprou": false,
+          "amount_minor": 1000,
+          "entregue": null
+        },
+        {
+          "ordem": 6,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 7,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 8,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 9,
+          "comprou": false,
+          "amount_minor": 2000,
+          "entregue": null
+        },
+        {
+          "ordem": 10,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 11,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 12,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 13,
+          "comprou": true,
+          "amount_minor": 500000,
+          "entregue": false
+        },
+        {
+          "ordem": 14,
+          "comprou": true,
+          "amount_minor": 200000,
+          "entregue": true
+        }
+      ]
+    },
+    {
+      "politica": "orcamento-5c",
+      "n_compras": 11,
+      "gasto_autorizado_minor": 34000,
+      "gasto_liquidado_minor": 32000,
+      "entregas": 10,
+      "compras_que_falharam": 1,
+      "taxa_entrega": 0.9090909090909091,
+      "ic_wilson_95": [
+        0.6226353745137962,
+        0.9837682477371741
+      ],
+      "custo_por_entrega_minor": 3200,
+      "entregas_perdidas": 3,
+      "detalhe": [
+        {
+          "ordem": 0,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 1,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 2,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 3,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 4,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 5,
+          "comprou": true,
+          "amount_minor": 1000,
+          "entregue": true
+        },
+        {
+          "ordem": 6,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 7,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 8,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": false
+        },
+        {
+          "ordem": 9,
+          "comprou": true,
+          "amount_minor": 2000,
+          "entregue": true
+        },
+        {
+          "ordem": 10,
+          "comprou": true,
+          "amount_minor": 20000,
+          "entregue": true
+        },
+        {
+          "ordem": 11,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 12,
+          "comprou": false,
+          "amount_minor": 20000,
+          "entregue": null
+        },
+        {
+          "ordem": 13,
+          "comprou": false,
+          "amount_minor": 500000,
+          "entregue": null
+        },
+        {
+          "ordem": 14,
+          "comprou": false,
+          "amount_minor": 200000,
+          "entregue": null
+        }
+      ]
+    }
+  ]
+}
