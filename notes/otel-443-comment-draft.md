@@ -1,8 +1,11 @@
 # Rascunho — comentário no open-telemetry semantic-conventions-genai PR #443 (D-28)
 
-*Ação da semana (antes do FDS 1 terminar). Postar da SUA conta do GitHub. Ajuste o tom se quiser;
-o ponto técnico é um só: custo de COMPRA precisa de referência de settlement, senão a convenção
-nasce cobrindo só custo de operação.*
+*SUBSTITUÍDO em 21/08 à noite pela versão certificada em `notes/publicar/c1-otel-comment.md`.
+Motivo: a "citação" de escopo ("all operation costs, not limited to token-derived expenses")
+NÃO existe no PR (nem corpo, nem diff, nem comentários — era paráfrase do D-28 que virou
+aspas). A versão nova ancora no que o PR diz de verdade (enum `provider`/`local`, rebase de
+22/08) e o ponto técnico continua o mesmo: custo de COMPRA precisa de referência de
+settlement.*
 
 ---
 

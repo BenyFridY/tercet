@@ -42,9 +42,9 @@ an `MCPServer` tool handler and read `ctx.request_context.meta["x402/payment"]`.
 
 `x402MCPClient` (via `convert_mcp_result` + `extract_payment_required_from_result`)
 expects the mcp 1.x wire shape: `content` items as dicts (`isinstance(first_item, dict)`),
-and `isError` / `_meta` / `structuredContent` as attributes. mcp 2.x returns pydantic
-models with snake_case fields (`is_error`, `meta`, `structured_content`) and typed content
-blocks. Result: a **fully spec-conformant** payment-required response (isError=true +
+and `_meta` / `structuredContent` under their 1.x attribute names (`is_error` already has
+a dual-spelling fallback). mcp 2.x returns pydantic models with snake_case fields
+(`meta`, `structured_content`) and typed content blocks. Result: a **fully spec-conformant** payment-required response (isError=true +
 structuredContent + JSON text) is classified as a free-tool result, `payment_made=False`,
 and the client never creates a `PaymentPayload` — the normative retry flow never happens.
 
