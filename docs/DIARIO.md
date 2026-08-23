@@ -17,11 +17,44 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: próxima fase de código é a 11 (o fiscal) — publicações seguem adiadas p/ o fim
+## ⏭️ AGORA: próxima fase é a 12 (lançamento OSS — a última) — publicações adiadas p/ o fim
 
 **Decisão do Beny (23/08, reafirmada): foco no produto; publicar tudo JUNTO no fim.**
 O pacote certificado segue congelado em `notes/publicar/` + branch em `C:\dev\x402-fork`
-(re-verificação no dia: `docs/passo-a-passo-publicacao.md`).
+(re-verificação no dia: `docs/passo-a-passo-publicacao.md`). A Fase 12 é onde as
+publicações naturalmente se encontram com o lançamento.
+
+---
+
+## Fase 11 ✅ FECHADA (GATE 11 VERDE 23/08)
+
+**O motor fiscal existe: o livro virou a DeCripto pronta.** A pesquisa do dia foi na
+fonte primária — o manual OFICIAL do leiaute (v1.01, Ago/2026, ADE Copes nº 02/2025)
+baixado de gov.br e lido página a página; a **primeira DeCripto da história vence
+31/08/2026**, e nós construímos o motor na semana da estreia (doc: `docs/fase11.md`;
+código: `src/mesa/decripto.py` + `ptax.py`; saída: `fiscal/decripto/2026-08/`).
+
+- **O comprador x402 tem endereço certo no leiaute**: cap. 6 (PF sem prestador —
+  autocustódia), **Registro 0450** (operação IV, TipoTransferenciaSaida 4 =
+  "aquisição de bens ou serviços", CARF604). E o achado da fase: o **Registro 0980**
+  aceita informar só **hash da transação + explorador** para negócio executado
+  atomicamente por contrato inteligente — o pagamento x402 é o caso literal, e o
+  livro tem cada hash com recibo. A frase do D-29 virou leiaute oficial.
+- **Gerado do livro real, nada digitado**: 13 operações liquidadas na Base mainnet
+  em ago/2026 → **R$ 1,42** pelo PTAX venda de 21/08 (R$ 5,1625), point-in-time em
+  `fx_ptax` (migration 0004), com a regra da data de SP (22h SP = dia seguinte UTC)
+  e retrocesso em dia sem cotação — testado com a BCB de verdade.
+- **O leiaute é lei**: schema codificado do manual (campos, tipos, tamanhos,
+  decimais, tabelas internas); validador puro REPROVA um campo fora do leiaute
+  nomeando o campo; o gate adultera o arquivo e exige o VERMELHO; conferência
+  independente refaz a competência com o fuso convertido pelo Postgres.
+- **Honestidade em campo próprio**: veredito "ABAIXO DO LIMIAR de R$ 35 mil —
+  demonstração rotulada"; USDC→USD 1:1 declarado; contraparte TipoNI 8 + domínio
+  (o que o livro sabe); taxas vazias (gas é do facilitator); testnet excluída na query.
+- **Bônus NFS-e**: DPS sintética (rotulada, tpAmb=2) gerada com os bindings oficiais
+  da nfelib e validada contra o **XSD oficial** — a ponte recibo→NFS-e demonstrada.
+- Pendências com gatilho: parecer art. 9º (antes de vender a PSAV) · resposta à
+  consulta do BCB (não abriu; watchlist). 17 testes novos; suíte 102 verde; custo zero.
 
 ---
 

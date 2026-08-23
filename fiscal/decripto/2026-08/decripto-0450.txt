@@ -1,0 +1,13 @@
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||api.onesource.io
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||x402.ottoai.services
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||randomfactsx402.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||coinflip402.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||memegeneratorx402.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,001000|4|8|BR||||x402lifeadvice.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,002000|4|8|BR||||jokes-endpoint.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,002000|4|8|BR||||riddlex402.vercel.app
+0450|21082026|IV|4|0,01||USDC|0,002000|4|8|BR||||api.printmoneylab.com
+0450|21082026|IV|4|0,10||USDC|0,020000|4|8|BR||||conc-exe.xyz
+0450|21082026|IV|4|0,10||USDC|0,020000|4|8|BR||||screenshots.underscoredone.com
+0450|21082026|IV|4|0,10||USDC|0,020000|4|8|BR||||fresh-feeds.foomworks.workers.dev
+0450|21082026|IV|4|1,03||USDC|0,200000|4|8|BR||||api.arkm.com
