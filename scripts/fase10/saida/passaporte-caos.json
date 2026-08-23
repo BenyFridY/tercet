@@ -1,0 +1,249 @@
+{
+  "formato": "mesa-passaporte/v0",
+  "payload": {
+    "sujeito": {
+      "payer_ref": "0xDc25615548347b8C846937cB01Bc4E3952dfA985",
+      "rede": "eip155:84532",
+      "rail": "x402"
+    },
+    "janela": {
+      "de": "2026-08-20T14:15:34.434662+00:00",
+      "ate": "2026-08-23T17:52:43.549883+00:00"
+    },
+    "metricas": {
+      "autorizacoes": 33,
+      "liquidadas": 29,
+      "nonces_reusados": 1,
+      "entregas_sem_pagar": 0,
+      "cobrancas_pendentes": 0,
+      "orfaos_chain_inexplicados": 5
+    },
+    "evidencia": [
+      {
+        "tx": "0x7d973fcc4b3e3ac14d12a0393eddad21555ba84d22890a5572819c40a30e7fc9",
+        "nonce": "0x26f385dd97314f1e8cef21ae326fc93efa0730c2970929c38620f5f18b039531",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x38be2f88e11f07fa9c16ad6848067bb219d40ba78c8865cdf15499adcd3f9a79",
+        "nonce": "0x7139b485b5e84f357558c25c7c363dd7d2db0c62184127fd7a08928fb1293cc7",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x558724ac7876d033bac0d819bdd5cdccaf34eca31c2ab0cb2b8e0c91262edbd8",
+        "nonce": "0x3d748ae08921deea37d9df600f1913c21f4366e68ccf2124b30777cbf34862d0",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xfdeb7962b20b42db16bd1028b9d7e89f4513d3492a05e7761e9605c0af0a3f3b",
+        "nonce": "0xb444bcb7944d2a484c601c70c152e2094726e93afee7ac67000e5b15ea90c6f1",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x27d50b8d3145dcafdd97ea68d9d7daa8f630f42334c51317012d04d601d77b8b",
+        "nonce": "0xec9a5c8e59ee7656df70d3cec7ead22b5564a26fa32762346f5d2851417eccf9",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xea037f337747f353316b9374256d178deaeb302a087418c28bd5e1e4d90c93b1",
+        "nonce": "0x072eba7cdcdb998d931ba9f17fecb1f26a2204f01f019b4061456d155e1a8814",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x109806f99afe6bb36caccea1529cec88ce99b870ac85c29338064f7cae3d8d44",
+        "nonce": "0x49b0ddcb3ed0a1999f9be4fa3da4c91279ae7d5ba24a02d3273ed367a5e82640",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x1525f415e9bc6ba4e388eaf430b93074cf2adcaebbb3b859263b1c14c26d9b36",
+        "nonce": "0xa55a26f7a953ce09b65b453f3e737ad94036689e91bbc2749120c2254a76fe45",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x1dd3f55b1b131efc3118ad459079b87e47f9c5b4090ca164f4d0efcc8298fffc",
+        "nonce": "0xfd61421a5e46ec7de1b9a7bbf7f8893890f786bce539395e6cf4390b0402cd50",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x5df5021f5acacc2d93182c8dbf8e2d12934e453f7fbfc4694817b7e46198f289",
+        "nonce": "0xdcd0927e78ad19b0de45ed8a83e1b98504a80ae814a113d2828a0fe5d67e303c",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xd4c832d382f71134448bc3bc0775f6aa40ff158a00ff1a13dbf3ff8bf57c7475",
+        "nonce": "0x5f49b86df9e7ce4ebdecfc2566618d5f054e781aabff841a54d4b046974cbb34",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x0de0ec4c9d3b6c81d97aa83f8a77cdb80f6d7faddd107fa62d748c1252bfa3ab",
+        "nonce": "0x8e727fefa671f30d27e711b108791c4d5bfc37d0c3dfee9effa75525e01bf960",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x66af195221eaa08813a2fd279af8c742abe27e9af873d573500ffa65295318c6",
+        "nonce": "0x3ea1f7a09bb5c585599db75e3db1108a6dfb5386a6c39cd1bfe66fad953ccd41",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xfb786859f45f9e0da39321f90d8bb5d28609a4e1c98bcb7e541f07262c8d3381",
+        "nonce": "0x92138c585ef05bacc5677181315ad2d85e510d4c3bc26dd702231f8f42121e1d",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xf680537a97ffa1f49f0cfac8c15ccb44d675417e1cb037cd1591396c36385917",
+        "nonce": "0xa4e9a17e6b8af2f2044154ab33c33f470bec07e458bcab9de472a252948263ad",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xd0546722e167278f917eb7f91506fdc627dbc8be65076a6852b176414fe25da2",
+        "nonce": "0x2bd09d5c290dad16893e4b95dfc30de4d58a2c03b96b9c30c6f44008bda1ef24",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x2069e556b564c28a0be0530c10fe6591fee7185409fa699e2d0e562afa2f5e69",
+        "nonce": "0x47f9fa9928a929c3caf711b4b895751dc855110e34ded02aa6f26d15187b3b37",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xa8d1ab5006d81ddbfa798c718b63715e8a77c6c0e255fb2a532338d959d9859e",
+        "nonce": "0x75d059ac29d2c2128a0ea5e4369657fedc4771dc773523c99f13f1f9acf4c68e",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xd087c68d258866b0eb52a52c7f83f62264f96619c7ea23e9efb2e9df6d4eb5ef",
+        "nonce": "0x27f47883eb09b0d281f922e2929c3d0b3e6039ecd9331e4b174020a9f2df9340",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x1c0f23cfe2093b1c146241d9e9184a43c9d1c5e129dad553f7447922ecdceefd",
+        "nonce": "0x3f9db6793f0575fbba65e4a89ba3e9a11f5593451a4fc4183fa6b0f27a711633",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x329652da95aca382b62d6b638ea49ef1d22e8d49eb77c33c00e0bdec5924ea37",
+        "nonce": "0xcf9f9c5c67c62156712ac02f9e6c82708ece3da9f7abd3d79705ef8d7e8e3fbb",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xe35d95153aef7b716f3778d98e58b46ac8830796fe6fc8e70a41045906c71de7",
+        "nonce": "0x88c32625043ff9c914a65d525eebce12dcfe43dbe01b8e54593dc52a2424b276",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x9ce50dc1c6a69f2136e2d73c4c290883d11179a30c16c0bfef3fb620732d33f9",
+        "nonce": "0x79b81d11c68908151928d25a220f597f051de575b9a86c4483c53fd659f9a329",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x2cb724e71ff036c98444058c128e78b8c3cc66cc69630ea0bd4f1d914b4f8db2",
+        "nonce": "0xa94a08f508dd9aa9e52bde28c81c137aefd2c54cdf468f849357fc3c006a5fbd",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x7dbe91bb3322934da502b4016e807d2946589a5cf5881cbbb4e46cd589341929",
+        "nonce": "0x0f63d8b94f8a53c4d12c5df1cb39a58f0e76d9d2685a4d8bc2fba462ab42894e",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x7042a234fecc88b4f605d5b4c072ae8652de85a76255ccad1462264e34ca8fcc",
+        "nonce": "0xa3448457b57197f57757c23268146856e0fa83748c88130290be19e20472c2a3",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x3a79d140283f1dd6db1971deaca9f711c100b78222f9d1733e855fc60c3c5100",
+        "nonce": "0x1a769ab9c9df5dd5a180a764dcca30d2314849d51a595593d5e1645a5eab97ca",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xaae882104e578825167564c5e056f291e919f3435fd49de6e9a711b7d692e87c",
+        "nonce": "0xfc0308e4b7610bfb9bed9d2769df2cc69c95ca07ccdfd702080a6079ff3aec82",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0x8338cead41fa66c0a201bee519b83d1ad79b321c706f2ff523eaea2505e9ac1d",
+        "nonce": "0x51f74ca0ec6bcfd8a50348491b5d2716f9084b4ab7b920a50d7a9a8bdb61e8d5",
+        "amount_minor": 900000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0x637f374eFB45582554A2EC0066188d4Fa95aB2DC"
+      }
+    ],
+    "liquidacoes_sem_par": [
+      "0x525efdb30229c80b538f0b4bde43e76a90107f5f9f3c8572b8d3dc6d267c30ad",
+      "0xdbb23bc4c1bb169a8d0936f5351aefed116f7674db576506b0af01ddd08db1d0",
+      "0x7a86dc7a68ae290ea7ab3d5d981ba1632ed1855b2531256399441dd0875dbbf5",
+      "0xbfac9f7c8ac96a367391d2a4f999bc95f2ea6ebd28faa7a947a88388a80cf795",
+      "0x5a4d99a6ad31f92a5d14906a58545b976fa2f9de16ab49e8226e5b2590b15250"
+    ],
+    "integridade": {
+      "period_close": [
+        {
+          "data": "2026-08-21",
+          "merkle_root": "0xbd7b6f46ad2ea54e388db7b929e6a06b3c9b245d8fddc7f58a326ca886a24d1a"
+        }
+      ]
+    },
+    "ressalvas": [
+      "denominador auto-reportado: autorizacao assinada que nunca liquidou nao deixa rastro na chain",
+      "janela escolhida pelo emissor: campo assinado; o vendedor decide se aceita janela parcial",
+      "completude das liquidadas confere-se no nivel 2: varrer AuthorizationUsed(payer) na chain"
+    ],
+    "emitido_utc": "2026-08-23T17:54:43.335231+00:00"
+  },
+  "assinatura": "0x91d97bf1d5039c77699d0fd95f5bdd9fbe50e6318974d9d32fd55b7e6241276e160f6cf97b0934542f3981963956c813cc62f611312053b4c964772c040f52de1b"
+}

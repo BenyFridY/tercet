@@ -172,15 +172,22 @@ def _casar(cur: psycopg.Cursor[Any], sid: Any, authorizer: str, nonce: str, valu
     return True
 
 
-def main(first_run_lookback: int) -> None:
-    """Modo VENDEDOR (Fase 1, testnet): Transfer(to = payTo) → AuthorizationUsed do mesmo tx."""
+def main(first_run_lookback: int, *, payto: str | None = None,
+         cursor: str | None = None) -> None:
+    """Modo VENDEDOR (Fase 1, testnet): Transfer(to = payTo) → AuthorizationUsed do mesmo tx.
+
+    `payto`/`cursor` (Fase 10): varrer outro destinatário com cursor PRÓPRIO —
+    a recarga da demo paga para a carteira do censo, não para o seller.
+    """
     s = Settings()
+    payto = payto or s.seller_payto
+    cursor = cursor or CURSOR_VENDEDOR
     conn = db.connect()
     db.apply_migrations(conn)
 
     w3 = Web3(Web3.HTTPProvider(s.rpc_url))
     latest = w3.eth.block_number
-    start = _get_cursor(conn, CURSOR_VENDEDOR)
+    start = _get_cursor(conn, cursor)
     if start is None:
         start = latest - first_run_lookback
     usdc = Web3.to_checksum_address(USDC_BASE_SEPOLIA)
@@ -196,7 +203,7 @@ def main(first_run_lookback: int) -> None:
             "address": usdc,
             "fromBlock": frm,
             "toBlock": to,
-            "topics": [transfer_topic, None, _addr_topic(s.seller_payto)],
+            "topics": [transfer_topic, None, _addr_topic(payto)],
         })
         tx_hashes.extend(HexBytes(lg["transactionHash"]) for lg in logs)
         frm = to + 1
@@ -211,7 +218,7 @@ def main(first_run_lookback: int) -> None:
                 if lg["address"].lower() != usdc.lower():
                     continue
                 if lg["topics"][0] == transfer_topic and lg["topics"][2].hex().lower().endswith(
-                    s.seller_payto[2:].lower()
+                    payto[2:].lower()
                 ):
                     value = int.from_bytes(lg["data"], "big")
                 elif lg["topics"][0] == auth_topic:
@@ -227,7 +234,7 @@ def main(first_run_lookback: int) -> None:
             if authorizer and nonce and _casar(cur, sid, authorizer, nonce, value):
                 matched += 1
     conn.commit()
-    _upsert_cursor(conn, CURSOR_VENDEDOR, latest)
+    _upsert_cursor(conn, cursor, latest)
     console.print(f"settlements novos: {inserted} · casados com o livro: {matched} "
                   f"· cursor -> {latest}")
 

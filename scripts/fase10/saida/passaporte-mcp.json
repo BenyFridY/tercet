@@ -1,0 +1,63 @@
+{
+  "formato": "mesa-passaporte/v0",
+  "payload": {
+    "sujeito": {
+      "payer_ref": "0x6C326fCD7284e0eF4082c511a6DC24BAad72E6AB",
+      "rede": "eip155:84532",
+      "rail": "x402"
+    },
+    "janela": {
+      "de": "2026-08-20T21:03:00.415131+00:00",
+      "ate": "2026-08-21T14:36:31.950724+00:00"
+    },
+    "metricas": {
+      "autorizacoes": 3,
+      "liquidadas": 3,
+      "nonces_reusados": 0,
+      "entregas_sem_pagar": 0,
+      "cobrancas_pendentes": 0,
+      "orfaos_chain_inexplicados": 1
+    },
+    "evidencia": [
+      {
+        "tx": "0x78e5b6af11285eece33591ee7fbc65e9994eb318eece805f7fe4e749d31b5b86",
+        "nonce": "0x377dfb544b03f64e1f0ac3ebe343f05852267efb82d8aeb776ff0ea0b1e7f11e",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xb49d53bca6b9f49437135069c57fa5c591d4902fb4a827c348a48961b905c96c",
+        "nonce": "0x01a51deb69eb5fb51782fc71b6ae769437094ebe9e583e93b0e2819c5375a86f",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      },
+      {
+        "tx": "0xe774a6a965d43b6c4b85c7ffd2e241dbf3ef6774af1dab96d2f8cf53492340a7",
+        "nonce": "0x208ca1bdffe084e524365a570c4d146632208fefc2ee9c5d08b63cb0ad2da16b",
+        "amount_minor": 10000,
+        "asset_contract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "pay_to": "0xe79B79edEF18A726c989da6546Ba4fa23a8F12d8"
+      }
+    ],
+    "liquidacoes_sem_par": [
+      "0xd9ee843631a789197f3b3281b99086acb60b9dd4b42c663e8ab60eb82555fc61"
+    ],
+    "integridade": {
+      "period_close": [
+        {
+          "data": "2026-08-21",
+          "merkle_root": "0xbd7b6f46ad2ea54e388db7b929e6a06b3c9b245d8fddc7f58a326ca886a24d1a"
+        }
+      ]
+    },
+    "ressalvas": [
+      "denominador auto-reportado: autorizacao assinada que nunca liquidou nao deixa rastro na chain",
+      "janela escolhida pelo emissor: campo assinado; o vendedor decide se aceita janela parcial",
+      "completude das liquidadas confere-se no nivel 2: varrer AuthorizationUsed(payer) na chain"
+    ],
+    "emitido_utc": "2026-08-23T17:54:44.414997+00:00"
+  },
+  "assinatura": "0x61bb36aa4008faada467b79fa129a5d78a627ec39bbcdaf994cd34dca6baaece249cfd866528a4df73a747b2b5b8dc03a872f603ae87d2db77b93d63d1a370231b"
+}

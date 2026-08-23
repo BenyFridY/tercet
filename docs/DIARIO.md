@@ -4,7 +4,7 @@
 > o que era, o que foi feito, o que ficou provado, onde está o código — e o topo sempre diz
 > **o que vem agora**. A especificação formal das 12 fases está no PLANO
 > (`Documents\x402\PLANO.md`); aqui é a narrativa, para acompanhar o ritmo sem reler tudo.
-> Atualizado a cada tarefa. Última atualização: **21/08/2026**.
+> Atualizado a cada tarefa. Última atualização: **23/08/2026**.
 
 ## O projeto em 30 segundos
 
@@ -17,14 +17,42 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: publicações ADIADAS p/ o fim (decisão 23/08) — próxima: Fase 10 (passaporte)
+## ⏭️ AGORA: próxima fase de código é a 11 (o fiscal) — publicações seguem adiadas p/ o fim
 
-**Decisão do Beny (23/08): publicar tudo JUNTO no fim do programa.** O pacote está
-pronto, certificado afirmação por afirmação (repros executados, citações conferidas
-na fonte, 1 citação falsa achada e corrigida) e congelado em `notes/publicar/` +
-branch do PR em `C:\dev\x402-fork`. Instruções de re-verificação no dia:
-`docs/passo-a-passo-publicacao.md`. Nenhum gate quebra por esperar — só o relógio
-da "menção orgânica" (GATE 9b) começa quando postar.
+**Decisão do Beny (23/08, reafirmada): foco no produto; publicar tudo JUNTO no fim.**
+O pacote certificado segue congelado em `notes/publicar/` + branch em `C:\dev\x402-fork`
+(re-verificação no dia: `docs/passo-a-passo-publicacao.md`).
+
+---
+
+## Fase 10 ✅ FECHADA (GATE 10 VERDE 23/08)
+
+**O passaporte do pagador existe — e é honesto a ponto de reprovar a carteira do
+próprio dono.** O histórico do livro virou um documento portátil e assinado
+(`mesa-passaporte/v0`) que o comprador apresenta e o vendedor valida OFFLINE, sem
+confiar na gente, e muda os termos (doc: `docs/fase10.md`; código:
+`src/mesa/passaporte.py`, vendedor e demo em `scripts/fase10/`, verificador
+independente em `verificador/verificar_passaporte.py`).
+
+- **As 4 alegações do D-08** saem do livro como função pura: taxa de liquidação
+  (dois inteiros, nunca float), nonce nunca reusado, nenhuma entrega consumida sem
+  pagar (validade morta sem liquidar; pendente vivo NÃO é calote), reconciliação
+  fechada (liquidação sem par atribuída ao payer pelo `AuthorizationUsed` on-chain).
+- **Assinado pela chave do PRÓPRIO payer** (RFC 8785 → sha256 → EIP-191): ninguém
+  veste histórico alheio, e a prova de posse fresca (60s, por rota) derrota o ladrão
+  de arquivo. As ressalvas D-12 (denominador auto-reportado, janela visível) viajam
+  DENTRO do payload assinado — removê-las quebra a assinatura.
+- **O ciclo do gate, com dado real:** caos RECUSADO (`nonce-reusado` do replay da
+  Fase 1 + 5 órfãos), mcp RECUSADO (achado da fase: 1 compra de teste da T4 fora da
+  instrumentação apareceu na chain — a carteira que parecia limpa no banco não é
+  limpa contra a chain), **censo ACEITO** (mainnet: 13/15, zero reuso, zero órfão) e
+  comprou o `/lote` de 0,10 na testnet — recusas ANTES de cobrar, compra no livro,
+  coletor casou tudo por (authorizer, nonce).
+- **Verificador independente** (não importa o mesa): nível 1 offline; nível 2 conferiu
+  as 13 liquidações na Base mainnet e a varredura não achou liquidação escondida;
+  métrica adulterada (esconder as 2 não-liquidadas) → VERMELHO.
+- Custo real: **zero** (testnet; ~1,00 USDC de teste). 15 testes puros novos
+  (`tests/test_passaporte.py`); suíte inteira verde.
 
 ---
 
