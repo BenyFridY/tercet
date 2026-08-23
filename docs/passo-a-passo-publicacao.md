@@ -1,4 +1,11 @@
-# Passo a passo — o que falta é publicação (≈ 1h manual, ou "posta" + 5 min)
+# Passo a passo — publicação (ADIADA para o fim do programa, decisão do Beny 23/08)
+
+> **CONGELADO 23/08:** o Beny decidiu publicar TUDO junto no fim do programa.
+> O pacote está pronto e certificado (`notes/publicar/` + branch em
+> `C:\dev\x402-fork`). **Antes de postar, no dia:** re-rodar a certificação
+> (10 min) — `uv run pytest conformance -q` (os 4 xfail têm que continuar
+> xfail), conferir se saiu x402 > 2.20.0 no PyPI e se o main passou de
+> `dd927a2`; se mudou, atualizar os textos antes.
 
 > **ATUALIZAÇÃO 21/08 à noite:** o Beny pediu que o Claude poste da conta dele.
 > O `gh` está logado como **BenyFridY** (pessoal). Os corpos FINAIS, byte a byte,

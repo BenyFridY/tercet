@@ -17,7 +17,18 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ---
 
-## ⏭️ AGORA: Fase 9(a) ✅ PACOTE PRONTO (21/08) — o que falta é SEU: publicar
+## ⏭️ AGORA: publicações ADIADAS p/ o fim (decisão 23/08) — próxima: Fase 10 (passaporte)
+
+**Decisão do Beny (23/08): publicar tudo JUNTO no fim do programa.** O pacote está
+pronto, certificado afirmação por afirmação (repros executados, citações conferidas
+na fonte, 1 citação falsa achada e corrigida) e congelado em `notes/publicar/` +
+branch do PR em `C:\dev\x402-fork`. Instruções de re-verificação no dia:
+`docs/passo-a-passo-publicacao.md`. Nenhum gate quebra por esperar — só o relógio
+da "menção orgânica" (GATE 9b) começa quando postar.
+
+---
+
+## Fase 9(a) ✅ PACOTE PRONTO (21/08)
 
 **O relatório público do censo existe e está pronto para postar** — em inglês
 (o público é o ecossistema x402), gerado 100% das fontes (nenhum número digitado):
