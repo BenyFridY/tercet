@@ -10,307 +10,417 @@
 <style>
   /* mundo único e deliberado: o terminal escuro do produto — sem tema claro */
   :root {
-    --bg: #0B0D0F; --bg2: #101317; --ink: #E8EBEE; --sec: #98A0AB; --mudo: #626A76;
-    --verde: #28A87F; --verde2: #3FC498; --ruim: #D9574A; --aviso: #B8812F;
-    --card: rgba(255,255,255,0.032); --borda: rgba(255,255,255,0.085);
+    --bg: #0A0C0E; --bg2: #101317; --ink: #ECEFF2; --sec: #9AA3AE; --mudo: #5F6772;
+    --verde: #2BB98A; --verde2: #52E0B0; --roxo: #8168DE; --ruim: #E06456; --aviso: #C08A32;
+    --card: rgba(255,255,255,0.03); --borda: rgba(255,255,255,0.09);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; line-height: 1.6;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 28px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 28px);
-  }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; line-height: 1.65; }
   a { color: var(--verde); text-decoration: none; } a:hover { color: var(--verde2); }
   .mono { font-family: 'JetBrains Mono', monospace; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  .grad { background: linear-gradient(92deg, #2BB98A, #52E0B0 55%, #7FD4E8);
+          -webkit-background-clip: text; background-clip: text; color: transparent; }
   .k { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em;
        text-transform: uppercase; color: var(--mudo); }
-  .k.verde { color: var(--verde); }
+  .kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+            border: 1px solid var(--borda); background: rgba(255,255,255,0.03);
+            font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--sec); }
+  .kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--verde);
+                 box-shadow: 0 0 10px rgba(43,185,138,0.9); }
 
-  /* topbar */
-  .top { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px);
-         background: rgba(11,13,15,0.82); border-bottom: 1px solid var(--borda); }
-  .top .wrap { display: flex; align-items: center; gap: 20px; height: 58px; }
-  .logo { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 20px;
+  /* anúncio */
+  .anuncio { background: rgba(43,185,138,0.09); border-bottom: 1px solid rgba(43,185,138,0.22);
+             font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--sec); }
+  .anuncio .wrap { display: flex; align-items: center; justify-content: center; gap: 10px;
+                   padding: 9px 28px; text-align: center; flex-wrap: wrap; }
+  .anuncio b { color: var(--verde2); font-weight: 600; }
+
+  /* nav */
+  .top { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(14px);
+         background: rgba(10,12,14,0.75); border-bottom: 1px solid var(--borda); }
+  .top .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 21px;
           letter-spacing: -0.02em; color: var(--ink); }
   .logo .til { color: var(--verde); }
-  .tag { padding: 3px 9px; border-radius: 999px; border: 1px solid var(--borda);
-         font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mudo);
-         letter-spacing: .08em; text-transform: uppercase; }
-  .top nav { margin-left: auto; display: flex; gap: 22px; font-family: 'JetBrains Mono', monospace;
-             font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  .top nav { margin-left: auto; display: flex; gap: 26px; align-items: center;
+             font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em;
+             text-transform: uppercase; }
   .top nav a { color: var(--sec); } .top nav a:hover { color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; gap: 9px; padding: 12px 22px; border-radius: 999px;
+         font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .07em;
+         text-transform: uppercase; border: 1px solid var(--borda); color: var(--sec); transition: all .15s; }
+  .btn:hover { color: var(--ink); border-color: rgba(255,255,255,0.2); }
+  .btn.solido { background: var(--verde); border-color: var(--verde); color: #06231A; font-weight: 600;
+                box-shadow: 0 0 24px rgba(43,185,138,0.35); }
+  .btn.solido:hover { background: var(--verde2); border-color: var(--verde2); color: #06231A; }
+  .top .btn { padding: 9px 18px; font-size: 11px; }
 
   /* hero */
-  .hero { position: relative; padding: 96px 0 72px; overflow: hidden; }
-  .hero-glow { position: absolute; top: -260px; left: 10%; width: 720px; height: 480px; border-radius: 50%;
-               background: radial-gradient(closest-side, rgba(40,168,127,0.14), rgba(40,168,127,0)); pointer-events: none; }
-  h1 { font-size: clamp(38px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.03em;
-       font-weight: 700; margin: 18px 0 0; max-width: 17ch; text-wrap: balance; }
-  h1 .g { color: var(--verde); }
-  .hero p.sub { max-width: 62ch; color: var(--sec); font-size: 18px; margin: 22px 0 0; }
-  .cta { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
-  .btn { display: inline-block; padding: 12px 22px; border-radius: 9px; font-family: 'JetBrains Mono', monospace;
-         font-size: 12px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--borda); color: var(--sec); }
-  .btn.primario { background: rgba(40,168,127,0.14); border-color: rgba(40,168,127,0.4); color: var(--verde); }
-  .btn.primario:hover { background: rgba(40,168,127,0.22); color: var(--verde2); }
-  .btn:hover { color: var(--ink); }
+  .hero { position: relative; padding: 108px 0 84px; overflow: hidden; }
+  #ceu { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr;
+                gap: 56px; align-items: center; }
+  @media (max-width: 980px) { .hero .wrap { grid-template-columns: 1fr; } }
+  h1 { font-size: clamp(40px, 5.6vw, 66px); line-height: 1.03; letter-spacing: -0.035em;
+       font-weight: 700; margin: 22px 0 0; text-wrap: balance; }
+  .hero p.sub { max-width: 54ch; color: var(--sec); font-size: 18px; margin: 22px 0 0; }
+  .cta { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
 
-  /* a fita do livro (o risco estético: o hero É o produto) */
-  .fita { margin-top: 54px; border: 1px solid var(--borda); border-radius: 14px; background: var(--bg2);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); overflow: hidden; }
-  .fita-cab { display: flex; gap: 12px; align-items: center; padding: 10px 16px;
+  /* a fita: o card flutuante do hero */
+  .fita { border: 1px solid var(--borda); border-radius: 18px; background: rgba(16,19,23,0.85);
+          backdrop-filter: blur(6px); overflow: hidden;
+          box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(43,185,138,0.06),
+                      0 0 70px rgba(43,185,138,0.08); }
+  .fita-cab { display: flex; gap: 12px; align-items: center; padding: 12px 16px;
               border-bottom: 1px solid var(--borda); }
-  .fita-corpo { padding: 8px 16px 12px; min-height: 178px; }
-  .fl { display: flex; gap: 14px; align-items: baseline; font-family: 'JetBrains Mono', monospace;
-        font-size: 12.5px; padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.045);
-        white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(4px);
-        transition: opacity .35s ease, transform .35s ease; }
+  .fita-cab .luzes { display: flex; gap: 6px; }
+  .fita-cab .luzes i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+  .fita-corpo { padding: 6px 16px 12px; min-height: 300px; }
+  .fl { display: flex; gap: 12px; align-items: baseline; font-family: 'JetBrains Mono', monospace;
+        font-size: 12px; padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.05);
+        white-space: nowrap; overflow: hidden; opacity: 0; transform: translateY(5px);
+        transition: opacity .4s ease, transform .4s ease; }
   .fl.on { opacity: 1; transform: none; }
   .fl:first-child { border-top: 0; }
   .fl .t { color: var(--mudo); } .fl .r { color: var(--ink); flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
   .fl .v { color: var(--sec); font-variant-numeric: tabular-nums; }
-  .pill { padding: 2px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .05em;
-          background: rgba(255,255,255,0.06); color: var(--sec); }
-  .pill.ok { background: rgba(40,168,127,0.14); border: 1px solid rgba(40,168,127,0.3); color: var(--verde); }
-  .pill.ruim { background: rgba(217,87,74,0.13); border: 1px solid rgba(217,87,74,0.3); color: var(--ruim); }
-  .pill.aviso { background: rgba(184,129,47,0.13); border: 1px solid rgba(184,129,47,0.3); color: var(--aviso); }
+  .pill { padding: 2px 9px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;
+          font-size: 9.5px; letter-spacing: .05em; background: rgba(255,255,255,0.06); color: var(--sec);
+          white-space: nowrap; }
+  .pill.ok { background: rgba(43,185,138,0.13); border: 1px solid rgba(43,185,138,0.32); color: var(--verde2); }
+  .pill.ruim { background: rgba(224,100,86,0.12); border: 1px solid rgba(224,100,86,0.3); color: var(--ruim); }
+  .pill.aviso { background: rgba(192,138,50,0.12); border: 1px solid rgba(192,138,50,0.3); color: var(--aviso); }
 
-  /* números medidos */
-  .numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 22px; }
-  .num { padding: 20px 22px; border-radius: 13px; background: var(--card); border: 1px solid var(--borda); }
-  .num b { display: block; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
-           font-variant-numeric: tabular-nums; }
-  .num span { color: var(--sec); font-size: 13.5px; }
+  /* faixa de stats (capacidades, não censo) */
+  .stats { border-top: 1px solid var(--borda); border-bottom: 1px solid var(--borda);
+           background: rgba(255,255,255,0.015); }
+  .stats .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+                 gap: 0; padding: 0 28px; }
+  .stat { padding: 26px 22px; border-left: 1px solid var(--borda); }
+  .stat:first-child { border-left: 0; }
+  .stat b { display: block; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums; }
+  .stat b .g { color: var(--verde); }
+  .stat span { color: var(--mudo); font-size: 13px; }
+  @media (max-width: 900px) { .stat { border-left: 0; border-top: 1px solid var(--borda); } }
+
+  /* trilhos abertos */
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 22px; }
+  .chip { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--borda);
+          background: rgba(255,255,255,0.025); font-family: 'JetBrains Mono', monospace;
+          font-size: 12px; color: var(--sec); }
 
   /* seções */
-  section { padding: 84px 0 0; }
-  h2 { font-size: clamp(26px, 3.6vw, 38px); letter-spacing: -0.02em; line-height: 1.12;
-       margin: 14px 0 0; max-width: 26ch; text-wrap: balance; }
-  .lede { color: var(--sec); max-width: 66ch; margin-top: 14px; font-size: 16.5px; }
-  .cards3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 30px; }
-  .c { padding: 22px; border-radius: 13px; background: var(--card); border: 1px solid var(--borda);
-       box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
-  .c h3 { margin: 10px 0 8px; font-size: 18px; letter-spacing: -0.01em; }
-  .c p { margin: 0; color: var(--sec); font-size: 14.5px; }
-  .c .mono.mini { display: block; margin-top: 12px; font-size: 11px; color: var(--mudo); line-height: 1.8; }
+  section { padding: 104px 0 0; }
+  .centro { text-align: center; }
+  .centro .kicker { margin: 0 auto; }
+  h2 { font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.03em; line-height: 1.08;
+       margin: 18px 0 0; text-wrap: balance; }
+  .centro h2 { max-width: 24ch; margin-left: auto; margin-right: auto; }
+  .lede { color: var(--sec); max-width: 64ch; margin-top: 16px; font-size: 16.5px; }
+  .centro .lede { margin-left: auto; margin-right: auto; }
 
-  /* as 3 pontas */
-  .pontas { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 10px; align-items: stretch;
-            margin-top: 30px; }
-  .ponta { padding: 18px; border-radius: 13px; background: var(--bg2); border: 1px solid var(--borda); }
-  .seta { align-self: center; color: var(--mudo); font-family: 'JetBrains Mono', monospace; }
-  .vereditos { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
-  @media (max-width: 860px) { .pontas { grid-template-columns: 1fr; } .seta { transform: rotate(90deg); justify-self: center; } }
+  /* bento */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 44px; }
+  .b { border-radius: 18px; border: 1px solid var(--borda); background: var(--card);
+       padding: 26px; position: relative; overflow: hidden; transition: transform .18s, border-color .18s; }
+  .b:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.18); }
+  .b h3 { margin: 12px 0 8px; font-size: 20px; letter-spacing: -0.015em; }
+  .b p { margin: 0; color: var(--sec); font-size: 14.5px; }
+  .b.grande { grid-column: span 3; }
+  .b.medio { grid-column: span 2; }
+  .b.mini { grid-column: span 2; }
+  @media (max-width: 980px) { .b.grande, .b.medio, .b.mini { grid-column: span 6; } }
+  .b.tverde { background: linear-gradient(160deg, rgba(43,185,138,0.16), rgba(43,185,138,0.04));
+              border-color: rgba(43,185,138,0.35); }
+  .b.troxo { background: linear-gradient(160deg, rgba(129,104,222,0.16), rgba(129,104,222,0.04));
+             border-color: rgba(129,104,222,0.35); }
+  .b .janela { margin-top: 18px; border-radius: 12px; border: 1px solid var(--borda);
+               overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,0.45); }
+  .b .janela img { display: block; width: 100%; height: auto; }
+  .b .pilhas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+  /* como funciona */
+  .passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+  @media (max-width: 900px) { .passos { grid-template-columns: 1fr; } }
+  .passo { border-radius: 18px; border: 1px solid var(--borda); background: var(--bg2); padding: 26px; }
+  .passo .n { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--verde);
+              letter-spacing: .14em; }
+  .passo h3 { margin: 12px 0 8px; font-size: 19px; }
+  .passo p { margin: 0; color: var(--sec); font-size: 14.5px; }
+
+  /* código */
+  .codigo { margin-top: 44px; border-radius: 18px; border: 1px solid var(--borda); background: #07090B;
+            overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .codigo .cab { display: flex; align-items: center; gap: 12px; padding: 13px 18px;
+                 border-bottom: 1px solid var(--borda); }
+  .codigo pre { margin: 0; padding: 22px 24px; overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+                font-size: 13.5px; line-height: 2.0; color: var(--sec); }
+  .codigo .cm { color: var(--mudo); } .codigo .cmd { color: var(--ink); } .codigo .g { color: var(--verde2); }
+
+  /* confiança */
+  .cards3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 44px; }
+  .c { padding: 26px; border-radius: 18px; background: var(--card); border: 1px solid var(--borda); }
+  .c h3 { margin: 12px 0 8px; font-size: 19px; }
+  .c p { margin: 0; color: var(--sec); font-size: 14.5px; }
+  .c .mono.mini { display: block; margin-top: 14px; font-size: 10.5px; color: var(--mudo); line-height: 1.8; }
+
+  .prova { margin-top: 16px; padding: 26px; border-radius: 18px; border: 1px solid rgba(43,185,138,0.3);
+           background: linear-gradient(180deg, rgba(43,185,138,0.08), rgba(43,185,138,0.02)); }
 
   /* telas */
-  .telas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 30px; }
+  .telas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 44px; }
   @media (max-width: 900px) { .telas { grid-template-columns: 1fr; } }
-  .tela { border-radius: 13px; overflow: hidden; border: 1px solid var(--borda); background: var(--bg2); }
+  .tela { border-radius: 16px; overflow: hidden; border: 1px solid var(--borda); background: var(--bg2);
+          transition: transform .18s, border-color .18s; }
+  .tela:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.18); }
   .tela img { display: block; width: 100%; height: auto; }
-  .tela figcaption { padding: 12px 16px; display: flex; gap: 10px; align-items: baseline; }
+  .tela figcaption { padding: 14px 18px; display: flex; gap: 10px; align-items: baseline; }
   .tela figcaption b { font-size: 14px; white-space: nowrap; }
   .tela figcaption span { color: var(--mudo); font-size: 12.5px; }
   figure { margin: 0; }
 
-  /* quickstart */
-  pre.qs { margin: 26px 0 0; padding: 20px 22px; border-radius: 13px; background: #07090b;
-           border: 1px solid var(--borda); overflow-x: auto; font-family: 'JetBrains Mono', monospace;
-           font-size: 13px; line-height: 1.9; color: var(--sec); }
-  pre.qs .cm { color: var(--mudo); } pre.qs .cmd { color: var(--ink); }
+  /* cta final */
+  .fim { margin-top: 104px; }
+  .fim .caixa { border-radius: 22px; border: 1px solid rgba(43,185,138,0.35); text-align: center;
+                padding: 74px 30px; position: relative; overflow: hidden;
+                background: radial-gradient(600px 280px at 50% -40%, rgba(43,185,138,0.22), rgba(43,185,138,0.02)); }
+  .fim h2 { max-width: 22ch; margin: 0 auto; }
+  .fim .cta { justify-content: center; }
 
-  /* fiscal */
-  .fiscal { margin-top: 30px; padding: 26px; border-radius: 14px; border: 1px solid rgba(40,168,127,0.28);
-            background: linear-gradient(180deg, rgba(40,168,127,0.07), rgba(40,168,127,0.02)); }
-
-  footer { margin-top: 96px; border-top: 1px solid var(--borda); padding: 30px 0 46px; }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between;
+  footer { margin-top: 84px; border-top: 1px solid var(--borda); padding: 34px 0 50px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
                  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mudo); line-height: 2; }
   :focus-visible { outline: 2px solid var(--verde); outline-offset: 2px; border-radius: 4px; }
+  .revela { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .revela.on { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .fl { transition: none; opacity: 1; transform: none; }
+    .fl, .revela { transition: none; opacity: 1; transform: none; }
+    .b, .tela { transition: none; }
   }
 </style>
 </head>
 <body>
 
+<div class="anuncio"><div class="wrap">
+  <b>census round 1 published</b> · we bought from every live x402 seller and put the receipts on-chain — <a href="#prova">read what we found ↓</a>
+</div></div>
+
 <div class="top"><div class="wrap">
   <span class="logo">
-    <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true">
-      <g stroke="#626A76" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <svg width="25" height="25" viewBox="0 0 48 48" aria-hidden="true">
+      <g stroke="#5F6772" stroke-width="2.6" fill="none" stroke-linecap="round">
         <path d="M9 13 L24 32"/><path d="M24 9 L24 32"/><path d="M39 13 L24 32"/>
       </g>
-      <circle cx="9" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-      <circle cx="24" cy="6.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-      <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-      <circle cx="24" cy="37" r="5.4" fill="#28A87F"/>
+      <circle cx="9" cy="10.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
+      <circle cx="24" cy="6.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
+      <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
+      <circle cx="24" cy="37" r="5.4" fill="#2BB98A"/>
     </svg>
     <span>raz<span class="til">ã</span>o</span>
   </span>
-  <span class="tag">pre-release</span>
   <nav>
-    <a href="#recibo">Receipts</a>
-    <a href="#telas">Screens</a>
+    <a href="#produto">Product</a>
+    <a href="#como">How it works</a>
     <a href="#confianca">Trust</a>
-    <a href="#fiscal">Brasil</a>
-    <a href="#comecar">Run it</a>
+    <a href="#brasil">Brasil</a>
+    <a class="btn solido" href="#comecar">Run it locally</a>
   </nav>
 </div></div>
 
-<header class="hero"><div class="hero-glow"></div><div class="wrap">
-  <span class="k verde">razão · the book of record for machine payments · x402-first, rail-agnostic</span>
-  <h1>Agents are already buying things. <span class="g">Nobody keeps the books.</span></h1>
-  <p class="sub">
-    Razão sits on the buyer's side and turns every machine purchase — x402 today; card,
-    invoice and more through the same schema — into a verifiable receipt inside an
-    append-only ledger that can prove its own integrity to a third party. What you asked
-    for, what you signed, what the chain actually settled: three legs, reconciled, with
-    every difference explained by name.
-  </p>
-  <div class="cta">
-    <a class="btn primario" href="#comecar">Run it locally — costs nothing</a>
-    <a class="btn" href="#telas">See the screens</a>
-  </div>
-
-  <div class="fita" aria-label="ledger tape — real entries from the buyer census">
-    <div class="fita-cab">
-      <span class="k">the book · live entries from our own census round</span>
-      <span class="pill" style="margin-left:auto">real purchases · receipts on Basescan</span>
+<header class="hero">
+  <canvas id="ceu" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <span class="kicker"><span class="dot"></span>the book of record for machine payments</span>
+      <h1>Your agents buy.<br><span class="grad">Razão keeps the books.</span></h1>
+      <p class="sub">
+        Every machine purchase — x402 today; card and invoice through the same schema —
+        becomes a verifiable receipt in an append-only ledger that proves its own
+        integrity. Reconciled against the chain. Explained by name.
+      </p>
+      <div class="cta">
+        <a class="btn solido" href="#comecar">Run it locally — costs nothing</a>
+        <a class="btn" href="#produto">See the product</a>
+      </div>
     </div>
-    <div class="fita-corpo" id="fita"></div>
+    <div class="fita" aria-label="ledger tape — real entries from the buyer census">
+      <div class="fita-cab">
+        <span class="luzes"><i></i><i></i><i></i></span>
+        <span class="k">the book · live</span>
+        <span class="pill" style="margin-left:auto">real purchases · receipts on Basescan</span>
+      </div>
+      <div class="fita-corpo" id="fita"></div>
+    </div>
   </div>
+</header>
 
-  <div class="cards3" style="margin-top:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
-    <div class="c"><span class="k verde">see it</span>
+<div class="stats"><div class="wrap">
+  <div class="stat"><b>3<span class="g">×</span></b><span>records reconciled per purchase — request, signed authorization, on-chain settlement</span></div>
+  <div class="stat"><b>9</b><span>named verdicts — a difference is never a silent gap</span></div>
+  <div class="stat"><b>2</b><span>independent timestamps seal every period — RFC 3161 + Bitcoin</span></div>
+  <div class="stat"><b>0</b><span>private keys held, payments blocked, or rows ever rewritten</span></div>
+</div></div>
+
+<section class="centro">
+  <div class="wrap">
+    <span class="k">built on open rails — no lock-in</span>
+    <div class="chips">
+      <span class="chip">x402</span><span class="chip">Base</span><span class="chip">EIP-3009</span>
+      <span class="chip">MCP</span><span class="chip">OpenTelemetry</span><span class="chip">PostgreSQL</span>
+      <span class="chip">offer-and-receipt</span>
+    </div>
+  </div>
+</section>
+
+<section id="produto" class="centro"><div class="wrap">
+  <span class="kicker"><span class="dot"></span>the product</span>
+  <h2>One desk. Every purchase. <span class="grad">Zero trust required.</span></h2>
+  <p class="lede">Six screens over one append-only book — real data throughout, testnet always labeled.</p>
+
+  <div class="bento" style="text-align:left">
+    <div class="b grande tverde revela">
+      <span class="k" style="color:var(--verde2)">the blotter</span>
       <h3>Know what your agents bought</h3>
-      <p>By agent, by team, by task — with the receipt attached. Not token spend: actual purchases from third parties, across rails and wallets.</p></div>
-    <div class="c"><span class="k verde">catch it</span>
+      <p>By agent, team and task — with the receipt attached. Click any row and the full
+         event chain opens: quote, signed authorization, settlement, verification.</p>
+      <div class="janela"><img src="assets/tela-blotter.png" alt="Blotter screen with purchase table and derived states" loading="lazy"></div>
+    </div>
+    <div class="b grande troxo revela">
+      <span class="k" style="color:#A99AF0">the payer passport</span>
+      <h3>Credit history for wallets</h3>
+      <p>A signed attestation over your own ledger — settlement rate, nonces never reused,
+         nothing consumed unpaid. Sellers verify it offline and change your terms. Honest by
+         construction: it rejected our own chaos-testing wallet first.</p>
+      <div class="janela"><img src="assets/tela-risco.png" alt="Risk screen with budget trees and the payer passport" loading="lazy"></div>
+    </div>
+    <div class="b mini revela">
+      <span class="k">verdicts</span>
       <h3>Every difference has a name</h3>
-      <p>Paid but never delivered. Delivered but never charged. A replayed authorization. A settlement nobody logged. Named verdicts — never silent gaps.</p></div>
-    <div class="c"><span class="k verde">prove it</span>
-      <h3>Hand your books to a skeptic</h3>
-      <p>Sealed periods, hash-chained rows, two independent timestamps. A ~100-line script verifies everything without trusting you — or us.</p></div>
-    <div class="c"><span class="k verde">close it</span>
-      <h3>Month-end that actually ends</h3>
-      <p>One consolidated invoice per counterparty, budgets that sum exactly at every height of the org — and in Brazil, the tax file generated straight from the book.</p></div>
-  </div>
-</div></header>
-
-<section id="recibo"><div class="wrap">
-  <span class="k">three legs or it didn't happen</span>
-  <h2>A purchase is only real when three records agree.</h2>
-  <p class="lede">
-    Every payment leaves three traces: the request your agent made, the authorization it
-    signed (EIP-3009), and the settlement the chain executed. Razão joins them with the
-    strongest key available — the <span class="mono">(authorizer, nonce)</span> pair that is
-    indexed both in the signed message and in the on-chain event — and every mismatch
-    becomes a named verdict, never a silent gap.
-  </p>
-  <div class="pontas">
-    <div class="ponta"><span class="k verde">1 · request log</span><p style="color:var(--sec);font-size:14px;margin:8px 0 0">What was asked, by which agent, for which task — attribution as a trace/span tree, so budgets sum exactly at every height.</p></div>
-    <div class="seta">⇄</div>
-    <div class="ponta"><span class="k verde">2 · signed authorization</span><p style="color:var(--sec);font-size:14px;margin:8px 0 0">The cap, the window, the counterparty, the scope hash — checked <i>before</i> signing, offline, on the buyer's side. Fail-closed.</p></div>
-    <div class="seta">⇄</div>
-    <div class="ponta"><span class="k verde">3 · on-chain settlement</span><p style="color:var(--sec);font-size:14px;margin:8px 0 0">The chain is the source of truth: the collector matches it against the book — or the book explains why it can't.</p></div>
-  </div>
-  <div class="vereditos">
-    <span class="pill ok">SETTLED</span>
-    <span class="pill aviso">DELIVERED, NEVER CHARGED</span>
-    <span class="pill ruim">PAID, NOT DELIVERED</span>
-    <span class="pill ruim">REPLAY — CAUGHT BY THE KEY</span>
-    <span class="pill aviso">ORPHAN — SETTLEMENT WITH NO MATCHING RECORD</span>
-  </div>
-  <p class="lede" style="font-size:14.5px">
-    Orphans are a first-class state, not an error: when a developer bug paid for a purchase
-    that never got recorded, the book caught it on the next collector run — that is the
-    product doing its job against its own makers.
-  </p>
-</div></section>
-
-<section id="telas"><div class="wrap">
-  <span class="k">the desk</span>
-  <h2>Five screens of reading. One screen of doing.</h2>
-  <p class="lede">
-    Real data throughout — these captures come from our own ledger, testnet always labeled
-    as testnet, synthetic always labeled as synthetic. The app itself is <b>structurally
-    read-only</b>: its database session opens with writes disabled, and a test proves an
-    INSERT fails. Operations run the audited engines instead.
-  </p>
-  <div class="telas">
-    <figure class="tela"><img src="assets/tela-blotter.png" alt="Blotter screen: monthly spend, per-rail breakdown, purchase table with derived states" loading="lazy">
-      <figcaption><b>01 blotter</b><span>what your agents bought, by task, with receipts — states derived from the book, never typed</span></figcaption></figure>
-    <figure class="tela"><img src="assets/tela-tca.png" alt="TCA screen: waste, dedup across agents, cost per delivery" loading="lazy">
-      <figcaption><b>02 tca</b><span>waste (same resource, same byte, paid twice), dedup across agents, cost per delivered result</span></figcaption></figure>
-    <figure class="tela"><img src="assets/tela-risco.png" alt="Risk screen: budget trees and the payer passport" loading="lazy">
-      <figcaption><b>03 risco</b><span>budgets as trees that sum by construction, human approvals bound to one exact quote, the payer passport</span></figcaption></figure>
-    <figure class="tela"><img src="assets/tela-laboratorio.png" alt="Lab screen: spend-policy backtest, point-in-time" loading="lazy">
-      <figcaption><b>04 laboratório</b><span>spend policies backtested point-in-time over real decisions, with honest confidence intervals</span></figcaption></figure>
-    <figure class="tela"><img src="assets/tela-livros.png" alt="Books screen: three-way reconciliation, sealed periods, consolidated invoice, Brazilian tax" loading="lazy">
-      <figcaption><b>05 livros</b><span>reconciliation verdicts, sealed periods with two independent timestamps, one invoice per counterparty</span></figcaption></figure>
-    <figure class="tela"><img src="assets/tela-operacoes.png" alt="Operations screen: end-to-end demo, collectors, passport emission, tax file generation" loading="lazy">
-      <figcaption><b>06 operações</b><span>fire the engines from the screen — end-to-end testnet demo, collectors, passports, tax file. Real money never moves from here.</span></figcaption></figure>
+      <p>Paid-not-delivered. Delivered-never-charged. Replay. Orphan.</p>
+      <div class="pilhas"><span class="pill ok">SETTLED</span><span class="pill ruim">REPLAY</span><span class="pill aviso">ORPHAN</span></div>
+    </div>
+    <div class="b mini revela">
+      <span class="k">the lab</span>
+      <h3>Backtest your spend policy</h3>
+      <p>"What if the cap were lower?" — answered point-in-time over real decisions, with
+         honest confidence intervals.</p>
+    </div>
+    <div class="b mini revela">
+      <span class="k">waste, named</span>
+      <h3>Stop paying for the same byte</h3>
+      <p>Same resource, same content hash, paid twice — caught across every agent in the org.</p>
+    </div>
+    <div class="b medio revela">
+      <span class="k">month-end</span>
+      <h3>Books that close</h3>
+      <p>One consolidated invoice per counterparty, budgets that sum exactly at every height
+         of the org tree, sealed periods a skeptic can verify.</p>
+    </div>
+    <div class="b medio revela">
+      <span class="k">operations</span>
+      <h3>Fire the engines from the screen</h3>
+      <p>End-to-end testnet demo, chain collectors, passport emission, tax file — one job at a
+         time, from a closed list. Real money never moves from the screen.</p>
+    </div>
+    <div class="b medio revela">
+      <span class="k">standard receipts</span>
+      <h3>First implementation of x402's receipt extension</h3>
+      <p>We emit and verify the official <span class="mono">offer-and-receipt</span> format —
+         and ingest MPP and AP2 artifacts through the same schema, no migration.</p>
+    </div>
   </div>
 </div></section>
 
-<section id="confianca"><div class="wrap">
-  <span class="k">why an auditor you can trust</span>
-  <h2>Structurally incapable — not merely well-behaved.</h2>
-  <p class="lede">
-    An auditor that holds your money is not an auditor. Razão's guarantees are architectural:
-    things it <i>cannot</i> do, not things it promises not to.
-  </p>
-  <div class="cards3">
-    <div class="c"><span class="k verde">no hands on funds</span>
+<section id="como" class="centro"><div class="wrap">
+  <span class="kicker"><span class="dot"></span>how it works</span>
+  <h2>A purchase is only real when <span class="grad">three records agree.</span></h2>
+  <div class="passos" style="text-align:left">
+    <div class="passo revela"><span class="n">01 · REQUEST</span>
+      <h3>Your agent asks</h3>
+      <p>The request lands in the book with its place in the task tree — so spend sums
+         exactly by agent, team and task, never four numbers that contradict each other.</p></div>
+    <div class="passo revela"><span class="n">02 · AUTHORIZATION</span>
+      <h3>Your client signs — after the checks</h3>
+      <p>Recipient binding, canonical asset, decimals read from the contract itself: verified
+         offline, before the signature, fail-closed. The cap is signed into the message.</p></div>
+    <div class="passo revela"><span class="n">03 · SETTLEMENT</span>
+      <h3>The chain settles — and must match</h3>
+      <p>The collector joins on-chain events to the book by the indexed
+         <span class="mono">(authorizer,&nbsp;nonce)</span> pair. Every mismatch becomes a named
+         verdict. Orphans are first-class, not errors.</p></div>
+  </div>
+
+  <div class="codigo" style="text-align:left">
+    <div class="cab">
+      <span class="luzes" style="display:flex;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12)"></i><i style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12)"></i><i style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12)"></i></span>
+      <span class="k">from zero to a reconciled ledger — testnet, costs nothing</span>
+    </div>
+    <pre id="comecar"><span class="cm"># the book (Postgres, bound to 127.0.0.1) + test wallets + faucet USDC</span>
+<span class="cmd">uv sync &amp;&amp; uv run python scripts/setup_wallets.py</span>
+<span class="cm"># a toy seller + ten real x402 payments on Base Sepolia</span>
+<span class="cmd">uv run uvicorn mesa.http.seller:app --port 8402
+uv run python scripts/fase1/buyer.py 10</span>
+<span class="cm"># the chain is the source of truth — collect, reconcile, open the desk</span>
+<span class="cmd">uv run python -m mesa.collector &amp;&amp; uv run mesa-app   <span class="g"># → http://127.0.0.1:8400</span></span></pre>
+  </div>
+</div></section>
+
+<section id="confianca" class="centro"><div class="wrap">
+  <span class="kicker"><span class="dot"></span>why you can trust an auditor</span>
+  <h2><span class="grad">Structurally incapable</span> — not merely well-behaved.</h2>
+  <p class="lede">An auditor that holds your money is not an auditor. Razão's guarantees are architectural: things it <i>cannot</i> do.</p>
+  <div class="cards3" style="text-align:left">
+    <div class="c revela"><span class="k" style="color:var(--verde2)">no hands on funds</span>
       <h3>It can't touch your money</h3>
       <p>No custody, no keys required by the ledger, no balance, no token. Enforcement lives in the buyer's SDK and on-chain caps; razão observes and produces evidence.</p>
       <span class="mono mini">READ-ONLY DB SESSION IN THE APP — AN INSERT LITERALLY FAILS</span></div>
-    <div class="c"><span class="k verde">never in the path</span>
+    <div class="c revela"><span class="k" style="color:var(--verde2)">never in the path</span>
       <h3>It can't block a payment</h3>
-      <p>Razão is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline: recipient binding, canonical asset, decimals read from the contract.</p>
+      <p>Razão is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline.</p>
       <span class="mono mini">SERVER-SIDE VETO = CUSTODY-LIKE POWER. WE REFUSE THE POWER.</span></div>
-    <div class="c"><span class="k verde">tamper-evident</span>
+    <div class="c revela"><span class="k" style="color:var(--verde2)">tamper-evident</span>
       <h3>It can't rewrite the past</h3>
-      <p>Every row is hash-chained; each period closes under a Merkle root stamped by two independent clocks (RFC 3161 + OpenTimestamps). A ~100-line verifier — importing nothing of ours — catches a single flipped bit.</p>
+      <p>Hash-chained rows; every period sealed under a Merkle root stamped by two independent clocks. A ~100-line verifier catches a single flipped bit.</p>
       <span class="mono mini">VERIFIED BY READING THE VERIFIER, NOT BY TRUSTING US</span></div>
   </div>
 
-  <div class="cards3">
-    <div class="c"><span class="k">receipts, standard ones</span>
-      <h3>First implementation of x402's receipt extension</h3>
-      <p>We emit and verify the official <span class="mono">offer-and-receipt</span> extension (EIP-712) — approved upstream with zero public implementations until this one. We ingest MPP and AP2 artifacts through the same rail-agnostic schema, no migration.</p></div>
-    <div class="c"><span class="k">credit history for wallets</span>
-      <h3>The payer passport</h3>
-      <p>A signed attestation over the buyer's own ledger — settlement rate, nonces never reused, nothing consumed unpaid — verifiable offline, checkable against the chain. Honest by construction: the policy <b>rejected our own chaos-testing wallet</b> for a replayed nonce before it ever accepted one.</p></div>
-    <div class="c"><span class="k">falsified, not promised</span>
-      <h3>Built in 12 gated phases</h3>
-      <p>Every phase ended with a falsifiable gate as a test: the book closing over deliberately dirty data, a third party verifying a sealed period, a toy seller changing terms for a passport holder. 111 tests keep the gates green.</p></div>
-  </div>
-
-  <div class="c" style="margin-top:14px">
-    <span class="k">we eat with our own fork</span>
-    <p style="margin-top:10px">
+  <div id="prova" class="prova revela" style="text-align:left">
+    <span class="k" style="color:var(--verde2)">we eat with our own fork</span>
+    <p style="margin:10px 0 0;color:var(--sec);max-width:78ch">
       Before writing this page we <b style="color:var(--ink)">bought from every live x402
       seller we could find</b> and put the purchases through the book — receipts on-chain,
-      methodology published. That census is where the numbers on this page come from,
-      including the uncomfortable one: <b style="color:var(--ink)">not one seller today
-      proves that its payout address belongs to its domain.</b> Our payTo-binding proposal
-      exists because we paid to find that out.
+      methodology published. Including the uncomfortable finding:
+      <b style="color:var(--ink)">not one seller today proves that its payout address belongs
+      to its domain.</b> Our payTo-binding proposal exists because we paid to find that out.
     </p>
-    <span class="mono" style="display:block;margin-top:10px;font-size:11px;color:var(--mudo)">
+    <span class="mono" style="display:block;margin-top:12px;font-size:11px;color:var(--mudo)">
       CENSUS ROUND 1 · 15 SELLERS · 13 DELIVERED · EVERY RECEIPT LINKED · THE 2 FAILURES NEVER CHARGED — THE SIGNED AUTHORIZATION EXPIRED UNUSED
     </span>
   </div>
+
+  <div class="telas" style="text-align:left">
+    <figure class="tela revela"><img src="assets/tela-tca.png" alt="TCA screen: waste, dedup across agents, cost per delivery" loading="lazy">
+      <figcaption><b>02 tca</b><span>waste, dedup across agents, cost per delivered result</span></figcaption></figure>
+    <figure class="tela revela"><img src="assets/tela-laboratorio.png" alt="Lab screen: spend-policy backtest, point-in-time" loading="lazy">
+      <figcaption><b>04 laboratório</b><span>spend policies backtested with honest confidence intervals</span></figcaption></figure>
+    <figure class="tela revela"><img src="assets/tela-livros.png" alt="Books screen: reconciliation, sealed periods, consolidated invoice, Brazilian tax" loading="lazy">
+      <figcaption><b>05 livros</b><span>reconciliation verdicts, sealed periods, one invoice per counterparty</span></figcaption></figure>
+    <figure class="tela revela"><img src="assets/tela-operacoes.png" alt="Operations screen: end-to-end demo, collectors, passports, tax file" loading="lazy">
+      <figcaption><b>06 operações</b><span>fire the engines from the screen — testnet only, by construction</span></figcaption></figure>
+  </div>
 </div></section>
 
-<section id="fiscal"><div class="wrap">
-  <span class="k">brasil · em português, porque o assunto é nosso</span>
-  <h2>No Brasil, o livro vira a obrigação pronta.</h2>
-  <div class="fiscal">
-    <p style="margin:0;color:var(--sec);max-width:70ch">
+<section id="brasil" class="centro"><div class="wrap">
+  <span class="kicker"><span class="dot"></span>brasil · em português, porque o assunto é nosso</span>
+  <h2>No Brasil, o livro vira <span class="grad">a obrigação pronta.</span></h2>
+  <div class="prova revela" style="text-align:left">
+    <p style="margin:0;color:var(--sec);max-width:78ch">
       A DeCripto (IN RFB 2.291/2025) estreou em 2026 — e quem compra com cripto em
       autocustódia responde por ela. O razão gera o arquivo da competência direto do livro:
       PTAX da data certa (regra de São Paulo, point-in-time), registro 0450 por operação e a
@@ -319,33 +429,22 @@
       campo fora do manual. <b style="color:var(--ink)">Simulação rotulada enquanto estiver
       abaixo do limiar; pronta para o gatilho quando não estiver.</b>
     </p>
-    <span class="mono" style="display:block;margin-top:14px;font-size:11px;color:var(--mudo)">
+    <span class="mono" style="display:block;margin-top:12px;font-size:11px;color:var(--mudo)">
       RECIBO → PTAX (DATA DE SP) → DECRIPTO 0450 + 0980 → NFS-e (DPS VALIDADA CONTRA O XSD OFICIAL)
     </span>
   </div>
 </div></section>
 
-<section id="comecar"><div class="wrap">
-  <span class="k">run it</span>
-  <h2>From zero to a reconciled ledger in one sitting.</h2>
-  <p class="lede">
-    Testnet USDC from a faucet, gas paid by the facilitator — the whole walkthrough costs
-    zero real money. Ten real x402 payments, collected from the chain, reconciled, on your
-    screen.
-  </p>
-  <pre class="qs"><span class="cm"># 1 · dependencies + the book (Postgres, bound to 127.0.0.1 on purpose)</span>
-<span class="cmd">uv sync &amp;&amp; docker run -d --name mesa-pg -e POSTGRES_USER=mesa -e POSTGRES_PASSWORD=mesa \
-  -e POSTGRES_DB=mesa -p 127.0.0.1:5433:5432 postgres:17</span>
-<span class="cm"># 2 · test wallets + faucet USDC (Base Sepolia)</span>
-<span class="cmd">uv run python scripts/setup_wallets.py</span>
-<span class="cm"># 3 · a toy seller + ten real x402 payments</span>
-<span class="cmd">uv run uvicorn mesa.http.seller:app --port 8402   # terminal 1
-uv run python scripts/fase1/buyer.py 10           # terminal 2</span>
-<span class="cm"># 4 · the chain is the source of truth</span>
-<span class="cmd">uv run python -m mesa.collector &amp;&amp; uv run python -m mesa.cli</span>
-<span class="cm"># 5 · the desk</span>
-<span class="cmd">uv run mesa-app                                    # → http://127.0.0.1:8400</span></pre>
-</div></section>
+<div class="fim"><div class="wrap">
+  <div class="caixa">
+    <span class="kicker"><span class="dot"></span>open source at launch</span>
+    <h2>Give your agents a ledger <span class="grad">worth auditing.</span></h2>
+    <div class="cta">
+      <a class="btn solido" href="#comecar">Run it locally — costs nothing</a>
+      <a class="btn" href="#produto">See the product</a>
+    </div>
+  </div>
+</div></div>
 
 <footer><div class="wrap">
   <span>RAZÃO · PRE-RELEASE · 2026 — <i>razão</i> IS PORTUGUESE FOR BOTH THE GENERAL LEDGER (<i>livro-razão</i>) AND "REASON". WE MEAN BOTH.</span>
@@ -354,15 +453,14 @@ uv run python scripts/fase1/buyer.py 10           # terminal 2</span>
 </div></footer>
 
 <script>
-// a fita do hero: linhas REAIS do censo (dominio, valor liquidado, estado) — nada inventado
+// a fita do hero: linhas REAIS do censo (domínio, valor liquidado, estado) — nada inventado
 const LINHAS = [
   ["15:39", "api.onesource.io",                 "0.0010", "SETTLED",   "ok"],
   ["15:39", "x402.ottoai.services",             "0.0010", "SETTLED",   "ok"],
   ["15:39", "randomfactsx402.vercel.app",       "0.0010", "SETTLED",   "ok"],
   ["15:40", "jokes-endpoint.vercel.app",        "0.0020", "SETTLED",   "ok"],
   ["15:40", "api.printmoneylab.com",            "0.0020", "SETTLED",   "ok"],
-  ["15:40", "dripstack.xyz",                    "—",      "EXPIRED UNUSED — money never left", "aviso"],
-  ["15:40", "stableenrich.dev",                 "—",      "EXPIRED UNUSED — money never left", "aviso"],
+  ["15:40", "dripstack.xyz",                    "—",      "EXPIRED UNUSED", "aviso"],
   ["15:40", "conc-exe.xyz",                     "0.0200", "SETTLED",   "ok"],
   ["15:40", "screenshots.underscoredone.com",   "0.0200", "SETTLED",   "ok"],
   ["15:40", "fresh-feeds.foomworks.workers.dev","0.0200", "SETTLED",   "ok"],
@@ -377,8 +475,54 @@ LINHAS.forEach(([t, r, v, e, cls], i) => {
     `<span class="v">${v === "—" ? "—" : "$ " + v}</span><span class="pill ${cls}">${e}</span>`;
   fita.appendChild(div);
   if (reduz) { div.classList.add("on"); }
-  else { setTimeout(() => div.classList.add("on"), 120 + i * 180); }
+  else { setTimeout(() => div.classList.add("on"), 150 + i * 170); }
 });
+
+// o céu do hero: a constelação três-para-um (o logo, vivo) — sutil, respeita reduced-motion
+const cv = document.getElementById("ceu"), cx = cv.getContext("2d");
+let W, H, pts = [];
+function medir() {
+  W = cv.width = cv.offsetWidth * devicePixelRatio;
+  H = cv.height = cv.offsetHeight * devicePixelRatio;
+}
+function semear() {
+  pts = Array.from({ length: 42 }, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - .5) * .12 * devicePixelRatio,
+    vy: (Math.random() - .5) * .12 * devicePixelRatio,
+  }));
+}
+function quadro() {
+  cx.clearRect(0, 0, W, H);
+  for (const p of pts) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+  }
+  const lim = 150 * devicePixelRatio;
+  for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+    const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+    if (d < lim) {
+      cx.strokeStyle = `rgba(43,185,138,${(1 - d / lim) * 0.14})`;
+      cx.lineWidth = devicePixelRatio;
+      cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(b.x, b.y); cx.stroke();
+    }
+  }
+  for (const p of pts) {
+    cx.fillStyle = "rgba(82,224,176,0.5)";
+    cx.beginPath(); cx.arc(p.x, p.y, 1.6 * devicePixelRatio, 0, 7); cx.fill();
+  }
+  if (!reduz) requestAnimationFrame(quadro);
+}
+medir(); semear(); quadro();
+addEventListener("resize", () => { medir(); semear(); if (reduz) quadro(); });
+
+// revelação no scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll(".revela").forEach(el => io.observe(el));
+if (reduz) document.querySelectorAll(".revela").forEach(el => el.classList.add("on"));
 </script>
 </body>
 </html>
