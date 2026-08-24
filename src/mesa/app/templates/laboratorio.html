@@ -7,13 +7,14 @@
       <span class="k" style="color:var(--ink)">Backtest de política de gasto — point-in-time (Fase 7)</span>
       <div style="font-size:11px;color:var(--mudo);margin-top:3px">
         As {{ n_pontos }} decisões REAIS da rodada 1 do censo, na ordem em que aconteceram, sob políticas alternativas:
-        "e se o teto fosse outro?", "e se só comprasse de verificado?". IC de Wilson 95%; proxies ROTULADOS (D-12).
+        "e se o teto fosse outro?", "e se só comprasse de verificado?". IC de Wilson 95%; proxies ROTULADOS (D-12).<br>
+        <b>autorizaria (teto)</b> = soma dos limites que a política assinaria · <b>sairia (liquidado)</b> = o que a chain de fato cobrou dessas compras.
       </div>
     </div>
     {% if resultados %}
     <div style="overflow-x:auto">
     <table>
-      <tr><th>Política</th><th class="r">Compras</th><th class="r">Teria custado</th><th class="r">Liquidado</th><th class="r">Entregas</th><th class="r">Taxa [IC 95%]</th><th class="r">$/entrega</th><th class="r">Entregas perdidas</th></tr>
+      <tr><th>Política</th><th class="r">Compras</th><th class="r">Autorizaria (teto)</th><th class="r">Sairia (liquidado)</th><th class="r">Entregas</th><th class="r">Taxa [IC 95%]</th><th class="r">$/entrega</th><th class="r">Entregas perdidas</th></tr>
       {% for r in resultados %}
       <tr>
         <td><span class="mono" style="font-weight:600">{{ r.politica }}</span></td>
@@ -30,6 +31,11 @@
       </tr>
       {% endfor %}
     </table>
+    </div>
+    <div class="sub" style="padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05)">
+      AS POLÍTICAS: real-rodada1 = A REGRA QUE VALEU (compra ≤ $1 e total ≤ $20) · micro = SÓ COMPRAS ≤ $0,01 ·
+      verified-only = SÓ VENDEDOR COM VÍNCULO payTo⇔DOMÍNIO VERIFICADO · premium = SÓ COMPRAS ≥ $0,10 ·
+      orcamento-5c = TETO TOTAL DE $0,05
     </div>
     {% else %}
     <div class="sub" style="padding:14px 16px">sem decisões do censo no livro (CENSUS_ADDRESS vazio ou livro sem compras mainnet)</div>

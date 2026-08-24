@@ -112,7 +112,7 @@ def contexto_tca(conn: psycopg.Connection[Any]) -> dict[str, Any]:
     for ln in linhas:
         if ln.amount_minor is None or ln.estado == "sem-pagamento":
             continue
-        chave = ln.dominio or ln.recurso_hash[:12]
+        chave = ln.dominio or f"não mapeado · {ln.recurso_hash[:12]}"
         g = fontes.setdefault(chave, {"fonte": chave, "network": ln.network,
                                       "rail": ln.rail, "compras": 0,
                                       "gasto_minor": 0, "entregas": 0,
@@ -141,12 +141,16 @@ def contexto_tca(conn: psycopg.Connection[Any]) -> dict[str, Any]:
             gasto_recurso.get(ln.recurso_hash, 0) + ln.settled_minor)
     mapa = mapa_dominios()
     dedup: list[dict[str, Any]] = [
-        {"recurso": mapa.get(h, h[:12]), "agentes": sorted(ags),
+        {"recurso": mapa.get(h) or f"não mapeado · {h[:12]}", "agentes": sorted(ags),
          "gasto_minor": gasto_recurso[h]}
         for h, ags in por_recurso.items() if len(ags) >= 2]
     dedup.sort(key=lambda d: -d["gasto_minor"])
 
-    return {"fontes": sorted(fontes.values(), key=lambda g: -g["gasto_minor"]),
+    # dinheiro real primeiro (testnet no fim) — misturar rede na ordenação era o
+    # erro clássico: a recarga de mentira de $0,90 dominava o topo da tabela
+    return {"fontes": sorted(fontes.values(),
+                             key=lambda g: (g["network"] == "eip155:84532",
+                                            -g["gasto_minor"])),
             "desperdicio": desperdicio, "dedup": dedup,
             "n_linhas": sum(1 for ln in linhas if ln.amount_minor is not None)}
 

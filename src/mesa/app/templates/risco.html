@@ -13,6 +13,9 @@
         <span class="mono" style="font-size:12px;font-weight:600">{{ arv.raiz }}</span>
         <span class="mono num" style="font-size:12px">$ {{ arv.total_minor|usd }}</span>
       </div>
+      {% if arv.total_minor == 0 %}
+      <div class="sub" style="margin-top:4px">sem gasto liquidado nesta tarefa — {{ arv.filhos|length }} chamada(s) sem liquidação (detalhe no blotter)</div>
+      {% else %}
       {% set maior = arv.filhos|map(attribute='gasto_minor')|max if arv.filhos else 1 %}
       {% for f in arv.filhos %}
       <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
@@ -23,6 +26,7 @@
         <span class="mono num" style="font-size:10px;width:74px;text-align:right">$ {{ f.gasto_minor|usd }}</span>
       </div>
       {% endfor %}
+      {% endif %}
     </div>
     {% else %}<div class="sub" style="padding:14px 16px">sem tarefas com gasto no livro</div>{% endfor %}
   </div>
@@ -51,7 +55,7 @@
 <div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
   <div class="card" style="padding:0;overflow:hidden">
     <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
-      <span class="k" style="color:var(--ink)">Passaporte do pagador (D-08 · Fase 10 — seção posterior ao design, desvio documentado)</span>
+      <span class="k" style="color:var(--ink)">Passaporte do pagador (D-08)</span>
       <div style="font-size:11px;color:var(--mudo);margin-top:3px">
         Artefatos REAIS emitidos do livro, re-verificados offline AGORA (assinatura ⇔ sujeito) e avaliados pela política padrão do vendedor.
         O passaporte é honesto a ponto de reprovar a carteira do próprio dono.

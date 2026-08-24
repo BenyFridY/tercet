@@ -5,12 +5,12 @@
   <div class="card {{ 'ok' if desperdicio.gasto_repetido_total_minor else '' }}">
     <div class="k" {% if desperdicio.gasto_repetido_total_minor %}style="color:var(--verde)"{% endif %}>Desperdício recuperável</div>
     <div class="hero num" style="margin-top:8px">$ {{ desperdicio.gasto_repetido_total_minor|usd }}</div>
-    <div class="sub">MESMO resource_key_hash + MESMO body_sha256 = PAGOU DE NOVO PELO MESMO BYTE<br>CONTEÚDO DINÂMICO LEGÍTIMO TEM HASH DIFERENTE E NÃO CONTA</div>
+    <div class="sub">PAGOU DE NOVO PELO MESMO CONTEÚDO — MESMO RECURSO E MESMO BYTE ENTREGUE<br>CONTEÚDO DINÂMICO LEGÍTIMO TEM HASH DIFERENTE E NÃO CONTA COMO DESPERDÍCIO</div>
   </div>
   <div class="card">
     <div class="k">Compras repetidas</div>
     <div class="hero num" style="font-size:26px;margin-top:8px">{{ desperdicio.recursos_repetidos|sum(attribute='repetidas') }}</div>
-    <div class="sub">EM {{ desperdicio.recursos_repetidos|length }} RECURSO(S) · n = {{ n_linhas }} COMPRAS NO TOTAL</div>
+    <div class="sub">EM {{ desperdicio.recursos_repetidos|length }} RECURSO(S), DE {{ n_linhas }} COMPRAS NO LIVRO</div>
   </div>
   <div class="card">
     <div class="k">Dedup entre agentes</div>
@@ -23,7 +23,7 @@
   <div class="card" style="padding:0;overflow:hidden">
     <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
       <span class="k" style="color:var(--ink)">Custo por entrega, por fonte</span>
-      <div style="font-size:11px;color:var(--mudo);margin-top:3px">Não é custo por chamada — é custo por resultado entregue. n baixo é DITO, não escondido.</div>
+      <div style="font-size:11px;color:var(--mudo);margin-top:3px">Não é custo por chamada — é custo por resultado entregue. Dinheiro REAL primeiro; testnet no fim, rotulada. n baixo é DITO, não escondido.</div>
     </div>
     <div style="overflow-x:auto">
     <table>
@@ -36,7 +36,7 @@
         <td class="r num">{{ f.gasto_minor|usd }}</td>
         <td class="r num" style="color:{{ 'var(--verde2)' if f.entregas == f.compras else 'var(--aviso)' }}">{{ f.entregas }}</td>
         <td class="r num" style="font-weight:600">{{ f.custo_por_entrega_minor|usd if f.custo_por_entrega_minor is not none else '—' }}</td>
-        <td class="r num" style="color:var(--sec)">{{ f.preco_min|usd if f.preco_min is not none else '—' }} · {{ f.preco_mediana|usd if f.preco_mediana is not none else '—' }} · {{ f.preco_max|usd if f.preco_max is not none else '—' }}</td>
+        <td class="r num" style="color:var(--sec);white-space:nowrap">{% if f.preco_min is none %}—{% elif f.preco_min == f.preco_max %}{{ f.preco_min|usd }} <span style="color:var(--mudo)">(único)</span>{% else %}{{ f.preco_min|usd }} · {{ f.preco_mediana|usd }} · {{ f.preco_max|usd }}{% endif %}</td>
       </tr>
       {% endfor %}
     </table>
