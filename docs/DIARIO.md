@@ -27,6 +27,19 @@ Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro
 
 ---
 
+## Análise · alcance internacional (pedido do Beny, 23/08)
+
+Beny: "não sei se meu objetivo é apenas BR — não vai ser CVM — escolher outro país?".
+Análise completa em **`docs/alcance-internacional.md`**. Resumo: não escolher país,
+escolher o PADRÃO — o DeCripto é a versão BR do CARF (OECD), em vigor desde 01/01/2026
+em 46 jurisdições (~67 comprometidas; trocas em 2027; EUA em 2028). O produto já é 90%
+sem-país; a proposta de Fase 13: export contábil universal (journal entries) →
+`fiscal/carf-xml` → e o **MCP do produto** (o livro como ferramentas read-only para o
+agente). CVM: correto, fora do jogo — e o invariante D-32 nos deixa fora do perímetro
+de licença (não somos VASP/CASP/broker) em praticamente toda jurisdição.
+
+---
+
 ## Fase 12E · TROCA DE MARCA a pedido do Beny (23/08): Razão → **tercet**
 
 Beny pediu "mude nome e símbolo" — e no mesmo recado disse que o objetivo talvez não
