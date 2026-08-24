@@ -11,7 +11,7 @@ A escada N1–N4 (arquivo/06), com o nível SEMPRE na evidência:
 - N4: `unverified` — estado de PRIMEIRA CLASSE, nunca erro.
 
 A SONDA (buscar o well-known) é online; a VERIFICAÇÃO da assinatura é offline.
-O texto de proposta de extensão está em notes/ (submissão = ação do Beny).
+O texto de proposta de extensão está em notes/ (submeter é ação humana, fora do código).
 """
 
 import json

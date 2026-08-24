@@ -215,7 +215,7 @@ def main() -> None:
     console.print(f"relatório: {SAIDA / 'x402-buyer-census-round1.md'}")
     console.print(f"post curto: {SAIDA / 'post.md'} · dados brutos: {SAIDA / 'dados'}")
     console.print("[bold green]Fase 9(a) pronta: pacote publicável gerado das fontes, "
-                  "asserts verdes — publicar é ação do Beny (GATE 9b)[/bold green]")
+                  "asserts verdes — publicar é ação humana (GATE 9b)[/bold green]")
 
 
 if __name__ == "__main__":

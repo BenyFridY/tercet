@@ -1,4 +1,4 @@
-"""Fase 3 / T4 — a rodada PAGA do censo. 💰 SÓ RODA COM O "VAI" EXPLÍCITO DO BENY.
+"""Fase 3 / T4 — a rodada PAGA do censo. 💰 SÓ RODA COM O "VAI" EXPLÍCITO DO DONO DA CARTEIRA.
 
 Sem o argumento --vai o script é um ensaio: mostra o que compraria e quanto custaria,
 e PARA. Com --vai, compra 1× de cada fonte aprovada na sondagem.

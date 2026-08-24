@@ -15,7 +15,7 @@ cotação é válida), pendurado em spans reais — o censo é uma tarefa como o
 qualquer. Deriva de preço (cotado ≠ anunciado no índice) é ACHADO, não erro.
 
 Saída: scripts/fase3/sondagem_resultado.json + relatório parcial no console —
-é ESTE relatório que o Beny olha antes do "vai" da rodada paga (T4).
+é ESTE relatório que o operador olha antes do "vai" da rodada paga (T4).
 
 Uso: uv run python scripts/fase3/sondagem.py
 """

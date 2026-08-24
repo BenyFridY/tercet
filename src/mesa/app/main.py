@@ -25,7 +25,7 @@ ESTADO_CLASSE = {
     "expirou-sem-uso": "mudo", "sem-pagamento": "mudo", "fatura-pendente": "aviso",
 }
 
-# a legenda de CADA tag, no hover — o app se explica sozinho (pedido do Beny, 24/08)
+# a legenda de CADA tag — o app se explica sozinho (hover + gaveta de legenda)
 ESTADO_EXPLICA = {
     "liquidado": "entregue E pago — a chain confirmou a cobrança",
     "pago-sem-entrega": "a chain cobrou mas a entrega falhou — disputa em potencial",

@@ -29,13 +29,13 @@ def test_escopo_deterministico_e_sensivel_a_qualquer_campo() -> None:
 
 
 def test_aprovacao_de_a_nao_vale_para_b() -> None:
-    ap_a = aprovacao.aprovar(_escopo(500_000), "beny", decisao=True)
+    ap_a = aprovacao.aprovar(_escopo(500_000), "alice", decisao=True)
     assert aprovacao.vale_para(ap_a, _escopo(500_000))
     assert not aprovacao.vale_para(ap_a, _escopo(900_000))  # outra cotação: não vale
 
 
 def test_negacao_tambem_e_evidencia_e_nao_vale() -> None:
-    nao = aprovacao.aprovar(_escopo(500_000), "beny", decisao=False)
+    nao = aprovacao.aprovar(_escopo(500_000), "alice", decisao=False)
     assert not aprovacao.vale_para(nao, _escopo(500_000))
     assert nao.evidencia()["tipo"] == "aprovacao-vinculada-d14"
 
@@ -52,10 +52,10 @@ def test_seletor_acima_do_teto_sem_callback_recusa() -> None:
 def test_seletor_com_aprovacao_vinculada_passa_e_com_aprovacao_de_outra_recusa() -> None:
     aprova_esta = checagens.seletor_com_checagens(
         CAIP2_BASE_SEPOLIA, teto_unverified_minor=None, teto_aprovacao_minor=100_000,
-        pedir_aprovacao=lambda c: aprovacao.aprovar(c["escopo_hex"], "beny", True))
+        pedir_aprovacao=lambda c: aprovacao.aprovar(c["escopo_hex"], "alice", True))
     assert int(aprova_esta(2, [_req(500_000)]).get_amount()) == 500_000
 
-    de_outra = aprovacao.aprovar(_escopo(999_999), "beny", True)  # aprovou OUTRA
+    de_outra = aprovacao.aprovar(_escopo(999_999), "alice", True)  # aprovou OUTRA
     seletor = checagens.seletor_com_checagens(
         CAIP2_BASE_SEPOLIA, teto_unverified_minor=None, teto_aprovacao_minor=100_000,
         pedir_aprovacao=lambda _c: de_outra)

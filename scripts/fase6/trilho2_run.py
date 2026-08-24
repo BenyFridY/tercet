@@ -5,7 +5,7 @@ O que roda (custo: ~US$ 0,001 de API — uma chamada LLM real e útil):
    da Fase 3) — o uso de tokens vira um CLAIM `rail='invoice'` no livro, pendurado
    no span da tarefa e anotado com `purchase.*` (aparece no Jaeger também);
 2. gera o EXTRATO no formato do console da Anthropic — SINTÉTICO E ROTULADO (D-12),
-   agregando os claims de hoje; quando o Beny exportar o CSV real do console, o
+   agregando os claims de hoje; quando o dono da conta exportar o CSV real do console, o
    MESMO ingestor roda contra ele (aí a deriva, se houver, aparece);
 3. ingere o extrato: settlement + legs casando por (dia, modelo); estados viram
    eventos; relatório claim×statement fecha.

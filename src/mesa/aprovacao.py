@@ -22,7 +22,7 @@ class AprovacaoVinculada:
     """Evidência da decisão humana — vinculada por hash à cotação exata."""
 
     escopo_hex: str      # sha256 do escopo canônico da cotação (abaixo)
-    aprovador: str       # quem decidiu (ex.: "beny")
+    aprovador: str       # quem decidiu (ex.: "alice")
     decisao: bool        # True = aprovou; False também é evidência (fica no log)
     ts_utc: str          # quando, ISO-8601
 

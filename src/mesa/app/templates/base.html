@@ -160,8 +160,7 @@ function abrirLegenda(alvo) {
               setTimeout(() => el.style.background = '', 1600); }
   }
 }
-// pressionou uma pílula → abre a legenda naquele item (pedido do Beny: "quando
-// você pressiona, aparece o que é")
+// pressionou uma pílula → abre a legenda já naquele item
 document.addEventListener('click', e => {
   const p = e.target.closest('.pill');
   if (!p || p.closest('#gaveta-legenda')) return;

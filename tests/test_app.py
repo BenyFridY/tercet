@@ -132,7 +132,7 @@ def test_blotter_periodo_e_card_de_atencao(cliente: Any) -> None:
 
 
 def test_legenda_das_tags_em_toda_tela(cliente: Any) -> None:
-    """Pedido do Beny (24/08): pressionou uma pílula → aparece o que ela é."""
+    """Pressionar qualquer pílula abre a legenda com a explicação dela."""
     for rota in TELAS:
         html = cliente.get(rota).text
         assert "? LEGENDA" in html and "gaveta-legenda" in html
@@ -140,7 +140,7 @@ def test_legenda_das_tags_em_toda_tela(cliente: Any) -> None:
 
 
 def test_marca_tercet_no_topo(cliente: Any) -> None:
-    """Fase 14: o martelo caiu — a tela veste tercet."""
+    """A marca tercet aparece no topo de todas as telas."""
     html = cliente.get("/blotter").text
     assert "tercet" in html and "<title>tercet · blotter</title>" in html
 

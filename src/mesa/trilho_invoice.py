@@ -51,7 +51,7 @@ def custo_llm_micro_usd(model: str, input_tokens: int, output_tokens: int,
 def registrar_custo_llm(conn: psycopg.Connection[Any], *, model: str,
                         input_tokens: int, output_tokens: int,
                         trace_id: str, span_id: str,
-                        payer_ref: str = "conta-anthropic-beny") -> tuple[uuid.UUID, int]:
+                        payer_ref: str = "conta-anthropic-pessoal") -> tuple[uuid.UUID, int]:
     """UM claim de custo LLM no livro: request+quote+authz, rail='invoice'.
 
     Devolve (authz_id, custo_micro_usd). Pendura no span dado (a tarefa que gastou).
