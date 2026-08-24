@@ -1,8 +1,23 @@
-# tercet (código ainda como `mesa` até o primeiro release público)
+<p align="center"><img src="site/assets/capa.svg" alt="tercet — your agents buy; tercet keeps the books" width="100%"></p>
+
+<p align="center">
+  <a href="https://github.com/BenyFridY/tercet/actions/workflows/ci.yml"><img src="https://github.com/BenyFridY/tercet/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/license-MIT-2BB98A" alt="MIT">
+  <img src="https://img.shields.io/badge/python-3.11%2B-98A0AB" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/rails-x402%20%C2%B7%20Base%20%C2%B7%20EIP--3009-8168DE" alt="rails">
+</p>
+
+# tercet
+
+**EN** — *The book of record for machine payments: every agent purchase becomes a
+verifiable receipt in an append-only ledger, reconciled three ways against the
+chain, with every difference named. Never touches keys or money — it observes and
+proves. Docs below are in Portuguese (the author's working language); the code,
+schemas and product site are English.*
 
 *Um tercet é uma estrofe de três versos que pertencem um ao outro — aqui, cada
-compra é um: request, autorização, liquidação. Nome aprovado em 24/08/2026; o
-pacote Python renomeia junto com a publicação no PyPI.*
+compra é um: **request, autorização, liquidação**. O pacote Python ainda se chama
+`mesa` (nome de trabalho); renomeia para `tercet` junto com o release no PyPI.*
 
 O livro da compra feita por agente: registra o que os agentes compraram (requisição → cotação →
 autorização), casa com a liquidação on-chain e **explica toda diferença**. Nunca toca chave, saldo

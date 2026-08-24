@@ -1,7 +1,9 @@
 [project]
 name = "mesa"
 version = "0.0.1"
-description = "O livro da compra feita por agente — v0 (FDS 1: o livro fecha com dado sujo na Base Sepolia)"
+description = "tercet — the book of record for machine payments (pacote renomeia mesa->tercet no PyPI)"
+license = { text = "MIT" }
+authors = [{ name = "Beny Frid" }]
 requires-python = ">=3.11"
 dependencies = [
     "x402[fastapi,httpx,evm]==2.20.0",

@@ -92,6 +92,8 @@
     {% for c in status.cursores %}
       <span class="pill-status"><span class="dot"></span>{{ 'MAINNET' if 'mainnet' in c.nome else 'TESTNET' }} · BLOCO {{ '{:,}'.format(c.bloco).replace(',', '.') }}</span>
     {% endfor %}
+    <button onclick="abrirLegenda()" class="mono" title="o que significa cada tag/pílula"
+            style="background:rgba(255,255,255,0.05);border:1px solid var(--borda);border-radius:999px;color:var(--sec);font-size:10px;padding:5px 11px;cursor:pointer;letter-spacing:.08em">? LEGENDA</button>
   </div>
 
   {% block conteudo %}{% endblock %}
@@ -108,7 +110,68 @@
   <div class="k">Cadeia de eventos · somente leitura</div>
   <div id="gaveta-corpo" class="mono" style="font-size:11px;margin-top:10px">—</div>
 </div>
+
+<div class="gaveta" id="gaveta-legenda">
+  <button class="fechar" onclick="document.getElementById('gaveta-legenda').classList.remove('aberta')">×</button>
+  <div class="k">Legenda — o que significa cada tag</div>
+  <div style="font-size:11px;color:var(--sec);margin-top:8px;line-height:1.6">
+    Clique em qualquer pílula do app (ou passe o mouse) que a explicação aparece.
+    Nenhum estado é digitado: tudo é derivado do livro na hora.
+  </div>
+
+  <div class="k" style="margin-top:16px">Estados de UMA compra (blotter)</div>
+  {% for estado, explica in estado_explica.items() %}
+  <div id="leg-{{ estado }}" style="margin-top:10px">
+    <span class="pill {{ estado_classe.get(estado, 'mudo') }}">{{ estado|upper }}</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px;line-height:1.55">{{ explica }}</div>
+  </div>
+  {% endfor %}
+
+  <div class="k" style="margin-top:18px">Redes e marcas gerais</div>
+  <div id="leg-mainnet" style="margin-top:10px"><span class="pill ok">MAINNET</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">Base mainnet — dinheiro de verdade.</div></div>
+  <div id="leg-testnet" style="margin-top:10px"><span class="pill mudo">TESTNET</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">Base Sepolia — dinheiro de mentira. Sempre rotulada, nunca somada ao real.</div></div>
+  <div id="leg-byte-repetido" style="margin-top:10px"><span class="pill aviso">BYTE REPETIDO</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">Pagou de novo pelo MESMO conteúdo (mesmo recurso, mesmo hash de corpo) — é o que alimenta o card de desperdício.</div></div>
+  <div style="margin-top:10px"><span class="pill">APPEND-ONLY</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">O livro só cresce; correção é evento novo, nunca edição. A corrente de hash sela a ordem.</div></div>
+  <div style="margin-top:10px"><span class="pill-status" style="display:inline-flex"><span class="dot"></span>MAINNET · BLOCO N</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">Até onde o coletor enxergou a chain — o app nunca finge tempo real.</div></div>
+  <div style="margin-top:10px"><span class="pill info">RFC3161</span> <span class="pill roxo">OTS</span>
+    <div style="font-size:11px;color:var(--sec);margin-top:4px">Os dois carimbos de tempo de TERCEIROS que selam cada período fechado (aba 05): uma autoridade RFC 3161 e o Bitcoin via OpenTimestamps.</div></div>
+
+  <div class="k" style="margin-top:18px">Vereditos ≠ estados</div>
+  <div style="font-size:11px;color:var(--sec);margin-top:6px;line-height:1.6">
+    Estado = UMA compra, agora. <b>Veredito</b> (aba 05 livros) = a reconciliação das TRÊS
+    pontas (pedido × autorização × chain) — por isso lá existem coisas que a tabela não
+    tem, como REPLAY-EXTRA e ÓRFÃO-CHAIN. Cada veredito tem a explicação escrita ao lado
+    na própria tela.
+  </div>
+</div>
 <script>
+function abrirLegenda(alvo) {
+  document.getElementById('gaveta').classList.remove('aberta');
+  const g = document.getElementById('gaveta-legenda');
+  g.classList.add('aberta');
+  if (alvo) {
+    const el = document.getElementById('leg-' + alvo);
+    if (el) { el.scrollIntoView({block: 'center'}); el.style.background = 'rgba(40,168,127,0.10)';
+              setTimeout(() => el.style.background = '', 1600); }
+  }
+}
+// pressionou uma pílula → abre a legenda naquele item (pedido do Beny: "quando
+// você pressiona, aparece o que é")
+document.addEventListener('click', e => {
+  const p = e.target.closest('.pill');
+  if (!p || p.closest('#gaveta-legenda')) return;
+  e.stopPropagation();
+  const texto = p.textContent.trim().toLowerCase();
+  const alvo = texto.includes('testnet') ? 'testnet' : texto.includes('mainnet') ? 'mainnet'
+    : texto.includes('byte') ? 'byte-repetido' : texto.replace(/\s.*$/, '');
+  abrirLegenda(alvo);
+}, true);
+
 async function abrirCompra(rid) {
   const g = document.getElementById('gaveta'), corpo = document.getElementById('gaveta-corpo');
   corpo.textContent = 'carregando…'; g.classList.add('aberta');

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 300" width="1280" height="300" role="img" aria-label="tercet — the book of record for machine payments">
+  <rect width="1280" height="300" fill="#0A0C0E"/>
+  <!-- grade sutil -->
+  <g stroke="#FFFFFF" stroke-opacity="0.025">
+    <path d="M0 60 H1280 M0 120 H1280 M0 180 H1280 M0 240 H1280"/>
+    <path d="M160 0 V300 M320 0 V300 M480 0 V300 M640 0 V300 M800 0 V300 M960 0 V300 M1120 0 V300"/>
+  </g>
+  <!-- o símbolo: três linhas, a terceira confere -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(96,84) scale(2.6)">
+    <path d="M10 13 H34" stroke="#9AA3AE" stroke-width="4.6"/>
+    <path d="M10 23 H38" stroke="#5F6772" stroke-width="4.6"/>
+    <path d="M10 33 h13 l6.5 6.5 L41 26" stroke="#2BB98A" stroke-width="4.6"/>
+  </g>
+  <!-- wordmark -->
+  <text x="260" y="150" font-family="'Space Grotesk','Segoe UI',system-ui,sans-serif" font-size="76" font-weight="700" letter-spacing="2" fill="#E8EBEE">tercet</text>
+  <text x="262" y="196" font-family="'JetBrains Mono',Consolas,monospace" font-size="19" letter-spacing="3" fill="#98A0AB">YOUR AGENTS BUY. TERCET KEEPS THE BOOKS.</text>
+  <text x="262" y="232" font-family="'JetBrains Mono',Consolas,monospace" font-size="13" letter-spacing="2" fill="#626A76">x402 · BASE · EIP-3009 · MCP · APPEND-ONLY LEDGER · 3-WAY RECONCILIATION · NEVER CUSTODY</text>
+  <!-- a fita do livro, à direita -->
+  <g font-family="'JetBrains Mono',Consolas,monospace" font-size="12" letter-spacing="1">
+    <rect x="905" y="58" width="300" height="184" rx="10" fill="#FFFFFF" fill-opacity="0.03" stroke="#FFFFFF" stroke-opacity="0.09"/>
+    <circle cx="927" cy="80" r="4" fill="#D9574A" fill-opacity="0.8"/>
+    <circle cx="941" cy="80" r="4" fill="#B8812F" fill-opacity="0.8"/>
+    <circle cx="955" cy="80" r="4" fill="#2BB98A" fill-opacity="0.8"/>
+    <text x="975" y="84" fill="#626A76">THE BOOK · LIVE</text>
+    <text x="927" y="116" fill="#98A0AB">api.onesource.io</text><text x="1150" y="116" fill="#2BB98A">SETTLED</text>
+    <text x="927" y="142" fill="#98A0AB">x402.ottoai.services</text><text x="1150" y="142" fill="#2BB98A">SETTLED</text>
+    <text x="927" y="168" fill="#98A0AB">dripstack.xyz</text><text x="1130" y="168" fill="#B8812F">EXPIRED</text>
+    <text x="927" y="194" fill="#98A0AB">api.arkm.com</text><text x="1150" y="194" fill="#2BB98A">SETTLED</text>
+    <text x="927" y="222" fill="#626A76">RECONCILED 3 WAYS · ON-CHAIN RECEIPTS</text>
+  </g>
+</svg>
