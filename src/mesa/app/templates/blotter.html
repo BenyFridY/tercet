@@ -3,7 +3,7 @@
 
 <div class="grid" style="grid-template-columns: 300px 1fr 1fr 1fr;">
   <div class="card">
-    <div class="k">Gasto liquidado · dinheiro REAL (mainnet)</div>
+    <div class="k">Gasto liquidado · dinheiro REAL (mainnet){% if dias %} · últimos {{ dias }} dias{% endif %}</div>
     <div class="hero num" style="margin-top:8px">$ {{ ag.gasto_real_minor|usd }}</div>
     <div class="sub">
       TESTE (TESTNET, ROTULADO): $ {{ ag.gasto_teste_minor|usd }}<br>
@@ -11,20 +11,22 @@
       {{ ag.compras }} COMPRAS · {{ ag.entregas }} ENTREGAS
     </div>
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)">
-      {% for rail, minor in ag.por_rail.items() %}
+      {% for rail, minor in ag.por_rail.items() if minor %}
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="width:8px;height:8px;border-radius:2px;background:{{ {'x402':'#28A87F','invoice':'#8168DE','mpp':'#2A93B5','ap2':'#B8812F'}.get(rail, 'rgba(255,255,255,0.2)') }}"></span>
         <span style="flex-grow:1;color:var(--sec);font-size:12px">{{ rail }}</span>
         <span class="mono num" style="font-size:11px">$ {{ minor|usd }}</span>
       </div>
       {% endfor %}
+      {% set parados = ag.por_rail.items()|rejectattr('1')|map(attribute='0')|list %}
+      {% if parados %}<div class="sub" style="margin-top:6px">SEM MOVIMENTO: {{ parados|join(' · ') }}</div>{% endif %}
     </div>
   </div>
 
-  <div class="card {{ 'ruim' if problemas_n else '' }}">
-    <div class="k" {% if problemas_n %}style="color:var(--ruim)"{% endif %}>Entregue-sem-cobrar / pago-sem-entrega</div>
+  <div class="card {{ 'ruim' if problemas_n else '' }}" {% if problemas_n %}style="cursor:pointer" onclick="verProblemas()" title="ver na tabela"{% endif %}>
+    <div class="k" {% if problemas_n %}style="color:var(--ruim)"{% endif %}>Precisa de atenção</div>
     <div class="hero num" style="font-size:26px;margin-top:8px">{{ problemas_n }}</div>
-    <div class="sub">$ {{ problemas_minor|usd }} ENVOLVIDO · RECEBÍVEL/DISPUTA, NÃO RECEITA<br>DERIVADO DO LIVRO, NUNCA DIGITADO</div>
+    <div class="sub">ENTREGOU-E-NÃO-COBROU OU PAGOU-E-NÃO-RECEBEU · $ {{ problemas_minor|usd }} ENVOLVIDO<br>RECEBÍVEL/DISPUTA, NÃO RECEITA · DERIVADO DO LIVRO, NUNCA DIGITADO{% if problemas_n %}<br><span style="color:var(--ruim)">CLIQUE PARA VER AS LINHAS ↓</span>{% endif %}</div>
   </div>
 
   <div class="card">
@@ -42,14 +44,23 @@
 
 <div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:baseline">
-      <span class="k">Gasto liquidado por dia (todas as redes, unidade mínima)</span>
-      <span class="mono" style="font-size:10px;color:var(--sec)">{{ serie_diaria|length }} DIA(S) COM MOVIMENTO</span>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <span class="k">Gasto liquidado por dia</span>
+      <span style="display:flex;gap:10px;align-items:baseline">
+        <span class="mono" style="font-size:9px"><span style="color:var(--verde)">▬</span> <span style="color:var(--sec)">DINHEIRO REAL</span>&nbsp;&nbsp;<span style="color:var(--mudo)">▬ TUDO (INCLUI TESTNET)</span></span>
+        <span class="abas" style="font-size:9px">
+          <a href="/blotter" class="{{ 'ativa' if not dias }}">tudo</a>
+          <a href="/blotter?dias=30" class="{{ 'ativa' if dias == 30 }}">30d</a>
+          <a href="/blotter?dias=7" class="{{ 'ativa' if dias == 7 }}">7d</a>
+        </span>
+        <span class="mono" style="font-size:10px;color:var(--sec)">{{ serie_diaria|length }} DIA(S) COM MOVIMENTO</span>
+      </span>
     </div>
     {% if svg_diaria %}
     <svg width="100%" height="86" viewBox="0 0 1000 80" preserveAspectRatio="none" style="display:block;margin-top:8px">
       <line x1="0" y1="74" x2="1000" y2="74" stroke="rgba(255,255,255,0.09)"/>
-      <path d="{{ svg_diaria }}" fill="none" stroke="#28A87F" stroke-width="2" stroke-linejoin="round"/>
+      <path d="{{ svg_diaria }}" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="{{ svg_diaria_real }}" fill="none" stroke="#28A87F" stroke-width="2" stroke-linejoin="round"/>
     </svg>
     <div style="display:flex;justify-content:space-between" class="sub">
       <span>{{ serie_diaria[0][0] }}</span><span>{{ serie_diaria[-1][0] }}</span>
@@ -69,7 +80,7 @@
              class="mono" style="background:rgba(255,255,255,0.05);border:1px solid var(--borda);border-radius:6px;color:var(--ink);font-size:10px;padding:5px 9px;width:150px">
       <select id="f-agente" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">agente: todos</option></select>
       <select id="f-rail" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">trilho: todos</option></select>
-      <select id="f-estado" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">estado: todos</option></select>
+      <select id="f-estado" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">estado: todos</option><option value="__atencao">precisa de atenção</option></select>
       <select id="f-rede" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">rede: todas</option></select>
     </div>
     <div style="overflow-x:auto">
@@ -92,12 +103,17 @@
       {% endfor %}
     </table>
     </div>
+    <div id="paginacao" style="display:none;padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05);text-align:center">
+      <button onclick="mostrarTudo()" class="mono" style="background:rgba(255,255,255,0.05);border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:6px 14px;cursor:pointer;letter-spacing:.08em" id="paginacao-btn"></button>
+    </div>
   </div>
 </div>
 
 <script>
 // filtros client-side: as opções nascem das PRÓPRIAS linhas (nunca lista digitada)
 const linhasTab = () => [...document.querySelectorAll('#tabela-compras tr.clicavel')];
+const PAGINA = 25;                     // como Stripe/OpenRouter: tabela enxuta + "mostrar todas"
+let limite = PAGINA;
 function montarOpcoes(id, attr) {
   const sel = document.getElementById(id);
   [...new Set(linhasTab().map(tr => tr.dataset[attr]))].sort().forEach(v => {
@@ -110,16 +126,33 @@ function filtrar() {
   const b = document.getElementById('f-busca').value.toLowerCase(),
         a = document.getElementById('f-agente').value, r = document.getElementById('f-rail').value,
         e = document.getElementById('f-estado').value, n = document.getElementById('f-rede').value;
-  let visiveis = 0;
+  let casam = 0, visiveis = 0;
   linhasTab().forEach(tr => {
+    const okEstado = e === '__atencao'
+      ? (tr.dataset.estado === 'entregue-sem-cobrar' || tr.dataset.estado === 'pago-sem-entrega')
+      : (!e || tr.dataset.estado === e);
     const ok = (!b || tr.dataset.recurso.includes(b)) && (!a || tr.dataset.agente === a) &&
-               (!r || tr.dataset.rail === r) && (!e || tr.dataset.estado === e) &&
-               (!n || tr.dataset.rede === n);
-    tr.style.display = ok ? '' : 'none';
-    if (ok) visiveis++;
+               (!r || tr.dataset.rail === r) && okEstado && (!n || tr.dataset.rede === n);
+    if (ok) casam++;
+    const mostrar = ok && casam <= limite;
+    tr.style.display = mostrar ? '' : 'none';
+    if (mostrar) visiveis++;
   });
   const c = document.getElementById('filtro-contagem'), total = linhasTab().length;
-  c.textContent = visiveis === total ? '' : visiveis + ' DE ' + total + ' VISÍVEIS';
+  c.textContent = (casam === total && visiveis === casam) ? ''
+    : visiveis + ' DE ' + casam + (casam === total ? '' : ' FILTRADAS') + ' VISÍVEIS';
+  const pag = document.getElementById('paginacao'), btn = document.getElementById('paginacao-btn');
+  if (casam > limite) {
+    pag.style.display = '';
+    btn.textContent = 'MOSTRAR TODAS AS ' + casam + ' (+' + (casam - visiveis) + ' OCULTAS)';
+  } else pag.style.display = 'none';
 }
+function mostrarTudo() { limite = Infinity; filtrar(); }
+function verProblemas() {
+  document.getElementById('f-estado').value = '__atencao';
+  limite = Infinity; filtrar();
+  document.getElementById('tabela-compras').scrollIntoView({behavior: 'smooth'});
+}
+filtrar();  // aplica a paginação inicial
 </script>
 {% endblock %}

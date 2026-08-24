@@ -119,6 +119,16 @@ def test_operacoes_incluem_os_exports_da_f13(cliente: Any) -> None:
     assert "EXPORTS (F13)" in cliente.get("/livros").text
 
 
+def test_blotter_periodo_e_card_de_atencao(cliente: Any) -> None:
+    """Fase 14b (padrão Stripe/OpenRouter): janela de período recomputada no
+    SERVIDOR (cards+gráfico+tabela juntos) e a fila de atenção nomeada."""
+    assert cliente.get("/blotter?dias=7").status_code == 200
+    assert cliente.get("/blotter?dias=30").status_code == 200
+    html = cliente.get("/blotter").text
+    assert "Precisa de atenção" in html
+    assert "__atencao" in html  # a opção do filtro que junta os dois estados
+
+
 def test_marca_tercet_no_topo(cliente: Any) -> None:
     """Fase 14: o martelo caiu — a tela veste tercet."""
     html = cliente.get("/blotter").text

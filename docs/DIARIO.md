@@ -29,6 +29,24 @@ e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu
 
 ---
 
+## Fase 14b ✅ BLOTTER NO PADRÃO DOS GRANDES (pedido do Beny, 24/08)
+
+Pesquisa comparativa pedida por ele: como OpenRouter (Activity), Stripe (home de
+payments) e os apps de spend desenham isso. Padrões extraídos: poucos números
+calmos com comparação de período; fila de atenção com nome de gente ("disputes /
+needs response"); tabela enxuta e paginada com drill-in; seletor de período em
+tudo. O que mudou no blotter: (1) **seletor de período TUDO/30D/7D recomputado no
+SERVIDOR** — cards, gráfico e tabela contam a MESMA janela, nunca número misto;
+(2) o card de vereditos virou **"Precisa de atenção"** em linguagem de gente
+("entregou-e-não-cobrou ou pagou-e-não-recebeu"), clicável → filtra a tabela;
+(3) **trilhos zerados saem do card** (viram "sem movimento: mpp · ap2");
+(4) **gráfico com DUAS curvas na mesma escala** — verde = dinheiro real, apagada =
+tudo (testnet incluída, rotulada) — misturar era desonesto com o olho; (5)
+**paginação: 25 linhas + "mostrar todas"** (a tabela despejava 91). A gaveta de
+eventos já era paridade com o drill-in da Stripe. 131 testes.
+
+---
+
 ## Fase 14 ✅ O MARTELO + O PRODUTO BONITINHO (24/08 — GATE 14 VERDE)
 
 **O nome está BATIDO: tercet** ("nome tá ok" do Beny, 24/08). O que vestiu a marca

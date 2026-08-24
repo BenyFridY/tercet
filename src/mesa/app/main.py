@@ -59,9 +59,11 @@ def raiz() -> RedirectResponse:
 
 
 @app.get("/blotter", response_class=HTMLResponse)
-def blotter(request: Request) -> HTMLResponse:
+def blotter(request: Request, dias: int | None = None) -> HTMLResponse:
+    # dias = janela de período (7/30); None = tudo. Recomputado no SERVIDOR:
+    # os cards, o gráfico e a tabela contam a MESMA janela — nunca números mistos.
     with dados.conectar_leitura() as conn:
-        ctx = dados.contexto_blotter(conn)
+        ctx = dados.contexto_blotter(conn, dias=dias)
     return _render(request, "blotter", ctx)
 
 

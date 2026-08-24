@@ -77,8 +77,12 @@ def status_livro(conn: psycopg.Connection[Any]) -> dict[str, Any]:
 
 # ------------------------------------------------------------------ 01 · blotter
 
-def contexto_blotter(conn: psycopg.Connection[Any]) -> dict[str, Any]:
+def contexto_blotter(conn: psycopg.Connection[Any],
+                     dias: int | None = None) -> dict[str, Any]:
     linhas = telas.carregar_linhas(conn, mapa_dominios())
+    if dias is not None:  # janela de período: cards + gráfico + tabela juntos
+        corte = datetime.now(UTC) - timedelta(days=dias)
+        linhas = [ln for ln in linhas if ln.ts_utc >= corte]
     desperdicio = telas.marcar_desperdicio(linhas)
     ag = telas.agregar(linhas)
     problemas = [ln for ln in linhas
@@ -89,7 +93,14 @@ def contexto_blotter(conn: psycopg.Connection[Any]) -> dict[str, Any]:
         row = cur.fetchone()
         assert row is not None
         verificados, total_verif = int(row[0]), int(row[1])
-    dias = sorted(ag.por_dia.items())
+    serie = sorted(ag.por_dia.items())
+    # a série REAL separada da total: a linha verde é dinheiro de verdade;
+    # a apagada inclui testnet (rotulada) — nunca somadas numa curva só
+    por_dia_real: dict[str, int] = {}
+    for ln in linhas:
+        if ln.network != "eip155:84532" and ln.settled_minor:
+            d = ln.ts_utc.date().isoformat()
+            por_dia_real[d] = por_dia_real.get(d, 0) + ln.settled_minor
     return {
         "linhas": list(reversed(linhas)),  # mais recente primeiro, como no design
         "ag": ag,
@@ -97,8 +108,12 @@ def contexto_blotter(conn: psycopg.Connection[Any]) -> dict[str, Any]:
         "problemas_n": len(problemas),
         "problemas_minor": sum(ln.settled_minor for ln in problemas),
         "verificacao": {"verified": verificados, "total": total_verif},
-        "serie_diaria": dias,
-        "svg_diaria": _svg_linha([v for _, v in dias]),
+        "serie_diaria": serie,
+        "svg_diaria": _svg_linha([v for _, v in serie]),
+        "svg_diaria_real": _svg_linha(
+            [por_dia_real.get(d, 0) for d, _ in serie],
+            topo=max((v for _, v in serie), default=1)),
+        "dias": dias,
     }
 
 
@@ -318,11 +333,13 @@ def contexto_livros(conn: psycopg.Connection[Any]) -> dict[str, Any]:
 
 # ------------------------------------------------------------------ helpers
 
-def _svg_linha(valores: list[int], largura: int = 1000, altura: int = 80) -> str:
-    """Polyline SVG da série (o gráfico do design, gerado no servidor)."""
+def _svg_linha(valores: list[int], largura: int = 1000, altura: int = 80,
+               topo: int | None = None) -> str:
+    """Polyline SVG da série (o gráfico do design, gerado no servidor).
+    `topo` fixa a escala — duas séries no MESMO gráfico têm de dividir o eixo."""
     if not valores:
         return ""
-    topo = max(max(valores), 1)
+    topo = max(topo if topo is not None else max(valores), 1)
     n = len(valores)
     pts = []
     for i, v in enumerate(valores):
