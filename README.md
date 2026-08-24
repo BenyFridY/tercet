@@ -9,161 +9,170 @@
 
 # tercet
 
-**EN** — *The book of record for machine payments: every agent purchase becomes a
-verifiable receipt in an append-only ledger, reconciled three ways against the
-chain, with every difference named. Never touches keys or money — it observes and
-proves. Docs below are in Portuguese (the author's working language); the code,
-schemas and product site are English.*
+**The book of record for machine payments.** Every agent purchase is recorded as it
+happens (request → quote → signed authorization), matched against on-chain
+settlement, and **every difference gets a name** — delivered-but-uncollected,
+paid-without-delivery, replay, chain-orphan. tercet never touches keys, balances or
+the payment path: it observes and produces evidence.
 
-*Um tercet é uma estrofe de três versos que pertencem um ao outro — aqui, cada
-compra é um: **request, autorização, liquidação**. O pacote Python ainda se chama
-`mesa` (nome de trabalho); renomeia para `tercet` junto com o release no PyPI.*
+> *A tercet is a stanza of three lines that belong together — here, every purchase
+> is one: the request, the authorization, the settlement. Dante chained his tercets
+> so none could be pulled out without breaking the poem; this ledger chains its
+> entries the same way.*
 
-O livro da compra feita por agente: registra o que os agentes compraram (requisição → cotação →
-autorização), casa com a liquidação on-chain e **explica toda diferença**. Nunca toca chave, saldo
-ou fluxo de dinheiro — observa e produz evidência (Res. BCB 520, art. 9º).
+The Python package is still named `mesa` (working name); it renames to `tercet`
+with the first PyPI release. Project docs under `docs/` are written in Portuguese —
+they are the build diary and per-phase design docs; code, schemas and this README
+are English.
 
-## O app — as cinco telas, ao vivo do livro (Fase 12, D-35)
+## The app — the ledger, live, in six screens
 
 ```powershell
 uv run mesa-app        # -> http://127.0.0.1:8400
 ```
 
-**01 blotter** (o que compraram, com estado derivado e a cadeia de eventos de cada compra) ·
-**02 tca** (desperdício, dedup entre agentes, custo por entrega) · **03 risco** (orçamento por
-árvore D-02, aprovações D-14, passaporte do pagador D-08) · **04 laboratório** (backtest de
-política de gasto, point-in-time, IC honesto) · **05 livros** (reconciliação de três pontas,
-períodos carimbados, fatura por contraparte, fiscal BR).
+**01 blotter** (what your agents bought, with derived state and the event chain of
+each purchase) · **02 tca** (waste, dedup across agents, cost per delivered result)
+· **03 risk** (budget per task tree, human approvals, the payer passport) ·
+**04 lab** (point-in-time spend-policy backtest with honest confidence intervals) ·
+**05 books** (three-way reconciliation, sealed periods with two third-party
+timestamps, per-counterparty statement, BR tax view) · **06 operations** (run the
+audited engines from the screen — demo, collectors, exports — testnet only).
 
-O app é **somente leitura por construção**: a sessão Postgres abre com
-`default_transaction_read_only=on` — ele não consegue escrever no livro nem que queira, e
-`tests/test_app.py` prova isso. Dado real sempre; testnet e sintético rotulados NA tela.
+The app is **read-only by construction**: its Postgres session opens with
+`default_transaction_read_only=on`, so it cannot write to the ledger even if it
+wanted to — and `tests/test_app.py` proves it. Real data always; testnet and
+synthetic rows are labeled on the screen itself. Press any pill for its legend.
 
-## O MCP — o livro como ferramentas para agentes (Fase 13, D-37)
+## The MCP server — the ledger as tools for agents
 
 ```powershell
-claude mcp add mesa -- uv run mesa-mcp    # e pergunte: "quanto meus agentes gastaram?"
+claude mcp add tercet -- uv run mesa-mcp    # then ask: "how much did my agents spend?"
 ```
 
-Sete ferramentas de LEITURA (lista fechada, provada por teste): `status_do_livro`, `gasto`,
-`compras` (com filtros), `compra` (a gaveta de eventos), `vereditos`, `passaportes`, `fiscal`.
-Mesma garantia do app: a sessão é read-only estrutural — o servidor MCP não tem caminho de
-escrita; `tests/test_mcp_livro.py` prova. Transporte stdio, local.
+Seven READ tools (closed list, proven by test): `status_do_livro`, `gasto`,
+`compras` (filterable), `compra` (one purchase + its event chain), `vereditos`,
+`passaportes`, `fiscal`. Same guarantee as the app: the session is structurally
+read-only — the MCP server has no write path; `tests/test_mcp_livro.py` proves it.
+Transport: stdio, local.
 
-## Os exports — contábil universal e CARF (Fase 13)
+## The exports — universal accounting + OECD CARF view
 
 ```powershell
-uv run python scripts/fase13/contabil_build.py   # -> contabil/<aaaa-mm>/ (universal, QBO, Xero + detalhe com tx hash)
-uv run python scripts/fase13/carf_build.py       # -> fiscal/carf/<ano>/ (visão OECD, nasce OECD11/test data)
+uv run python scripts/fase13/contabil_build.py   # -> contabil/<yyyy-mm>/  (universal CSV, QuickBooks, Xero + per-tx audit detail)
+uv run python scripts/fase13/carf_build.py       # -> fiscal/carf/<year>/  (OECD CARF view, born as OECD11 test data)
 ```
 
-O diário de partidas dobradas da competência (débito==crédito provado; micro-pagamentos
-agregados, detalhe de auditoria em 6 casas) e a visão CARF (guia oficial OECD jul/2025) do
-que um RCASP reportaria destas transações — demonstração rotulada, identidades sintéticas,
-números reais. Detalhes e ressalvas: `docs/fase13-export.md`.
+A double-entry journal per period (debits == credits proven; micro-payments
+aggregated honestly, with a 6-decimal audit bridge tying every cent to a tx hash),
+and the CARF view — what a reporting crypto-asset service provider would report
+about these transactions under the OECD framework (official July 2025 guide) —
+labeled as a demo, synthetic identities, real numbers. Details and caveats:
+`docs/fase13-export.md`.
 
-## Exemplo do zero (terceiro, só com este README) — GATE 12
+## From zero, with only this README
 
-Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker, Python 3.11+.
+Prerequisites: [uv](https://docs.astral.sh/uv/), Docker, Python 3.11+.
 
 ```powershell
-# 1. dependências + banco (Postgres 17 em 127.0.0.1:5433 — só a sua máquina)
+# 1. dependencies + database (Postgres 17 on 127.0.0.1:5433 — your machine only)
 uv sync
 docker run -d --name mesa-pg -e POSTGRES_USER=mesa -e POSTGRES_PASSWORD=mesa `
   -e POSTGRES_DB=mesa -p 127.0.0.1:5433:5432 `
   -v mesa-pgdata:/var/lib/postgresql/data postgres:17
-uv run python scripts/check_db.py            # aplica as migrations num banco zerado
+uv run python scripts/check_db.py            # migrations + hash-chain genesis, idempotent
 
-# 2. carteiras de TESTE (grava .env local; nunca commitado) + USDC de mentira
+# 2. TEST wallets (written to a local .env; never committed) + faucet USDC
 uv run python scripts/setup_wallets.py
-#    -> cole o endereço do comprador em https://faucet.circle.com (USDC / Base Sepolia)
-uv run python scripts/check_balance.py       # confere o saldo lido on-chain
+#    -> paste the buyer address into https://faucet.circle.com (USDC / Base Sepolia)
+uv run python scripts/check_balance.py       # balance read on-chain
 
-# 3. um vendedor de brinquedo + 10 pagamentos x402 REAIS na testnet
+# 3. a toy seller + 10 REAL x402 payments on testnet
 uv run uvicorn mesa.http.seller:app --port 8402     # terminal 1
-uv run python scripts/fase1/buyer.py 10             # terminal 2 (grava o livro)
+uv run python scripts/fase1/buyer.py 10             # terminal 2 (writes the ledger)
 
-# 4. a chain é a fonte de verdade: coletar e reconciliar
-uv run python -m mesa.collector              # casa (authorizer, nonce) com o livro
-uv run python -m mesa.cli                    # a tabela de vereditos, órfãos em vermelho
+# 4. the chain is the source of truth: collect and reconcile
+uv run python -m mesa.collector              # matches (authorizer, nonce) with the ledger
+uv run python -m mesa.cli                    # the verdict table, orphans in red
 
-# 5. o produto
+# 5. the product
 uv run mesa-app                              # -> http://127.0.0.1:8400
 ```
 
-Custa **zero dinheiro real**: USDC de faucet, e no scheme `exact` o facilitator paga o gas.
+Costs **zero real money**: faucet USDC, and under the `exact` scheme the
+facilitator pays gas.
 
-- **O que já aconteceu, o que provou e o que vem agora:** [docs/DIARIO.md](docs/DIARIO.md) ←
-  comece por aqui para se situar; os docs de design de cada fase estão em `docs/faseN.md`.
-- **Segredos** (chaves privadas geradas pelo `setup_wallets.py`): vão para `.env` local
-  (gitignorado, nunca commitado). Se preferir guardá-los em outro lugar, aponte
-  `MESA_ENV_FILE` para o arquivo — e mantenha-o **fora** de pastas sincronizadas
-  (OneDrive/Dropbox): chave em pasta de sync = chave na nuvem.
+- **What happened, what it proved, what comes next:** [docs/DIARIO.md](docs/DIARIO.md)
+  (Portuguese) — the per-task build diary; per-phase design docs live in `docs/faseN.md`.
+- **Secrets** (the private keys `setup_wallets.py` generates) go to a local `.env`
+  (gitignored, never committed). To keep them elsewhere, point `MESA_ENV_FILE` at
+  the file — and keep it **out** of synced folders (OneDrive/Dropbox): a key in a
+  synced folder is a key in the cloud.
 
-## Mapa do repo
+## Repo map
 
-| Caminho | O que é |
+| Path | What it is |
 |---|---|
-| `src/mesa/config.py` | Constantes (USDC, rede, chain id) + `Settings` lidas do `.env` |
-| `src/mesa/db.py` | Acesso ao livro — **insert-only por construção** (invariante D-06) |
-| `src/mesa/reconcile.py` | **O coração**: reconciliação de três pontas, função pura (vira biblioteca) |
-| `src/mesa/collector.py` | Coletor on-chain: `Transfer` + `AuthorizationUsed` por txHash; idempotente, cursor persistido |
-| `src/mesa/cli.py` | `uv run python -m mesa.cli` — a tabela de vereditos, órfãos em vermelho |
-| `src/mesa/http/` | Trilho HTTP (Fase 1): `seller.py` (endpoint de brinquedo + caos) e `buyer.py` (comprador instrumentado) |
-| `src/mesa/mcp/` | Trilho MCP (Fase 2, D-01): `seller.py` (ferramenta paga) e `buyer.py` (adapter + captura) |
-| `migrations/` | SQL puro numerado — schema agnóstico de trilho e transporte |
-| `scripts/` | Utilitários de ambiente (carteiras, saldo, banco) + `fase1/`, `fase2/` — as provas executáveis de cada fase |
-| `tests/` | O gate como teste pytest: dado sujo → classificação esperada |
-| `docs/` | `DIARIO.md` (narrativa por tarefa) + doc de design de cada fase (`fase2.md`, …) |
-| `notes/` | Rascunhos p/ fora (ex.: comentário no OTel #443) |
+| `src/mesa/config.py` | Constants (USDC, network, chain id) + `Settings` read from `.env` |
+| `src/mesa/db.py` | Ledger access — **insert-only by construction** |
+| `src/mesa/reconcile.py` | **The heart**: three-way reconciliation, pure function |
+| `src/mesa/collector.py` | On-chain collector: `Transfer` + `AuthorizationUsed` per txHash; idempotent, persisted cursor |
+| `src/mesa/cli.py` | `uv run python -m mesa.cli` — the verdict table, orphans in red |
+| `src/mesa/http/` | HTTP rail: toy seller (with chaos modes) + instrumented buyer |
+| `src/mesa/mcp/` | MCP: paid-tool rail (seller/buyer) + `livro.py`, the read-only product MCP server |
+| `src/mesa/app/` | The web app (FastAPI + Jinja2, server-rendered, read-only session) |
+| `src/mesa/passaporte.py` | The payer passport: portable, self-signed settlement history |
+| `src/mesa/contabil.py` / `carf.py` / `decripto.py` | The export renderers (accounting / OECD CARF / Brazil) |
+| `migrations/` | Numbered plain SQL — schema agnostic to rail and transport |
+| `scripts/` | Environment utilities + `faseN/` — the executable proofs of each phase |
+| `tests/` | The gates as pytest: dirty data in → expected classification out |
+| `docs/` | Build diary + per-phase design docs (Portuguese) |
+| `verificador/` | Standalone verifiers — check the ledger and passports **without trusting this repo** |
 
-## Subir o ambiente
+## Environment
 
 ```powershell
 uv sync
 docker run -d --name mesa-pg -e POSTGRES_USER=mesa -e POSTGRES_PASSWORD=mesa `
   -e POSTGRES_DB=mesa -p 127.0.0.1:5433:5432 `
   -v mesa-pgdata:/var/lib/postgresql/data postgres:17
-# 127.0.0.1 obrigatório: sem ele o livro fica aberto pra qualquer máquina no mesmo
-# Wi-Fi (docs/seguranca.md, furo 1). scripts/saude.py confere isso sempre.
-uv run python scripts/setup_wallets.py   # gera as EOAs -> .env (NUNCA commitado)
-uv run python scripts/check_db.py        # Postgres de pé + migrations
-uv run python scripts/check_balance.py   # saldo USDC lido on-chain
-uv run python scripts/saude.py           # UM comando: ruff+mypy+pytest+verificador+portas+segredos
-uv run python scripts/backup_db.py       # dump do livro -> backups/ (rotina, ~5s)
+# 127.0.0.1 is mandatory: without it the ledger is open to any machine on the same
+# Wi-Fi (docs/seguranca.md, hole #1). scripts/saude.py checks this, always.
+uv run python scripts/setup_wallets.py   # generates the EOAs -> .env (NEVER committed)
+uv run python scripts/check_db.py        # Postgres up + migrations + genesis
+uv run python scripts/check_balance.py   # USDC balance read on-chain
+uv run python scripts/saude.py           # ONE command: ruff+mypy+pytest+verifier+ports+secret scan
+uv run python scripts/backup_db.py       # ledger dump -> backups/ (routine, ~5s)
 ```
 
-Faucet: https://faucet.circle.com → USDC → Base Sepolia (20 USDC / 2h por endereço).
-Chave da Anthropic (só p/ o agente da T6): linha `ANTHROPIC_API_KEY=...` em `C:\dev\mesa.env`.
+Faucet: https://faucet.circle.com → USDC → Base Sepolia (20 USDC / 2h per address).
+Anthropic key (only for the invoice-rail agent demo): `ANTHROPIC_API_KEY=...` in
+your secrets env file.
 
-## Rodar as provas de cada fase
+## Run the proofs of each phase
 
 ```powershell
-# Fase 1 — o livro fecha com dado sujo (GATE 1 ✅ 19/08)
-uv run uvicorn mesa.http.seller:app --port 8402     # terminal 1: vendedor HTTP
-uv run python scripts/fase1/chaos_run.py            # terminal 2: caos + reconciliação + asserts
+# Phase 1 — the ledger closes on dirty data
+uv run uvicorn mesa.http.seller:app --port 8402     # terminal 1: HTTP seller
+uv run python scripts/fase1/chaos_run.py            # terminal 2: chaos + reconciliation + asserts
 
-# Fase 2 — MCP (T2 ✅ 20/08)
-uv run python -m mesa.mcp.seller                    # terminal 1: vendedor MCP (porta 8403)
-uv run python scripts/fase2/mcp_once.py             # terminal 2: 1 tool call pago + livro
+# Phase 2 — x402 over MCP
+uv run python -m mesa.mcp.seller                    # terminal 1: MCP seller (port 8403)
+uv run python scripts/fase2/mcp_once.py             # terminal 2: 1 paid tool call + ledger
 
-# Fase 8 — as telas (GATE 8 ✅ 21/08): gerar do livro e abrir no navegador
-uv run python scripts/fase8/telas_build.py           # -> scripts/fase8/mesa-telas.html
-uv run python scripts/fase8/aprovacao_demo.py        # demo D-14 (interativa, testnet)
+# Phase 10 — the payer passport (emits, verifies, gates a seller)
+uv run python scripts/fase10/gate10_demo.py
 
-# Fase 9 — relatório público do censo (pacote ✅ 21/08; publicar = Beny)
-uv run python scripts/fase9/relatorio_build.py       # -> relatorio/*.md + dados/
-
-# A qualquer momento: varrer a chain e reconciliar
-uv run python -m mesa.collector                      # testnet (vendedor)
-uv run python -m mesa.collector --pagador            # mainnet (censo)
+# Any time: sweep the chain and reconcile
+uv run python -m mesa.collector                      # testnet (seller payTo)
+uv run python -m mesa.collector --pagador            # mainnet (payer-side)
 uv run python -m mesa.cli
 ```
 
-## Qualidade (o "pronto" tem definição)
+## Quality ("done" has a definition)
 
 ```powershell
-uv run python scripts/saude.py    # UM comando: ruff+mypy+pytest+verificador+portas+segredos
+uv run python scripts/saude.py    # ONE command: ruff+mypy+pytest+verifier+ports+secret scan
 ```
 
-Modelo de ameaças e o que fica de fora, com nome: [docs/seguranca.md](docs/seguranca.md).
+Threat model, and what is out of scope — by name: [docs/seguranca.md](docs/seguranca.md).
