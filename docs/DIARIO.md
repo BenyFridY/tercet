@@ -19,13 +19,30 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ## ⏭️ AGORA: as 12 fases de CÓDIGO estão completas — o que resta é seu
 
-**O programa fechou o código em 23/08/2026. O NOME está BATIDO: tercet (24/08).**
-O que falta é, por decisão sua, tudo junto no fim: (1) repo público no GitHub;
-(2) v0.1 no PyPI (o pacote renomeia `mesa` → `tercet` nesse dia, por sed — decisão
-da Fase 12); (3) as publicações congeladas (`notes/publicar/` + branch em
-`C:\dev\x402-fork`; re-certificar no dia: `docs/passo-a-passo-publicacao.md`).
+**O programa fechou o código em 23/08. Nome BATIDO: tercet (24/08). REPO PÚBLICO
+NO AR (24/08): https://github.com/BenyFridY/tercet** — criado a pedido do Beny,
+após varredura de segredos na história inteira (limpa), com LICENSE MIT, capa e
+badges. O que ainda falta, por decisão sua: (1) v0.1 no PyPI (o pacote renomeia
+`mesa` → `tercet` nesse dia, por sed); (2) as publicações congeladas
+(`notes/publicar/` + branch em `C:\dev\x402-fork`; re-certificar no dia:
+`docs/passo-a-passo-publicacao.md`); (3) site → GitHub Pages quando quiser.
 Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro, no navegador —
 e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu agente (F13).
+
+---
+
+## Fase 14c ✅ LEGENDA CLICÁVEL + REPO PÚBLICO NO AR (pedido do Beny, 24/08)
+
+**"Deixe um modo de quando você pressiona aparecer o que é"** — feito: botão
+**? LEGENDA** no topo de toda tela + **pressionar qualquer pílula abre a gaveta
+de legenda já no item certo** (estados, redes, byte-repetido, append-only,
+carimbos, e a distinção estado ≠ veredito). E **"vamos criar o repo"** — criado:
+**https://github.com/BenyFridY/tercet** (público, MIT, capa SVG própria, badges,
+topics). Antes do push: varredura de segredos na HISTÓRIA inteira do git — as 3
+ocorrências de padrão eram o nosso próprio scanner e uma chave FALSA de teste
+(`sk-ant-teste-123` do teste que prova que SecretStr não vaza). CI do GitHub
+Actions rodou de verdade pela primeira vez. Posts/PyPI continuam adiados por
+decisão dele. 132 testes.
 
 ---
 
