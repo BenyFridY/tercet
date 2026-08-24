@@ -20,6 +20,17 @@ O app é **somente leitura por construção**: a sessão Postgres abre com
 `default_transaction_read_only=on` — ele não consegue escrever no livro nem que queira, e
 `tests/test_app.py` prova isso. Dado real sempre; testnet e sintético rotulados NA tela.
 
+## O MCP — o livro como ferramentas para agentes (Fase 13, D-37)
+
+```powershell
+claude mcp add mesa -- uv run mesa-mcp    # e pergunte: "quanto meus agentes gastaram?"
+```
+
+Sete ferramentas de LEITURA (lista fechada, provada por teste): `status_do_livro`, `gasto`,
+`compras` (com filtros), `compra` (a gaveta de eventos), `vereditos`, `passaportes`, `fiscal`.
+Mesma garantia do app: a sessão é read-only estrutural — o servidor MCP não tem caminho de
+escrita; `tests/test_mcp_livro.py` prova. Transporte stdio, local.
+
 ## Exemplo do zero (terceiro, só com este README) — GATE 12
 
 Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker, Python 3.11+.

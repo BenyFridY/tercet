@@ -25,6 +25,7 @@ dependencies = [
 
 [project.scripts]
 mesa-app = "mesa.app.main:rodar"
+mesa-mcp = "mesa.mcp.livro:main"
 
 [dependency-groups]
 dev = [

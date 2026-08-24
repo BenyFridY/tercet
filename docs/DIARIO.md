@@ -23,7 +23,24 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 no fim: (1) o NOME do produto ("mesa" está tomado no PyPI); (2) repo público no GitHub;
 (3) v0.1 no PyPI; (4) as publicações congeladas (`notes/publicar/` + branch em
 `C:\dev\x402-fork`; re-certificar no dia: `docs/passo-a-passo-publicacao.md`).
-Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro, no navegador.
+Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro, no navegador —
+e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu agente (F13).
+
+---
+
+## Fase 13 / item 1 ✅ O MCP DO PRODUTO (pedido do Beny, 23/08 — GATE 13a VERDE)
+
+**"Arrume o MCP por favor então"** — feito no mesmo dia, pelo método (doc antes do
+código: `docs/fase13-mcp.md`). A Fase 2 tinha MCP como trilho de COMPRA (agente
+pagando tool calls); agora existe a direção oposta: **`uv run mesa-mcp`** — o livro
+como 7 ferramentas de leitura para qualquer assistente (`claude mcp add mesa -- uv
+run mesa-mcp`): status_do_livro, gasto, compras, compra, vereditos, passaportes,
+fiscal. As regras de sempre, agora como D-37: sessão read-only estrutural (INSERT
+recusado, teste prova), lista FECHADA (teste prova), honestidade na resposta
+(testnet rotulada, "atualizado até o bloco N"). O gate rodou como um agente rodaria:
+cliente MCP real por stdio em processo separado — lista confere, o `gasto` que
+atravessou o transporte bateu com SQL independente (US$ 0,272 mainnet). 119 testes.
+Itens 2 e 3 da Fase 13 (export contábil universal, carf-xml) aguardam "vai".
 
 ---
 
