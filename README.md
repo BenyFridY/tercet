@@ -93,12 +93,12 @@ uv run mesa-app                              # -> http://127.0.0.1:8400
 
 Custa **zero dinheiro real**: USDC de faucet, e no scheme `exact` o facilitator paga o gas.
 
-- **Docs do projeto** (tese, decisões D-01–D-33, programa de 12 fases): um nível acima,
-  na raiz `x402\` (README → PLANO → DECISOES). Este repo vive DENTRO da raiz desde 20/08.
 - **O que já aconteceu, o que provou e o que vem agora:** [docs/DIARIO.md](docs/DIARIO.md) ←
-  comece por aqui para se situar.
-- **Segredos** (chaves privadas, `ANTHROPIC_API_KEY`): **`C:\dev\mesa.env`** — fora da pasta
-  sincronizada pelo OneDrive, de propósito (chave em pasta de sync = chave na nuvem).
+  comece por aqui para se situar; os docs de design de cada fase estão em `docs/faseN.md`.
+- **Segredos** (chaves privadas geradas pelo `setup_wallets.py`): vão para `.env` local
+  (gitignorado, nunca commitado). Se preferir guardá-los em outro lugar, aponte
+  `MESA_ENV_FILE` para o arquivo — e mantenha-o **fora** de pastas sincronizadas
+  (OneDrive/Dropbox): chave em pasta de sync = chave na nuvem.
 
 ## Mapa do repo
 

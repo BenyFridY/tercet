@@ -6,6 +6,8 @@ Fontes dos endereços: DECISOES.md D-18 / PLANO.md (tabela de ambiente); USDC ma
 é o contrato canônico da Circle na Base (conferido on-chain no smoke da Fase 3).
 """
 
+import os
+
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -46,10 +48,14 @@ TOY_PRICE_USDC_MINOR = 10_000  # inteiro em unidade mínima, nunca float (invari
 class Settings(BaseSettings):
     """Lidas de .env (nunca commitado). Chaves privadas só vivem aqui."""
 
-    # Segredos moram FORA da pasta sincronizada pelo OneDrive (repo vive em Documents\x402\mesa):
-    # chave privada em pasta de sync = chave na nuvem. C:\dev\mesa.env tem precedência.
+    # Ordem de leitura (a última tem precedência; arquivo ausente é ignorado):
+    # .env local → env legado fora de pasta sincronizada → MESA_ENV_FILE do ambiente.
+    # Chave privada em pasta sincronizada (OneDrive/Dropbox) = chave na nuvem: evite.
     model_config = SettingsConfigDict(
-        env_file=(".env", r"C:\dev\mesa.env"), env_file_encoding="utf-8", extra="ignore"
+        env_file=(".env", r"C:\dev\mesa.env",
+                  os.environ.get("MESA_ENV_FILE", "")) if os.environ.get("MESA_ENV_FILE")
+        else (".env", r"C:\dev\mesa.env"),
+        env_file_encoding="utf-8", extra="ignore",
     )
 
     rpc_url: str = DEFAULT_RPC_URL

@@ -59,7 +59,8 @@ async def chamada_llm_real(settings: Settings) -> tuple[str, int, int]:
 async def main() -> None:
     settings = Settings()
     if not settings.anthropic_api_key:
-        raise SystemExit("ANTHROPIC_API_KEY ausente em C:\\dev\\mesa.env")
+        raise SystemExit("ANTHROPIC_API_KEY ausente no arquivo de segredos "
+                         "(.env / MESA_ENV_FILE)")
     conn = db.connect()
     db.apply_migrations(conn)
     tracer = configurar_tracer(conn, "mesa-fase6", otlp_endpoint=OTLP)

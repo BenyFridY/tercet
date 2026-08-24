@@ -3,17 +3,32 @@
 Idempotente: se o arquivo já tem chaves, NÃO sobrescreve (aborta com aviso).
 Imprime só endereços — nunca chaves privadas.
 
-Desde 20/08 o repo vive na raiz x402 (pasta sincronizada pelo OneDrive) — segredos
-ficam FORA do sync, em C:\\dev\\mesa.env (o config.py lê de lá com precedência).
+Onde o arquivo de segredos vive (mesma ordem que o config.py lê):
+1. `MESA_ENV_FILE` no ambiente, se definido;
+2. um env legado fora de pasta sincronizada, se já existir (chave em pasta de
+   sync = chave na nuvem — evite);
+3. senão, `.env` no diretório atual (o caso de quem clonou o repo agora).
 """
 
+import os
 from pathlib import Path
 
 from eth_account import Account
 from rich.console import Console
 
 console = Console()
-ENV_PATH = Path(r"C:\dev\mesa.env")
+
+_LEGADO = Path(r"C:\dev\mesa.env")
+
+
+def _env_path() -> Path:
+    via_ambiente = os.environ.get("MESA_ENV_FILE")
+    if via_ambiente:
+        return Path(via_ambiente)
+    return _LEGADO if _LEGADO.exists() else Path(".env")
+
+
+ENV_PATH = _env_path()
 
 
 def main() -> None:
