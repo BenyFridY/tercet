@@ -31,6 +31,28 @@ e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu
 
 ---
 
+## GATE 12 · SIMULADO VERDE (24/08) — o "terceiro" clonou do GitHub e fechou o ciclo
+
+A pedido do Beny, simulei o terceiro à risca: clone de **github.com/BenyFridY/tercet**
+em diretório limpo (`C:\dev\tercet-teste`), seguindo SÓ o README. **Quatro achados
+reais, todos corrigidos e no ar:** (1) README apontava para a raiz `x402\` e para
+`C:\dev\mesa.env` — caminhos que só existem na máquina do autor; (2)
+`setup_wallets.py` tinha o caminho do env HARDCODED → agora resolve
+`MESA_ENV_FILE` > env legado (se existir) > `.env` local; (3) comentários de código
+com narração pessoal → neutralizados (o diário é o lugar da história, não o código);
+(4) **o bloqueador**: banco zerado travava com "corrente sem genesis" num passo que
+o README nem citava → `check_db.py` agora prepara o banco INTEIRO (migrations +
+genesis idêntico ao do backfill, idempotente). **Depois dos fixes, o ciclo fechou
+completo no clone:** carteiras novas geradas → 10 pagamentos x402 REAIS na testnet
+→ coletor achou as 10 transferências on-chain e casou 10/10 → reconciliação limpa
+(10 compras · 10 liquidações · zero anomalias) → app de pé com o livro do
+"estranho". **Desvio documentado:** o passo do faucet (faucet.circle.com é site com
+interação humana) foi substituído por uma chave de teste já abastecida — o único
+passo do README que a simulação não exercitou. O GATE 12 REAL continua sendo um
+humano de fora; a simulação tirou as pedras do caminho dele.
+
+---
+
 ## Fase 14c ✅ LEGENDA CLICÁVEL + REPO PÚBLICO NO AR (pedido do Beny, 24/08)
 
 **"Deixe um modo de quando você pressiona aparecer o que é"** — feito: botão
