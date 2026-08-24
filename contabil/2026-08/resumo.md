@@ -1,6 +1,6 @@
 # Export contábil — 2026-08
 
-Gerado do livro real em 2026-08-24T01:28:46+00:00.
+Gerado do livro real em 2026-08-24T15:08:52+00:00.
 
 - **13 compras** x402 liquidadas na mainnet (competência pela data
   de São Paulo — a mesma régua da Fase 11).

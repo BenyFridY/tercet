@@ -1,6 +1,6 @@
 # CARF (OECD) — visão demo 2026
 
-Gerado do livro real em 2026-08-24T01:28:47+00:00.
+Gerado do livro real em 2026-08-24T15:08:55+00:00.
 
 **O que é:** a visão de conformidade — o que um RCASP reportaria sobre estas
 transações a partir de 2027. A mesa NÃO é RCASP; isto NÃO é um reporte. O

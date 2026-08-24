@@ -57,7 +57,8 @@ def _linha_json(ln: telas.Linha) -> dict[str, Any]:
 
 
 def criar_servidor() -> MCPServer:
-    server = MCPServer(name="mesa-livro", version="0.1.0", instructions=INSTRUCOES)
+    server = MCPServer(name="tercet-livro", version="0.1.0",
+                       instructions=INSTRUCOES)
 
     @server.tool(
         name="status_do_livro",

@@ -110,6 +110,21 @@ def test_operacoes_lista_fechada(cliente: Any) -> None:
     assert cliente.get("/api/operacao").status_code == 200
 
 
+def test_operacoes_incluem_os_exports_da_f13(cliente: Any) -> None:
+    """Fase 14: contabil e carf entram na lista FECHADA; livros lista os exports."""
+    from mesa.app import jobs
+    assert {"contabil", "carf"} <= set(jobs.OPERACOES)
+    html = cliente.get("/operacoes").text
+    assert "export contábil" in html and "CARF" in html
+    assert "EXPORTS (F13)" in cliente.get("/livros").text
+
+
+def test_marca_tercet_no_topo(cliente: Any) -> None:
+    """Fase 14: o martelo caiu — a tela veste tercet."""
+    html = cliente.get("/blotter").text
+    assert "tercet" in html and "<title>tercet · blotter</title>" in html
+
+
 def test_testnet_sempre_rotulada(cliente: Any) -> None:
     """D-12 na interface: se o livro tem compra testnet, a tela DIZ testnet."""
     with dados.conectar_leitura() as conn, conn.cursor() as cur:

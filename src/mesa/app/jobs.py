@@ -5,6 +5,7 @@ tela), rodando como subprocesso do MESMO Python do venv, com o log capturado par
 tela. Compra disparada daqui é SEMPRE testnet; mainnet exige "vai" fora do app.
 """
 
+import os
 import subprocess
 import sys
 import threading
@@ -68,6 +69,22 @@ OPERACOES: dict[str, Operacao] = {
         _py(str(_RAIZ / "scripts" / "fase11" / "decripto_build.py"),
             datetime.now(UTC).strftime("%Y-%m")),
     ),
+    "contabil": Operacao(
+        "contabil", "Gerar export contábil da competência (F13)",
+        "o diário de partidas dobradas: universal + QuickBooks + Xero, com o "
+        "detalhe compra-a-compra (6 casas + tx hash) que soma no exato; "
+        "débito==crédito e conferência SQL independente provados no build",
+        "zero — só leitura do livro; escreve arquivos em contabil/",
+        _py(str(_RAIZ / "scripts" / "fase13" / "contabil_build.py")),
+    ),
+    "carf": Operacao(
+        "carf", "Gerar visão CARF do ano (F13)",
+        "o que um RCASP reportaria destas transações (guia oficial OECD jul/2025); "
+        "nasce OECD11 (test data) + Warning de demonstração; validador do guia "
+        "morde adulteração — nada é transmitido a ninguém",
+        "zero — só leitura do livro; escreve arquivos em fiscal/carf/",
+        _py(str(_RAIZ / "scripts" / "fase13" / "carf_build.py")),
+    ),
 }
 
 
@@ -99,7 +116,10 @@ def _rodar(job: Job, argv: list[str]) -> None:
     try:
         proc = subprocess.Popen(
             argv, cwd=str(_RAIZ), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            text=True, encoding="utf-8", errors="replace", bufsize=1)
+            text=True, encoding="utf-8", errors="replace", bufsize=1,
+            # Windows: sem isto o print() do filho nasce cp1252 e um "ê" derruba
+            # o motor (achado do GATE 14)
+            env={**os.environ, "PYTHONIOENCODING": "utf-8"})
         assert proc.stdout is not None
         for linha in proc.stdout:
             job.log.append(linha.rstrip("\n"))

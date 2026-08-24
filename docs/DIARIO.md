@@ -19,12 +19,33 @@ pago-sem-entrega, replay…). Nunca tocamos em chave ou dinheiro — só observa
 
 ## ⏭️ AGORA: as 12 fases de CÓDIGO estão completas — o que resta é seu
 
-**O programa fechou o código em 23/08/2026.** O que falta é, por decisão sua, tudo junto
-no fim: (1) o NOME do produto ("mesa" está tomado no PyPI); (2) repo público no GitHub;
-(3) v0.1 no PyPI; (4) as publicações congeladas (`notes/publicar/` + branch em
+**O programa fechou o código em 23/08/2026. O NOME está BATIDO: tercet (24/08).**
+O que falta é, por decisão sua, tudo junto no fim: (1) repo público no GitHub;
+(2) v0.1 no PyPI (o pacote renomeia `mesa` → `tercet` nesse dia, por sed — decisão
+da Fase 12); (3) as publicações congeladas (`notes/publicar/` + branch em
 `C:\dev\x402-fork`; re-certificar no dia: `docs/passo-a-passo-publicacao.md`).
 Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro, no navegador —
 e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu agente (F13).
+
+---
+
+## Fase 14 ✅ O MARTELO + O PRODUTO BONITINHO (24/08 — GATE 14 VERDE)
+
+**O nome está BATIDO: tercet** ("nome tá ok" do Beny, 24/08). O que vestiu a marca
+agora: o app (título, wordmark e o símbolo das três linhas no topo), o servidor MCP
+(`tercet-livro`), o README e o rodapé do site ("name approved — the package renames
+at first public release"). O pacote Python segue `mesa` até o dia do PyPI (decisão
+da Fase 12, troca por sed). **Utilidades novas:** a aba 06 operações ganhou os dois
+motores da F13 — gerar o export contábil e a visão CARF pela tela, lista fechada,
+zero dinheiro — e a aba 05 livros virou o índice dos artefatos gerados (decripto +
+contabil + carf). **GATE 14 provado:** os dois exports disparados por POST na
+interface, rc=0, log ao vivo; livros listando; marca conferida por screenshot; MCP
+demonstrado AO VIVO na conversa (gasto/vereditos/compras/passaportes/fiscal
+respondendo do banco). **Dois achados honestos do gate:** (1) o Docker reiniciou e
+derrubou o mesa-pg no meio da demo — o MCP disse "connection timeout" em vez de
+inventar número (comportamento certo); (2) no Windows o print() dos motores nascia
+cp1252 e um "ê" derrubava o job — o runner agora passa PYTHONIOENCODING=utf-8 a
+todos os filhos. Suíte: **130 testes**.
 
 ---
 

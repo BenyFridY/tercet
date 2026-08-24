@@ -1,4 +1,8 @@
-# mesa (nome de trabalho)
+# tercet (código ainda como `mesa` até o primeiro release público)
+
+*Um tercet é uma estrofe de três versos que pertencem um ao outro — aqui, cada
+compra é um: request, autorização, liquidação. Nome aprovado em 24/08/2026; o
+pacote Python renomeia junto com a publicação no PyPI.*
 
 O livro da compra feita por agente: registra o que os agentes compraram (requisição → cotação →
 autorização), casa com a liquidação on-chain e **explica toda diferença**. Nunca toca chave, saldo

@@ -87,7 +87,10 @@
         <div class="sub">sem operação mainnet na competência corrente</div>
       {% endif %}
       <div class="sub" style="margin-top:10px">
-        ARQUIVOS GERADOS: {% for c in competencias_geradas %}fiscal/decripto/{{ c }} · {% else %}nenhum ainda — {% endfor %}REGENERAR: scripts/fase11/decripto_build.py
+        ARQUIVOS GERADOS: {% for c in competencias_geradas %}fiscal/decripto/{{ c }} · {% else %}nenhum ainda — {% endfor %}REGENERAR: scripts/fase11/decripto_build.py (ou aba 06)
+      </div>
+      <div class="sub" style="margin-top:6px">
+        EXPORTS (F13): {% for c in contabil_gerados %}contabil/{{ c }} (diário universal · QBO · Xero + detalhe) · {% endfor %}{% for c in carf_gerados %}fiscal/carf/{{ c }} (visão OECD, test data) · {% endfor %}{% if not contabil_gerados and not carf_gerados %}nenhum ainda — {% endif %}GERAR PELA ABA 06 OPERAÇÕES
       </div>
     </div>
   </div>

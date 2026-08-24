@@ -25,6 +25,12 @@ _RAIZ = Path(__file__).resolve().parents[3]
 _CANDIDATOS = _RAIZ / "scripts" / "fase3" / "candidatos.json"
 _PASSAPORTES = _RAIZ / "scripts" / "fase10" / "saida"
 _FISCAL = _RAIZ / "fiscal" / "decripto"
+_CONTABIL = _RAIZ / "contabil"
+_CARF = _RAIZ / "fiscal" / "carf"
+
+
+def _subdirs(base: Path) -> list[str]:
+    return [p.name for p in sorted(base.iterdir()) if p.is_dir()] if base.exists() else []
 
 # canônicos conhecidos (D-11: o livro só tem hash; a tela traduz com mapa PÚBLICO)
 CANONICOS_FIXOS = {
@@ -298,13 +304,12 @@ def contexto_livros(conn: psycopg.Connection[Any]) -> dict[str, Any]:
         devida, veredicto = dc.obrigacao(total)
         fiscal.update({"total_reais": str(total), "devida": devida,
                        "veredicto": veredicto})
-    competencias = ([p.name for p in sorted(_FISCAL.iterdir()) if p.is_dir()]
-                    if _FISCAL.exists() else [])
-
     return {"vereditos": contagens, "n_compras": len(compras),
             "n_liquidacoes": len(liquidacoes), "periodos": periodos,
             "carimbos": carimbos, "fatura": fatura, "invoice": invoice,
-            "fiscal": fiscal, "competencias_geradas": competencias}
+            "fiscal": fiscal, "competencias_geradas": _subdirs(_FISCAL),
+            "contabil_gerados": _subdirs(_CONTABIL),
+            "carf_gerados": _subdirs(_CARF)}
 
 
 # ------------------------------------------------------------------ helpers
