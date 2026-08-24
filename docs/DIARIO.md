@@ -27,7 +27,23 @@ Enquanto isso: `uv run mesa-app` → http://127.0.0.1:8400 — o produto inteiro
 
 ---
 
-## Fase 12D · NOME + LOGO propostos: **Razão** (aguarda martelo do Beny)
+## Fase 12E · TROCA DE MARCA a pedido do Beny (23/08): Razão → **tercet**
+
+Beny pediu "mude nome e símbolo" — e no mesmo recado disse que o objetivo talvez não
+seja só BR. Os dois pedidos se encontram: *Razão* tem ã, não viaja; o nome novo precisa
+funcionar no ecossistema x402 (majoritariamente americano). **tercet** = estrofe de
+TRÊS versos que pertencem um ao outro — aqui, cada compra é um: request, autorização,
+liquidação. E a *terza rima* de Dante encadeia os tercetos (nenhum sai sem quebrar o
+poema) — exatamente a nossa corrente de hash. Filtro duplo refeito em 23/08: `tercet`
+LIVRE no PyPI (404); busca web não achou empresa tercet em software/AI/fintech.
+Checados e descartados: cotejo/symbolon/countersign/pacioli/laudo (PyPI tomado).
+Vivos como alternativa: partita, confere, terza, chirograph, bookmatch. **Símbolo
+novo**: três linhas horizontais — a terceira fecha em check verde (a última linha
+confere). Aplicado em site + logo.svg; código continua `mesa` até o martelo final.
+
+---
+
+## Fase 12D · NOME + LOGO propostos: ~~**Razão**~~ (substituído pela 12E a pedido do Beny)
 
 Feedback do Beny no site: os números do censo no topo não prendem — viraram a faixa de
 prova "we eat with our own fork" na seção de confiança; o topo agora é VALOR (see it /

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Razão</title>
-<meta name="description" content="Razão is the book of record for machine payments — every agent purchase becomes a verifiable receipt in an append-only ledger that proves itself.">
+<title>Tercet</title>
+<meta name="description" content="Tercet is the book of record for machine payments — every agent purchase becomes a verifiable receipt in an append-only ledger that proves itself.">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
@@ -45,7 +45,6 @@
   .top .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
   .logo { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 21px;
           letter-spacing: -0.02em; color: var(--ink); }
-  .logo .til { color: var(--verde); }
   .top nav { margin-left: auto; display: flex; gap: 26px; align-items: center;
              font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em;
              text-transform: uppercase; }
@@ -214,15 +213,13 @@
 <div class="top"><div class="wrap">
   <span class="logo">
     <svg width="25" height="25" viewBox="0 0 48 48" aria-hidden="true">
-      <g stroke="#5F6772" stroke-width="2.6" fill="none" stroke-linecap="round">
-        <path d="M9 13 L24 32"/><path d="M24 9 L24 32"/><path d="M39 13 L24 32"/>
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13 H34" stroke="#9AA3AE" stroke-width="4.6"/>
+        <path d="M10 23 H38" stroke="#5F6772" stroke-width="4.6"/>
+        <path d="M10 33 h13 l6.5 6.5 L41 26" stroke="#2BB98A" stroke-width="4.6"/>
       </g>
-      <circle cx="9" cy="10.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
-      <circle cx="24" cy="6.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
-      <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#9AA3AE" stroke-width="2.2"/>
-      <circle cx="24" cy="37" r="5.4" fill="#2BB98A"/>
     </svg>
-    <span>raz<span class="til">ã</span>o</span>
+    <span>tercet</span>
   </span>
   <nav>
     <a href="#produto">Product</a>
@@ -238,7 +235,7 @@
   <div class="wrap">
     <div>
       <span class="kicker"><span class="dot"></span>the book of record for machine payments</span>
-      <h1>Your agents buy.<br><span class="grad">Razão keeps the books.</span></h1>
+      <h1>Your agents buy.<br><span class="grad">Tercet keeps the books.</span></h1>
       <p class="sub">
         Every machine purchase — x402 today; card and invoice through the same schema —
         becomes a verifiable receipt in an append-only ledger that proves its own
@@ -374,15 +371,15 @@ uv run python scripts/fase1/buyer.py 10</span>
 <section id="confianca" class="centro"><div class="wrap">
   <span class="kicker"><span class="dot"></span>why you can trust an auditor</span>
   <h2><span class="grad">Structurally incapable</span> — not merely well-behaved.</h2>
-  <p class="lede">An auditor that holds your money is not an auditor. Razão's guarantees are architectural: things it <i>cannot</i> do.</p>
+  <p class="lede">An auditor that holds your money is not an auditor. Tercet's guarantees are architectural: things it <i>cannot</i> do.</p>
   <div class="cards3" style="text-align:left">
     <div class="c revela"><span class="k" style="color:var(--verde2)">no hands on funds</span>
       <h3>It can't touch your money</h3>
-      <p>No custody, no keys required by the ledger, no balance, no token. Enforcement lives in the buyer's SDK and on-chain caps; razão observes and produces evidence.</p>
+      <p>No custody, no keys required by the ledger, no balance, no token. Enforcement lives in the buyer's SDK and on-chain caps; tercet observes and produces evidence.</p>
       <span class="mono mini">READ-ONLY DB SESSION IN THE APP — AN INSERT LITERALLY FAILS</span></div>
     <div class="c revela"><span class="k" style="color:var(--verde2)">never in the path</span>
       <h3>It can't block a payment</h3>
-      <p>Razão is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline.</p>
+      <p>Tercet is never in the critical path of a settlement and cannot veto one. Pre-signature checks run in <i>your</i> client, offline.</p>
       <span class="mono mini">SERVER-SIDE VETO = CUSTODY-LIKE POWER. WE REFUSE THE POWER.</span></div>
     <div class="c revela"><span class="k" style="color:var(--verde2)">tamper-evident</span>
       <h3>It can't rewrite the past</h3>
@@ -422,7 +419,7 @@ uv run python scripts/fase1/buyer.py 10</span>
   <div class="prova revela" style="text-align:left">
     <p style="margin:0;color:var(--sec);max-width:78ch">
       A DeCripto (IN RFB 2.291/2025) estreou em 2026 — e quem compra com cripto em
-      autocustódia responde por ela. O razão gera o arquivo da competência direto do livro:
+      autocustódia responde por ela. O tercet gera o arquivo da competência direto do livro:
       PTAX da data certa (regra de São Paulo, point-in-time), registro 0450 por operação e a
       alternativa do art. 9º — só o hash da transação, que o livro já guarda com recibo — no
       registro 0980. Validado contra o leiaute oficial, com um validador que reprova um único
@@ -447,7 +444,7 @@ uv run python scripts/fase1/buyer.py 10</span>
 </div></div>
 
 <footer><div class="wrap">
-  <span>RAZÃO · PRE-RELEASE · 2026 — <i>razão</i> IS PORTUGUESE FOR BOTH THE GENERAL LEDGER (<i>livro-razão</i>) AND "REASON". WE MEAN BOTH.</span>
+  <span>TERCET · PRE-RELEASE · 2026 — A <i>TERCET</i> IS A STANZA OF THREE LINES THAT BELONG TOGETHER. HERE, EVERY PURCHASE IS ONE: REQUEST, AUTHORIZATION, SETTLEMENT. DANTE CHAINED HIS TERCETS SO NONE COULD BE PULLED OUT WITHOUT BREAKING THE POEM — SO DOES THIS LEDGER.</span>
   <span>NEVER CUSTODY · NEVER IN THE PAYMENT PATH · APPEND-ONLY BY CONSTRUCTION</span>
   <span>ALL NUMBERS ON THIS PAGE WERE MEASURED, WITH RECEIPTS · CODE STILL SHIPS AS <span style="color:var(--sec)">mesa</span> UNTIL THE RENAME LANDS</span>
 </div></footer>

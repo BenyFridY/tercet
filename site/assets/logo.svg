@@ -1,12 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <!-- razão: as três pontas (request, autorização, liquidação) convergindo na verdade única -->
-  <g stroke="#626A76" stroke-width="2.6" fill="none" stroke-linecap="round">
-    <path d="M9 13 L24 32"/>
-    <path d="M24 9 L24 32"/>
-    <path d="M39 13 L24 32"/>
+  <!-- tercet: tres linhas que pertencem uma a outra (request, authorization, settlement) — a terceira confere -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 13 H34" stroke="#9AA3AE" stroke-width="4.6"/>
+    <path d="M10 23 H38" stroke="#5F6772" stroke-width="4.6"/>
+    <path d="M10 33 h13 l6.5 6.5 L41 26" stroke="#28A87F" stroke-width="4.6"/>
   </g>
-  <circle cx="9"  cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-  <circle cx="24" cy="6.5"  r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-  <circle cx="39" cy="10.5" r="3.4" fill="none" stroke="#98A0AB" stroke-width="2.2"/>
-  <circle cx="24" cy="37"   r="5.4" fill="#28A87F"/>
 </svg>
