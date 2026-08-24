@@ -25,6 +25,26 @@ ESTADO_CLASSE = {
     "expirou-sem-uso": "mudo", "sem-pagamento": "mudo", "fatura-pendente": "aviso",
 }
 
+# a legenda de CADA tag, no hover — o app se explica sozinho (pedido do Beny, 24/08)
+ESTADO_EXPLICA = {
+    "liquidado": "entregue E pago — a chain confirmou a cobrança",
+    "pago-sem-entrega": "a chain cobrou mas a entrega falhou — disputa em potencial",
+    "entregue-sem-cobrar": "o vendedor entregou e NÃO cobrou — a autorização venceu "
+                           "sem uso; dinheiro ficou na mesa (dele)",
+    "cobranca-pendente": "entregue; a autorização ainda está viva — o vendedor "
+                         "ainda PODE cobrar",
+    "autorizado-pendente": "autorização assinada e viva, sem liquidação na chain "
+                           "até agora — dinheiro NÃO saiu",
+    "expirou-sem-uso": "não entregou e a autorização venceu — dinheiro NÃO saiu",
+    "sem-pagamento": "a chamada falhou antes de assinar pagamento — sem efeito "
+                     "financeiro",
+    "fatura-conciliada": "trilho fatura (LLM): lançamento casado com a fatura do "
+                         "provedor",
+    "fatura-pendente": "trilho fatura: lançado no livro, aguardando conciliação",
+    "ingerido": "recibo de OUTRO trilho (MPP/AP2) ingerido como evidência — "
+                "inferência marcada como inferência",
+}
+
 
 def _fmt_usd(minor: int | None, casas: int = 4) -> str:
     """Unidade mínima (6 casas) → 'US$' no padrão do design (vírgula decimal)."""
@@ -49,7 +69,8 @@ templates.env.filters["curto"] = _curto
 def _render(request: Request, tela: str, contexto: dict[str, Any]) -> HTMLResponse:
     with dados.conectar_leitura() as conn:
         status = dados.status_livro(conn)
-    contexto.update({"tela": tela, "status": status, "estado_classe": ESTADO_CLASSE})
+    contexto.update({"tela": tela, "status": status, "estado_classe": ESTADO_CLASSE,
+                     "estado_explica": ESTADO_EXPLICA})
     return templates.TemplateResponse(request, f"{tela}.html", contexto)
 
 

@@ -9,6 +9,7 @@
       TESTE (TESTNET, ROTULADO): $ {{ ag.gasto_teste_minor|usd }}<br>
       FATURA LLM (MICRO-USD): $ {{ ag.invoice_micro_usd|usd }}<br>
       {{ ag.compras }} COMPRAS · {{ ag.entregas }} ENTREGAS
+      {% if anterior %}<br><span style="color:{{ 'var(--verde2)' if ag.gasto_real_minor >= anterior.gasto_real_minor else 'var(--aviso)' }}">{{ '↑' if ag.gasto_real_minor > anterior.gasto_real_minor else ('↓' if ag.gasto_real_minor < anterior.gasto_real_minor else '=') }} VS {{ dias }}D ANTERIORES: $ {{ anterior.gasto_real_minor|usd }} REAL · {{ anterior.compras }} COMPRAS</span>{% endif %}
     </div>
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)">
       {% for rail, minor in ag.por_rail.items() if minor %}
@@ -69,6 +70,24 @@
   </div>
 </div>
 
+<div class="grid" style="grid-template-columns: 1fr 1fr; padding-top: 0;">
+  {% for titulo, itens in [('Top fontes · dinheiro real', top_fontes), ('Top agentes · dinheiro real', top_agentes)] %}
+  <div class="card">
+    <div class="k">{{ titulo }}{% if dias %} · últimos {{ dias }} dias{% endif %}</div>
+    {% set maior = itens[0][1] if itens else 1 %}
+    {% for nome, minor in itens %}
+    <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+      <span class="mono" style="font-size:10px;color:var(--sec);width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ nome }}</span>
+      <div style="flex-grow:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06)">
+        <div style="width:{{ (100 * minor / maior)|round(1) }}%;height:6px;border-radius:3px;background:#28A87F"></div>
+      </div>
+      <span class="mono num" style="font-size:10px;width:74px;text-align:right">$ {{ minor|usd }}</span>
+    </div>
+    {% else %}<div class="sub" style="margin-top:6px">sem movimento real na janela</div>{% endfor %}
+  </div>
+  {% endfor %}
+</div>
+
 <div class="grid" style="grid-template-columns: 1fr; padding-top: 0;">
   <div class="card" style="padding:0;overflow:hidden">
     <div style="display:flex;align-items:center;gap:9px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07);flex-wrap:wrap">
@@ -82,23 +101,24 @@
       <select id="f-rail" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">trilho: todos</option></select>
       <select id="f-estado" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">estado: todos</option><option value="__atencao">precisa de atenção</option></select>
       <select id="f-rede" onchange="filtrar()" class="mono" style="background:#14171b;border:1px solid var(--borda);border-radius:6px;color:var(--sec);font-size:10px;padding:5px 6px"><option value="">rede: todas</option></select>
+      <button onclick="exportarCsv()" title="baixa as linhas FILTRADAS (todas, não só as visíveis) como CSV" class="mono" style="background:rgba(40,168,127,0.10);border:1px solid rgba(40,168,127,0.28);border-radius:6px;color:var(--verde);font-size:10px;padding:5px 9px;cursor:pointer;letter-spacing:.06em">EXPORTAR CSV</button>
     </div>
     <div style="overflow-x:auto">
     <table id="tabela-compras">
       <tr><th>Quando (UTC)</th><th>Recurso</th><th>Agente</th><th>Tarefa</th><th>Trilho · rede</th><th class="r">Cotado</th><th class="r">Liquidado</th><th class="r">Estado</th></tr>
       {% for ln in linhas %}
-      <tr class="clicavel" onclick="abrirCompra('{{ ln.rid }}')"
+      <tr class="clicavel" onclick="abrirCompra('{{ ln.rid }}')" data-rid="{{ ln.rid }}"
           data-recurso="{{ (ln.dominio or ln.recurso_hash)|lower }}" data-agente="{{ ln.agente or '—' }}"
           data-rail="{{ ln.rail }}" data-estado="{{ ln.estado }}"
           data-rede="{{ 'testnet' if ln.network == 'eip155:84532' else ('mainnet' if ln.network == 'eip155:8453' else (ln.network or '—')) }}">
         <td class="mono" style="color:var(--sec)">{{ ln.ts_utc.strftime('%d/%m %H:%M') }}</td>
-        <td class="mono">{{ ln.dominio or ln.recurso_hash[:12] ~ '…' }}{% if ln.repetido %} <span class="pill aviso">BYTE REPETIDO</span>{% endif %}</td>
+        <td class="mono">{{ ln.dominio or ln.recurso_hash[:12] ~ '…' }}{% if ln.repetido %} <span class="pill aviso" title="pagou de novo pelo MESMO conteúdo — mesmo recurso e mesmo hash de corpo já entregues antes">BYTE REPETIDO</span>{% endif %}</td>
         <td style="color:var(--sec)">{{ ln.agente or '—' }}</td>
         <td style="color:var(--sec)">{{ ln.tarefa or '—' }}</td>
-        <td class="mono" style="color:var(--sec)">{{ ln.rail }}{% if ln.network == 'eip155:84532' %} <span class="pill mudo">TESTNET</span>{% elif ln.network == 'eip155:8453' %} <span class="pill ok">MAINNET</span>{% endif %}</td>
+        <td class="mono" style="color:var(--sec)">{{ ln.rail }}{% if ln.network == 'eip155:84532' %} <span class="pill mudo" title="Base Sepolia — dinheiro de mentira, nunca somado ao real">TESTNET</span>{% elif ln.network == 'eip155:8453' %} <span class="pill ok" title="Base mainnet — dinheiro de verdade">MAINNET</span>{% endif %}</td>
         <td class="r num">{{ ln.amount_minor|usd if ln.amount_minor is not none else '—' }}</td>
         <td class="r num">{{ ln.settled_minor|usd if ln.settled_minor else '—' }}</td>
-        <td class="r"><span class="pill {{ estado_classe.get(ln.estado, 'mudo') }}">{{ ln.estado|upper }}</span></td>
+        <td class="r"><span class="pill {{ estado_classe.get(ln.estado, 'mudo') }}" title="{{ estado_explica.get(ln.estado, '') }}">{{ ln.estado|upper }}</span></td>
       </tr>
       {% endfor %}
     </table>
@@ -148,6 +168,34 @@ function filtrar() {
   } else pag.style.display = 'none';
 }
 function mostrarTudo() { limite = Infinity; filtrar(); }
+function linhasFiltradas() {  // TODAS que casam com o filtro, ignorando a paginação
+  const b = document.getElementById('f-busca').value.toLowerCase(),
+        a = document.getElementById('f-agente').value, r = document.getElementById('f-rail').value,
+        e = document.getElementById('f-estado').value, n = document.getElementById('f-rede').value;
+  return linhasTab().filter(tr => {
+    const okEstado = e === '__atencao'
+      ? (tr.dataset.estado === 'entregue-sem-cobrar' || tr.dataset.estado === 'pago-sem-entrega')
+      : (!e || tr.dataset.estado === e);
+    return (!b || tr.dataset.recurso.includes(b)) && (!a || tr.dataset.agente === a) &&
+           (!r || tr.dataset.rail === r) && okEstado && (!n || tr.dataset.rede === n);
+  });
+}
+function exportarCsv() {
+  const esc = v => '"' + String(v).replaceAll('"', '""') + '"';
+  const linhas = [['quando_utc','recurso','agente','tarefa','trilho','rede','cotado_usd','liquidado_usd','estado','request_id']
+    .map(esc).join(',')];
+  linhasFiltradas().forEach(tr => {
+    const td = tr.querySelectorAll('td');
+    linhas.push([td[0].innerText.trim(), tr.dataset.recurso, tr.dataset.agente,
+                 td[3].innerText.trim(), tr.dataset.rail, tr.dataset.rede,
+                 td[5].innerText.trim().replace(',', '.'), td[6].innerText.trim().replace(',', '.'),
+                 tr.dataset.estado, tr.dataset.rid].map(esc).join(','));
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([linhas.join('\r\n')], {type: 'text/csv;charset=utf-8'}));
+  a.download = 'tercet-compras-' + new Date().toISOString().slice(0, 10) + '.csv';
+  a.click(); URL.revokeObjectURL(a.href);
+}
 function verProblemas() {
   document.getElementById('f-estado').value = '__atencao';
   limite = Infinity; filtrar();

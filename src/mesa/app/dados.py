@@ -80,8 +80,16 @@ def status_livro(conn: psycopg.Connection[Any]) -> dict[str, Any]:
 def contexto_blotter(conn: psycopg.Connection[Any],
                      dias: int | None = None) -> dict[str, Any]:
     linhas = telas.carregar_linhas(conn, mapa_dominios())
+    anterior: dict[str, Any] | None = None
     if dias is not None:  # janela de período: cards + gráfico + tabela juntos
-        corte = datetime.now(UTC) - timedelta(days=dias)
+        agora = datetime.now(UTC)
+        corte = agora - timedelta(days=dias)
+        # o período ANTERIOR de mesmo tamanho — a comparação padrão Stripe/OpenRouter
+        prev = [ln for ln in linhas
+                if agora - timedelta(days=2 * dias) <= ln.ts_utc < corte]
+        ag_prev = telas.agregar(prev)
+        anterior = {"gasto_real_minor": ag_prev.gasto_real_minor,
+                    "compras": ag_prev.compras}
         linhas = [ln for ln in linhas if ln.ts_utc >= corte]
     desperdicio = telas.marcar_desperdicio(linhas)
     ag = telas.agregar(linhas)
@@ -97,10 +105,16 @@ def contexto_blotter(conn: psycopg.Connection[Any],
     # a série REAL separada da total: a linha verde é dinheiro de verdade;
     # a apagada inclui testnet (rotulada) — nunca somadas numa curva só
     por_dia_real: dict[str, int] = {}
+    top_fontes: dict[str, int] = {}
+    top_agentes: dict[str, int] = {}
     for ln in linhas:
         if ln.network != "eip155:84532" and ln.settled_minor:
             d = ln.ts_utc.date().isoformat()
             por_dia_real[d] = por_dia_real.get(d, 0) + ln.settled_minor
+            f = ln.dominio or f"não mapeado · {ln.recurso_hash[:12]}"
+            top_fontes[f] = top_fontes.get(f, 0) + ln.settled_minor
+            a = ln.agente or "—"
+            top_agentes[a] = top_agentes.get(a, 0) + ln.settled_minor
     return {
         "linhas": list(reversed(linhas)),  # mais recente primeiro, como no design
         "ag": ag,
@@ -114,6 +128,9 @@ def contexto_blotter(conn: psycopg.Connection[Any],
             [por_dia_real.get(d, 0) for d, _ in serie],
             topo=max((v for _, v in serie), default=1)),
         "dias": dias,
+        "anterior": anterior,
+        "top_fontes": sorted(top_fontes.items(), key=lambda kv: -kv[1])[:5],
+        "top_agentes": sorted(top_agentes.items(), key=lambda kv: -kv[1])[:5],
     }
 
 

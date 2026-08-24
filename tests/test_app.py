@@ -127,6 +127,8 @@ def test_blotter_periodo_e_card_de_atencao(cliente: Any) -> None:
     html = cliente.get("/blotter").text
     assert "Precisa de atenção" in html
     assert "__atencao" in html  # a opção do filtro que junta os dois estados
+    assert "EXPORTAR CSV" in html  # leva a evidência embora (linhas filtradas)
+    assert "Top fontes · dinheiro real" in html  # top-N da janela, só dinheiro real
 
 
 def test_marca_tercet_no_topo(cliente: Any) -> None:
