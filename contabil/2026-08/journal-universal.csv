@@ -1,0 +1,3 @@
+numero,data,conta,debito,credito,valor_exato_6c,narrativa
+x402-202608,2026-08-21,Despesas:Compras de agentes (x402),0.27,,0.272,Compras de agentes via x402 — 13 compras na competência 2026-08; total exato USD 0.272 (detalhe compra-a-compra com tx hash no detalhe-compras.csv)
+x402-202608,2026-08-21,Ativos digitais:USDC,,0.27,0.272,Compras de agentes via x402 — 13 compras na competência 2026-08; total exato USD 0.272 (detalhe compra-a-compra com tx hash no detalhe-compras.csv)

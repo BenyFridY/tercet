@@ -31,6 +31,18 @@ Sete ferramentas de LEITURA (lista fechada, provada por teste): `status_do_livro
 Mesma garantia do app: a sessão é read-only estrutural — o servidor MCP não tem caminho de
 escrita; `tests/test_mcp_livro.py` prova. Transporte stdio, local.
 
+## Os exports — contábil universal e CARF (Fase 13)
+
+```powershell
+uv run python scripts/fase13/contabil_build.py   # -> contabil/<aaaa-mm>/ (universal, QBO, Xero + detalhe com tx hash)
+uv run python scripts/fase13/carf_build.py       # -> fiscal/carf/<ano>/ (visão OECD, nasce OECD11/test data)
+```
+
+O diário de partidas dobradas da competência (débito==crédito provado; micro-pagamentos
+agregados, detalhe de auditoria em 6 casas) e a visão CARF (guia oficial OECD jul/2025) do
+que um RCASP reportaria destas transações — demonstração rotulada, identidades sintéticas,
+números reais. Detalhes e ressalvas: `docs/fase13-export.md`.
+
 ## Exemplo do zero (terceiro, só com este README) — GATE 12
 
 Pré-requisitos: [uv](https://docs.astral.sh/uv/), Docker, Python 3.11+.

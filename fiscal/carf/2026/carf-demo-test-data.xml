@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<carf:CARF_OECD xmlns:carf="urn:oecd:ties:carf:v1" xmlns:stf="urn:oecd:ties:carfstf:v1" xmlns:iso="urn:oecd:ties:carfiso:v1" version="1.5">
+  <carf:MessageSpec>
+    <carf:SendingEntityIN>mesa-demo</carf:SendingEntityIN>
+    <carf:TransmittingCountry>BR</carf:TransmittingCountry>
+    <carf:ReceivingCountry>BR</carf:ReceivingCountry>
+    <carf:MessageType>CARF</carf:MessageType>
+    <carf:Warning>DEMONSTRACAO / TEST DATA (OECD11). Transacoes REAIS do livro da mesa; identidades SINTETICAS. A mesa NAO e RCASP e este documento NAO e um reporte: e a visao de conformidade do que um RCASP reportaria.</carf:Warning>
+    <carf:MessageRefID>BR2026BR-mesa-demo-0a51f3392e77268d</carf:MessageRefID>
+    <carf:MessageTypeIndic>CARF701</carf:MessageTypeIndic>
+    <carf:ReportingPeriod>2026-12-31</carf:ReportingPeriod>
+    <carf:Timestamp>2026-08-24T01:28:47</carf:Timestamp>
+  </carf:MessageSpec>
+  <carf:CarfBody>
+    <carf:RCASP>
+      <carf:DocSpec>
+        <carf:DocTypeIndic>OECD11</carf:DocTypeIndic>
+        <carf:DocRefID>BR2026BR-mesa-demo-0a51f3392e77268d-rcasp</carf:DocRefID>
+      </carf:DocSpec>
+      <carf:ResCountryCode>BR</carf:ResCountryCode>
+      <carf:IN>00000000000000</carf:IN>
+      <carf:Name>FACILITADOR SINTETICO (DEMONSTRACAO - NAO E UM REPORTE REAL)</carf:Name>
+    </carf:RCASP>
+    <carf:ReportableUser>
+      <carf:DocSpec>
+        <carf:DocTypeIndic>OECD11</carf:DocTypeIndic>
+        <carf:DocRefID>BR2026BR-mesa-demo-0a51f3392e77268d-user</carf:DocRefID>
+      </carf:DocSpec>
+      <carf:UserID>
+        <carf:Individual>
+          <carf:ResCountryCode>BR</carf:ResCountryCode>
+          <carf:TIN>00000000000</carf:TIN>
+          <carf:Name>
+            <carf:FirstName>USUARIO</carf:FirstName>
+            <carf:LastName>SINTETICO (DEMONSTRACAO)</carf:LastName>
+          </carf:Name>
+        </carf:Individual>
+      </carf:UserID>
+      <carf:RelevantTransactions>
+        <carf:CryptoAsset>USDC</carf:CryptoAsset>
+        <carf:CryptoTransferOut>
+          <carf:TransferType>CARF603</carf:TransferType>
+          <carf:NumberofTransactions>13</carf:NumberofTransactions>
+          <carf:Amount currCode="USD">0.27</carf:Amount>
+          <carf:NumberofUnits>0.272000</carf:NumberofUnits>
+          <carf:AltValuation>CARF1004</carf:AltValuation>
+        </carf:CryptoTransferOut>
+      </carf:RelevantTransactions>
+    </carf:ReportableUser>
+  </carf:CarfBody>
+</carf:CARF_OECD>

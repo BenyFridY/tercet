@@ -28,6 +28,27 @@ e `claude mcp add mesa -- uv run mesa-mcp` — o livro respondendo DENTRO do seu
 
 ---
 
+## Fase 13 / itens 2+3 ✅ EXPORT CONTÁBIL + CARF ("pode seguir" do Beny — GATES 13b/13c VERDES)
+
+Os dois renderizadores da análise internacional, no mesmo dia (doc:
+`docs/fase13-export.md`). **Item 2 — contábil universal** (`mesa/contabil.py`):
+o diário de partidas dobradas da competência — micro-pagamentos agregados com
+honestidade (um lançamento/mês; $0,001 em 2 casas viraria $0,00) e o detalhe
+compra-a-compra (6 casas + tx hash) como ponte de auditoria; sai em universal +
+QuickBooks (leiaute do artigo oficial Intuit) + Xero (com ressalva de conferir o
+template); débito==crédito provado; conferência independente no fuso de SP dentro
+do Postgres; adulteração acusada nomeando o campo. `contabil/2026-08/`: 13 compras
+→ USD 0,27. **Item 3 — CARF** (`mesa/carf.py`): o guia OFICIAL da OECD (XML Schema
+jul/2025, 48 págs) baixado e lido; a visão "o que um RCASP reportaria de você" —
+CryptoTransferOut CARF603, 13 transações, USD 0,27 + 0,272000 unidades, CARF1004;
+o documento NASCE OECD11 (New Test Data — o tpAmb=2 do CARF) com Warning de
+demonstração; validador próprio codado do guia (o XSD oficial não é público —
+watchlist) limpo no verdadeiro e mordendo 3 sabotagens. **Achado registrado**: a
+numeração BR↔OECD não é 1:1 — compra de bens/serviços é CARF603 na versão jul/2025
+(604 é collateral); `alcance-internacional.md` corrigido. Suíte: **128 testes**.
+
+---
+
 ## Fase 13 / item 1 ✅ O MCP DO PRODUTO (pedido do Beny, 23/08 — GATE 13a VERDE)
 
 **"Arrume o MCP por favor então"** — feito no mesmo dia, pelo método (doc antes do

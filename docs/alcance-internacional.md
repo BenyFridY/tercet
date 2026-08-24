@@ -49,8 +49,10 @@ Fatos verificados em 23/08/2026:
   Reino Unido, Japão, Coreia, Canadá, Suíça…; mais 29 jurisdições para o período
   2027; **EUA na leva de 2028**. Total: ~67 comprometidas.
 - Na UE, o veículo é a **DAC8**, também valendo desde 01/01/2026.
-- O **DeCripto É o CARF brasileiro**: o código de operação da nossa linha 0450
-  ("aquisição de bens e serviços", código 604) vem literalmente da tabela CARF. A
+- O **DeCripto É o CARF brasileiro**: a tabela de tipos de transferência da nossa
+  linha 0450 é derivada da família de enums CARF — *correção de 23/08 (Fase 13):
+  a numeração NÃO é 1:1 com a versão jul/2025 da OECD, onde compra de bens/serviços
+  é **CARF603** (604 é collateral); o BR usa o valor "4" da tabela própria.* A
   Fase 11 não implementou "um recurso BR" — implementou **o primeiro renderizador**
   de um padrão de ~67 países, no país com o prazo mais cedo e o manual mais concreto.
 
