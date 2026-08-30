@@ -16,6 +16,7 @@ from x402.schemas.hooks import PaymentCreatedContext, PaymentResponseContext
 
 from mesa import checagens, db
 from mesa.config import CAIP2_BASE_SEPOLIA, USDC_DECIMALS, Settings
+from mesa.delivery import DeliveryVerification, record_delivery_verification
 
 
 @dataclass
@@ -76,6 +77,7 @@ def record_purchase(
     content_type: str | None,
     method: str = "GET",
     aprovacao: Any = None,  # Fase 8 (D-14): AprovacaoVinculada, quando o humano decidiu
+    delivery_verification: DeliveryVerification | None = None,
 ) -> str:
     """Grava request SEMPRE; quote+authz só se os hooks dispararam. Devolve a classe gravada."""
     delivered = status_http == 200 and bool(content)
@@ -87,6 +89,12 @@ def record_purchase(
         content_type=content_type, delivered=delivered,
         trace_id=trace_id, span_id=span_id, transport="http", origin="direct",
     )
+    if delivery_verification is not None:
+        record_delivery_verification(
+            conn,
+            request_id=rid,
+            verification=delivery_verification,
+        )
     if captured.req is None or captured.payload is None:
         return "sem-pagamento"
 

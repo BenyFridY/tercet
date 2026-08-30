@@ -29,6 +29,7 @@ from x402.mechanisms.evm.exact import ExactEvmClientScheme
 
 from mesa import checagens, db, recibo
 from mesa.config import CAIP2_BASE_SEPOLIA, USDC_DECIMALS, Settings
+from mesa.delivery import DeliveryVerification, record_delivery_verification
 
 
 class SessionAdapter:
@@ -104,6 +105,7 @@ def record_mcp_purchase(
     span_id: str,
     result_text: str | None,
     is_error: bool,
+    delivery_verification: DeliveryVerification | None = None,
 ) -> str:
     """Grava request SEMPRE; quote+authz so se houve pagamento. Devolve a classe gravada.
 
@@ -128,6 +130,12 @@ def record_mcp_purchase(
         origin="direct",
         tool_name=tool_name,
     )
+    if delivery_verification is not None:
+        record_delivery_verification(
+            conn,
+            request_id=rid,
+            verification=delivery_verification,
+        )
     if captured.payment_required is None or captured.payload is None:
         return "sem-pagamento"
 

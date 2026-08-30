@@ -15,7 +15,8 @@ import psycopg
 
 
 class Veredito(StrEnum):
-    OK = "ok"                                       # entregue E liquidado na chain
+    OK = "ok"                                       # bytes entregues E liquidados na chain
+    PAGO_ENTREGA_INVALIDA = "pago-entrega-invalida"  # validador do comprador rejeitou
     UNCOLLECTED = "uncollected"                     # entregue sem cobrar (dinheiro na mesa)
     PAGO_SEM_ENTREGA = "pago-sem-entrega"           # liquidou na chain, cliente não recebeu
     AUTORIZADA_SEM_LIQUIDACAO = "autorizada-sem-liquidacao"  # assinou; chain não liquidou
@@ -26,6 +27,8 @@ class Veredito(StrEnum):
 
 EXPLICACAO = {
     Veredito.OK: "entregue e liquidado — casado por (authorizer, nonce)",
+    Veredito.PAGO_ENTREGA_INVALIDA: (
+        "liquidou e recebeu bytes, mas o validador do comprador rejeitou a saída"),
     Veredito.UNCOLLECTED: "vendedor entregou sem cobrar — dinheiro deixado na mesa",
     Veredito.PAGO_SEM_ENTREGA: "a chain liquidou mas a entrega falhou — disputa em potencial",
     Veredito.AUTORIZADA_SEM_LIQUIDACAO: "autorização assinada sem liquidação — dinheiro NÃO saiu",
@@ -44,6 +47,7 @@ class Compra:
     payer: str | None
     nonce: str | None
     settled: bool  # tem settlement_leg
+    delivery_verification: str | None = None
 
 
 @dataclass(frozen=True)
@@ -63,8 +67,14 @@ def reconciliar(
     for c in compras:
         if c.authz_id is None:
             out[Veredito.UNCOLLECTED if c.delivered else Veredito.FALHOU_SEM_PAGAR].append(c)
+        elif c.settled and not c.delivered:
+            out[Veredito.PAGO_SEM_ENTREGA].append(c)
+        elif c.settled and c.delivery_verification == "failed":
+            out[Veredito.PAGO_ENTREGA_INVALIDA].append(c)
         elif c.settled:
-            out[Veredito.OK if c.delivered else Veredito.PAGO_SEM_ENTREGA].append(c)
+            # Missing/unknown verification stays transport-level OK. It is not
+            # promoted to buyer-valid delivery anywhere in the ledger.
+            out[Veredito.OK].append(c)
         elif c.nonce is not None and duplicatas[(c.payer, c.nonce)] > 1:
             out[Veredito.REPLAY_EXTRA].append(c)
         else:
@@ -81,11 +91,19 @@ def carregar(conn: psycopg.Connection[Any]) -> tuple[list[Compra], list[Liquidac
             SELECT r.id::text, r.delivered, r.status_http, a.id::text,
                    lower((a.rail_evidence -> 'authorization') ->> 'from'),
                    lower((a.rail_evidence -> 'authorization') ->> 'nonce'),
-                   (l.authorization_id IS NOT NULL)
+                   (l.authorization_id IS NOT NULL), dv.result
             FROM request r
             LEFT JOIN quote q ON q.request_id = r.id
             LEFT JOIN authz a ON a.quote_id = q.id
             LEFT JOIN settlement_leg l ON l.authorization_id = a.id
+            LEFT JOIN LATERAL (
+                SELECT v.result
+                FROM verification v
+                WHERE v.subject_type = 'delivery'
+                  AND v.subject_ref = r.id::text
+                ORDER BY v.verified_at_utc DESC, v.id DESC
+                LIMIT 1
+            ) dv ON true
             ORDER BY r.ts_utc
         """)
         compras = [Compra(*row) for row in cur.fetchall()]
