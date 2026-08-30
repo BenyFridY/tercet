@@ -117,6 +117,7 @@ facilitator pays gas.
 | `src/mesa/db.py` | Ledger access — **insert-only by construction** |
 | `src/mesa/reconcile.py` | **The heart**: three-way reconciliation, pure function |
 | `src/mesa/collector.py` | On-chain collector: `Transfer` + `AuthorizationUsed` per txHash; idempotent, persisted cursor |
+| `src/mesa/delivery.py` | Optional buyer-owned output evidence, separate from transport delivery |
 | `src/mesa/cli.py` | `uv run python -m mesa.cli` — the verdict table, orphans in red |
 | `src/mesa/http/` | HTTP rail: toy seller (with chaos modes) + instrumented buyer |
 | `src/mesa/mcp/` | MCP: paid-tool rail (seller/buyer) + `livro.py`, the read-only product MCP server |
@@ -128,6 +129,31 @@ facilitator pays gas.
 | `tests/` | The gates as pytest: dirty data in → expected classification out |
 | `docs/` | Build diary + per-phase design docs (Portuguese) |
 | `verificador/` | Standalone verifiers — check the ledger and passports **without trusting this repo** |
+
+### Buyer-owned delivery evidence
+
+Transport delivery and valid output are different facts. HTTP 200 with a nonempty
+body, or a non-error MCP result, still records the bytes received. A caller may
+also attach its own replayable output verdict:
+
+```python
+from mesa.delivery import DeliveryVerification
+
+verification = DeliveryVerification(
+    method="json-schema",
+    result="verified",  # verified | failed | unknown
+    evidence={
+        "output_contract_digest": "sha256:...",
+        "required_paths": ["decision", "findings"],
+    },
+)
+record_purchase(..., delivery_verification=verification)
+```
+
+The verification is bound to the request row whose response digest tercet already
+stores. A settled response explicitly rejected by the buyer is classified as
+`pago-entrega-invalida`; missing or unknown evidence is never promoted to a claim
+of buyer-valid delivery.
 
 ## Environment
 

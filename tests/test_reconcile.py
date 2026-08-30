@@ -16,16 +16,31 @@ def compra(
     authz: str | None = None,
     nonce: str | None = None,
     settled: bool = False,
+    delivery_verification: str | None = None,
 ) -> Compra:
     return Compra(
         request_id=rid, delivered=delivered, status_http=status,
         authz_id=authz, payer="0xabc" if authz else None, nonce=nonce, settled=settled,
+        delivery_verification=delivery_verification,
     )
 
 
 def test_normal_e_ok() -> None:
     r = reconciliar([compra("r1", authz="a1", nonce="0x01", settled=True)], [])
     assert [c.request_id for c in r[Veredito.OK]] == ["r1"]
+
+
+def test_pago_com_bytes_invalidos_nao_e_ok() -> None:
+    r = reconciliar(
+        [compra(
+            "r1",
+            authz="a1",
+            nonce="0x01",
+            settled=True,
+            delivery_verification="failed",
+        )], [])
+    assert [c.request_id for c in r[Veredito.PAGO_ENTREGA_INVALIDA]] == ["r1"]
+    assert r[Veredito.OK] == []
 
 
 def test_free_ride_e_uncollected() -> None:
